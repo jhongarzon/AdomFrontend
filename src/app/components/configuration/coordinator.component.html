@@ -1,0 +1,121 @@
+<div class="container">
+    <alertmessage></alertmessage>
+    <h4 [class.hidden]="!inReadMode" class="blue-text text-lighten-1 left">Lista de Coordinadores</h4>
+    <div class="row"></div>
+    <div class="row" [class.hidden]="!inReadMode">
+        <div class="input-field col s6">
+            <a [class.hidden]="!onCreatePermission" href="coordinator#!" class="waves-effect waves-light btn blue text-lighten-1" (click)="create()">Crear</a>
+        </div>
+        <div class="input-field col s5">
+            <input #gb type="text" placeholder="Búsqueda">
+        </div>
+        <div class="input-field col s1" [class.hidden]="!inReadMode">
+            <i class="fa fa-search" style="margin:40px 0px 0 0"></i>
+        </div>
+    </div>
+    <h4 [class.hidden]="!inCreateMode" class="blue-text text-lighten-1">Nuevo Coordinador</h4>
+    <h4 [class.hidden]="!inEditMode" class="blue-text text-lighten-1">Editar Coordinador</h4>
+    <div [class.hidden]="inReadMode" class="row">
+        <div class="col s12">
+            <form #CoordinatorForm="ngForm">
+                <div class="row">
+                    <div class="input-field col s5">
+                        <select name="documentTypeId" id="documentTypeId" materialize="material_select" [materializeSelectOptions]="documentType"
+                            [(ngModel)]="currentCoordinator.documentTypeId" class="validate" required>
+                            <option [ngValue]="undefined">Seleccione</option>
+                            <option *ngFor="let type of documentType" [ngValue]="type.id">{{type.name}}</option>
+                        </select>
+                        <label>Tipo de documento</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s5">
+                        <input autofocus type="text" placeholder="" id="document" name="document" class="validate form-control" [(ngModel)]="currentCoordinator.document"
+                            required minlength="4" maxlength="30">
+                        <label for="firstName" class="active">Documento</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s5">
+                        <input type="text" placeholder="" id="firstName" name="firstName" class="validate" [(ngModel)]="currentCoordinator.firstName"
+                            required minlength="1" maxlength="30">
+                        <label for="firstName" data-error="Correo inválido.">Primer nombre</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="text" placeholder="" id="secondName" name="secondName" class="validate" [(ngModel)]="currentCoordinator.secondName">
+                        <label for="secondName">Segundo nombre</label>
+                    </div>
+                    <div class="input-field col s5">
+                        <input type="text" placeholder="" id="surname" name="surname" class="validate" [(ngModel)]="currentCoordinator.surname" required
+                            minlength="1" maxlength="30">
+                        <label for="surname">Primer apellido</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="text" placeholder="" id="secondSurname" name="secondSurname" class="validate" [(ngModel)]="currentCoordinator.secondSurname">
+                        <label for="secondSurname">Segundo apellido</label>
+                    </div>
+                    <div class="input-field col s5">
+                        <input name="groupGender" [(ngModel)]="currentCoordinator.genderId" [value]="1" required class="validate" id="masculino" type="radio"
+                        />
+                        <label for="masculino">Masculino</label>
+                        <input name="groupGender" [(ngModel)]="currentCoordinator.genderId" [value]="2" required class="validate" id="femenino" type="radio"
+                        />
+                        <label for="femenino">Femenino</label>
+                        <label class="active">Género</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="text" placeholder="" class="form-control" (change)="ValidateFutureDate(currentCoordinator.birthDate)" [(ngModel)]="currentCoordinator.birthDate"
+                            [ngModelOptions]="{standalone: true}">
+                        <label class="active">Fecha de nacimiento</label>
+                    </div>
+                    <div class="input-field col s5">
+                        <input autofocus type="email" placeholder="" id="email" name="email" class="validate form-control" [(ngModel)]="currentCoordinator.email"
+                            required minlength="4" maxlength="30">
+                        <label for="firstName">Correo electrónico</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="text" placeholder="" id="telephone1" name="telephone1" pattern="[0-9]{10}" class="" [(ngModel)]="currentCoordinator.telephone1"
+                        />
+                        <label for="telephone1">Celular principal</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="text" placeholder="" id="telephone2" name="telephone2" pattern="[0-9]{10}" class="" [(ngModel)]="currentCoordinator.telephone2"
+                        />
+                        <label for="telephone2">Teléfono 2</label>
+                    </div>
+                    <div class="input-field col s12 center">
+                        <button type="button" class="waves-effect waves-light btn blue text-lighten-1" [disabled]="!CoordinatorForm.form.valid" (click)="save()">Guardar</button>
+                        <a href="coordinator#!" class="waves-effect waves-light btn grey" (click)="cancel()">Cancelar</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <p-dataTable [class.hidden]="!inReadMode" [value]="coordinators" [rows]="10" [paginator]="true" [globalFilter]="gb" #dt>
+        <p-column field="document" header="Documento" [sortable]="true" [style]="{'width': '30%'}"></p-column>
+        <p-column field="firstName" header="Nombre" [sortable]="true" [style]="{'width': '35%'}"></p-column>
+        <p-column field="surname" header="Apellido" [sortable]="true" [style]="{'width': '35%'}"></p-column>
+        <p-column styleClass="col-button" header="Acción" styleClass="text-center" [style]="{'width': '10%'}">
+            <template let-Coordinator="rowData" pTemplate="body">
+                <a [class.hidden]="!onEditPermission" href="coordinator#!" (click)="edit(Coordinator)" materialize="tooltip" class="tooltipped"
+                    data-tooltip="Editar">
+                    <i class="material-icons blue-text text-lighten-1">mode_edit</i>
+                </a>
+            </template>
+        </p-column>
+    </p-dataTable>
+</div>

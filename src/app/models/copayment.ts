@@ -1,0 +1,29 @@
+export class Copayment {
+    assignServiceId: number;
+    patientId: number;
+    authorizationNumber: string;
+    contractNumber: string;
+    serviceId: number;
+    serviceName: string;
+    entityId: number;
+    entityName: string;
+    quantity: number;
+    quantityCompleted: number;
+    initialDate: string;
+    finalDate: string;
+    professionalId: number;
+    professionalName: string;
+    coPaymentAmount: number;
+    coPaymentFrecuencyId: number;
+    coPaymentFrecuencyName: string;
+    stateId: number;
+    stateName: string;
+    totalRows: number;
+    copaymentStatus: string;
+    totalCopaymentReported: number;
+    otherValuesReported: number;
+    totalCopaymentReceived: number;
+    discounts: number;
+    valueToPayToProfessional: number;
+    grandTotalToPay: number;    
+}

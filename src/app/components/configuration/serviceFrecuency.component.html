@@ -1,0 +1,55 @@
+<div class="container">
+    <alertmessage></alertmessage>
+    <h4 [class.hidden]="!inReadMode" class="blue-text text-lighten-1 left">Lista de Frecuencia de Servicio</h4>
+    <div class="row" [class.hidden]="!inReadMode">
+        <div class="input-field col s12">
+            <a [class.hidden]="!onCreatePermission" href="servicefrecuency#!" class="waves-effect waves-light btn blue text-lighten-1"
+                (click)="create()">Crear</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s6">
+        </div>
+        <div class="input-field col s5" [class.hidden]="!inReadMode" style="padding:4px 10px;border-bottom: 0 none">
+            <input #gb type="text"  placeholder="Búsqueda">
+        </div>
+        <div class="col s1" [class.hidden]="!inReadMode">
+            <i class="fa fa-search" style="margin:40px 4px 0 0"></i>
+        </div>
+    </div>
+    <h4 [class.hidden]="!inCreateMode" class="blue-text text-lighten-1">Nueva Frecuencia de servicio</h4>
+    <h4 [class.hidden]="!inEditMode" class="blue-text text-lighten-1">Editar Frecuencia de servicio</h4>
+    <div [class.hidden]="inReadMode" class="row">
+        <div class="col s12">
+            <form #ServiceFrecuencyForm="ngForm">
+                <div class="row">
+                    <div class="input-field col s5">
+                        <input type="text" id="name" placeholder="" name="name" class="validate" [(ngModel)]="currentServiceFrecuency.name" required
+                            minlength="1" maxlength="30">
+                        <label for="name">Nombre de la frecuencia</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s12 center">
+                        <button type="button" class="waves-effect waves-light btn blue text-lighten-1" [disabled]="!ServiceFrecuencyForm.form.valid"
+                            (click)="save()">Guardar</button>
+                        <a href="servicefrecuency#!" class="waves-effect waves-light btn grey" (click)="cancel()">Cancelar</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <p-dataTable [class.hidden]="!inReadMode" [value]="servicesFrecuency" [rows]="10" [paginator]="true" [globalFilter]="gb"
+        #dt>
+        <p-column field="name" header="Nombre de la frecuencia" [sortable]="true" [style]="{'width': '100%'}"></p-column>
+        <p-column styleClass="col-button" header="Acción" styleClass="text-center" [style]="{'width': '10%'}">
+            <template let-ServiceFrecuency="rowData" pTemplate="body">
+                <a [class.hidden]="!onEditPermission" href="servicefrecuency#!" (click)="edit(ServiceFrecuency)" materialize="tooltip" class="tooltipped"
+                    data-tooltip="Editar">
+                    <i class="material-icons blue-text text-lighten-1">mode_edit</i>
+                </a>
+            </template>
+        </p-column>
+    </p-dataTable>
+</div>

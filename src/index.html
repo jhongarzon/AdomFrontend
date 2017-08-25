@@ -1,14 +1,150 @@
-<!doctype html>
-<html lang="en">
+<html>
+
 <head>
   <meta charset="utf-8">
-  <title>Frontend</title>
+  <title>ADOM</title>
   <base href="/">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" href="favicon.ico">
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/prism-okaidia.css">
+  <link type="text/css" rel="stylesheet" href="assets/css/ghpages-materialize.css" media="screen,projection" />
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd"
+    crossorigin="anonymous">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-aNUYGqSUL9wG/vP7+cWZ5QOM4gsQou3sBfWRr/8S3R1Lv0rysEmnwsRKMbhiQX/O"
+    crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!--<link rel="stylesheet" href="http://www.primefaces.org/primeng/showcase/resources/icons/css/font-awesome.min.css" type="text/css"
+	/>-->
+  <link rel="stylesheet" type="text/css" href="assets/css/themeBootstrap.css" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    .preloader-background {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #eee;
+      opacity: 0.5;
+      filter: alpha(opacity=50);
+      /* For IE8 and earlier */
+      position: fixed;
+      z-index: 1000000;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+  </style>
 </head>
-<body>
-  <app-root></app-root>
+
+<body onload="CloseLoading()" style="overflow:hidden">
+  <!-- Modal Structure -->
+  <div id="ModalMessage" class="modal" style="max-height:120px">
+    <div class="modal-content">
+      <h4 id="divTextHeader"></h4>
+      <div id="divTextMessage">
+
+      </div>
+      <div class="modal-footer">
+        <a href="javascript:void(0)" onclick="$('#ModalMessage').css('display','none')" class="btn btn-info">Aceptar</a>
+      </div>
+    </div>
+
+
+  </div>
+
+  <script>
+    function CloseLoading() {
+      setTimeout(function () {
+
+        $('.preloader-background').hide();
+
+        var tamHeight = Math.floor($(window).height() * 0.9);
+        var tamHeightinternal = Math.floor($(window).height() * 0.75)
+        //alert(tamHeight);
+        $('p-dialog').height(tamHeight);
+        $('.ui-dialog-content').height(tamHeightinternal);
+
+      },
+        1000);
+    }
+
+    function ShowLoading() {
+      $('.preloader-background').show();
+    }
+  </script>
+  <div class="preloader-background">
+    <div class="preloader-wrapper big active">
+      <div class="spinner-layer spinner-blue-only">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div>
+        <div class="gap-patch">
+          <div class="circle"></div>
+        </div>
+        <div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-animate.min.js"></script>
+  <script type="text/javascript" src="assets/css/materialize.js"></script>
+
+  <script src="assets/css/jquery.plugin.js"></script>
+  <script src="assets/css/jquery.dateentry.min.js"></script>
+
+  <link rel="stylesheet" href="assets/css/jquery-ui.css">
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+  <!-- loadingbar -->
+  <script src="assets/css/loading-bar.js"></script>
+  <link href='assets/css/loading-bar.css' rel='stylesheet' />
+  <!--<script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+
+  <app-root>
+    <style>
+      .preloader-background {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #eee;
+        opacity: 0.5;
+        filter: alpha(opacity=50);
+        /* For IE8 and earlier */
+        position: fixed;
+        z-index: 1000000 !important;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+    </style>
+    <div class="preloader-background">
+      <div class="preloader-wrapper big active">
+        <div class="spinner-layer spinner-blue-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div>
+          <div class="gap-patch">
+            <div class="circle"></div>
+          </div>
+          <div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      $('.preloader-background').show();
+    </script>
+  </app-root>
 </body>
+
 </html>

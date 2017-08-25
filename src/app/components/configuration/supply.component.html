@@ -1,0 +1,70 @@
+<div class="container">
+    <alertmessage></alertmessage>
+    <h4 [class.hidden]="!inReadMode" class="blue-text text-lighten-1 left">Lista de Insumos</h4>
+    <div class="row" [class.hidden]="!inReadMode">
+        <div class="input-field col s12">
+            <a [class.hidden]="!onCreatePermission" href="supply#!" class="waves-effect waves-light btn blue text-lighten-1" (click)="create()">Crear</a>
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="col s6">
+        </div>
+        <div class="input-field col s5" [class.hidden]="!inReadMode" style="padding:4px 10px;border-bottom: 0 none">
+            <input #gb type="text" placeholder=""  placeholder="Búsqueda">
+        </div>
+        <div class="col s1" [class.hidden]="!inReadMode">
+            <i class="fa fa-search" style="margin:40px 4px 0 0"></i>
+        </div>
+    </div>
+    <h4 [class.hidden]="!inCreateMode" class="blue-text text-lighten-1">Nuevo Insumo</h4>
+    <h4 [class.hidden]="!inEditMode" class="blue-text text-lighten-1">Editar Insumo</h4>
+    <div [class.hidden]="inReadMode" class="row">
+        <div class="col s12">
+            <form #SupplyForm="ngForm">
+                <div class="row">
+                    <div class="input-field col s5">
+                        <input type="text" placeholder="" id="name" name="name" class="validate" [(ngModel)]="currentSupply.name" required minlength="1"
+                            maxlength="15">
+                        <label for="name">Nombre del insumo</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s5">
+                        <input type="text" placeholder=""  id="presentation" name="presentation" class="validate" [(ngModel)]="currentSupply.presentation" required minlength="1"
+                            maxlength="30">
+                        <label for="businessName">Presentación</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s5">
+                        <input type="text" placeholder=""  id="code" name="code" class="validate" [(ngModel)]="currentSupply.code" required minlength="1"
+                            maxlength="30">
+                        <label for="code">Código del insumo</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s12 center">
+                        <button type="button" class="waves-effect waves-light btn blue text-lighten-1" [disabled]="!SupplyForm.form.valid" (click)="save()">Guardar</button>
+                        <a href="supply#!" class="waves-effect waves-light btn grey" (click)="cancel()">Cancelar</a>
+                    </div>
+                </div>
+            </form>
+        </div> 
+    </div>
+    <p-dataTable [class.hidden]="!inReadMode" [value]="supplies" [rows]="10" [paginator]="true" [globalFilter]="gb" #dt>
+        <p-column field="name" header="Nombre del insumo" [sortable]="true" [style]="{'width': '30%'}"></p-column>
+        <p-column field="code" header="Código del insumo" [sortable]="true" [style]="{'width': '30%'}"></p-column>
+        <p-column field="presentation" header="Presentación" [sortable]="true" [style]="{'width': '40%'}"></p-column>
+        <p-column styleClass="col-button" header="Acción" styleClass="text-center" [style]="{'width': '10%'}">
+            <template let-Supply="rowData" pTemplate="body">
+                <a [class.hidden]="!onEditPermission" href="supply#!" (click)="edit(Supply)" materialize="tooltip" class="tooltipped" data-tooltip="Editar">
+                    <i class="material-icons blue-text text-lighten-1">mode_edit</i>
+                </a>
+            </template>
+        </p-column> 
+    </p-dataTable>
+</div>

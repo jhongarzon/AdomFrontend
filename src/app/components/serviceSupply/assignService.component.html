@@ -1,0 +1,719 @@
+<div class="container container-responsive">
+    <alertmessage></alertmessage>
+    <div class="row" [class.hidden]="!inSearchMode">
+        <div class="input-field col s6">
+            <input autofocus type="text" id="findPatient" name="findPatient" class="validate form-control" [(ngModel)]="findPatient"
+                minlength="4" maxlength="30">
+            <label for="findPatient">Búsqueda de pacientes</label>
+        </div>
+        <div class="input-field col s2">
+            <a [class.hidden]="!onReadPermission" href="assignservice#!" (click)="loadPatients()" materialize="tooltip" class="tooltipped"
+                data-tooltip="Búsqueda"><i class="material-icons">search</i></a>
+        </div>
+    </div>
+    <div class="row" [class.hidden]="!inSearchMode">
+        <p-dataTable [class.hidden]="!inFoundMode" [value]="patientsFound" [rows]="rowsRecords" [paginator]="true" [globalFilter]="gb"
+            #dt>
+            <p-column field="documentTypeName" header="Tipo de documento" [sortable]="true" [style]="{'width': '25%'}"></p-column>
+            <p-column field="document" header="Documento" [sortable]="true" [style]="{'width': '20%'}"></p-column>
+            <p-column field="nameCompleted" header="Nombre completo" [sortable]="true" [style]="{'width': '50%'}"></p-column>
+            <p-column field="telephone1" header="Teléfono" [sortable]="true" [style]="{'width': '20%'}"></p-column>
+            <p-column styleClass="col-button" header="Acción" styleClass="text-center" [style]="{'width': '10%'}">
+                <template let-patient="rowData" pTemplate="body">
+                    <a [class.hidden]="!onReadPermission" class="blue-text text-lighten-1 left" href="assignservice#!" (click)="loadAssignServices(patient)">
+                        Servicios
+                    </a>
+                </template>
+            </p-column>
+        </p-dataTable>
+    </div>
+    <p-fieldset legend="Información general del ingreso" [class.hidden]="inSearchMode" [toggleable]="true">
+        <div class="row" style="margin:0px">
+            <div class="input-field col s4">
+                <span><b>PACIENTE:</b> {{currentPatient.firstName}} {{currentPatient.secondName}} {{currentPatient.surname}} {{currentPatient.secondSurname}}</span>
+            </div>
+            <div class="input-field col s4">
+                <span><b>TIPO DOC:</b> {{currentPatient.documentTypeName}}</span>
+            </div>
+            <div class="input-field col s4">
+                <span><b>NÚMERO DOC:</b> {{currentPatient.document}}</span>
+            </div>
+            <!--<div class="input-field col s4">
+                <span>GENÉRO: {{currentPatient.genderName}}</span>
+            </div>-->
+
+        </div>
+        <div class="row" style="margin:0px">
+            <div class="input-field col s4">
+                <span><b>EDAD:</b> {{currentPatient.age}}</span>
+            </div>
+            <div class="input-field col s4">
+                <span><b>TIPO PACIENTE:</b> {{currentPatient.patientTypeName}}</span>
+            </div>
+            <div class="input-field col s4">
+                <span><b>TELÉFONO 1:</b> {{currentPatient.telephone1}}</span>
+            </div>
+
+        </div>
+        <div class="row" style="margin:0px">
+            <div class="input-field col s4">
+                <span><b>TELÉFONO 2:</b> {{currentPatient.telephone2}}</span>
+            </div>
+        </div>
+        <div class="input-field col s12 right">
+            <a class="blue-text text-lighten-1 left" href="assignservice#!" (click)="openEditPatient()">Datos del paciente</a>
+        </div>
+    </p-fieldset>
+    <br>
+    <br>
+    <p-fieldset collapsed="true" legend="Servicios del paciente" [class.hidden]="inSearchMode" [toggleable]="true">
+        <div class="row">
+            <div class="input-field col s12">
+                <a [class.hidden]="!onCreatePermission" href="assignservice#!" class="waves-effect waves-light btn blue text-lighten-1" (click)="create()">Añadir servicio</a>
+            </div>
+        </div>
+        <p-dataTable [class.hidden]="inSearchMode" selectionMode="single" (onRowSelect)="onRowSelectAssignService($event)" [value]="assignServices"
+            [rows]="7" [paginator]="true" [globalFilter]="gb" #dt>
+            <p-column field="serviceName" header="Servicio" [sortable]="true" [style]="{'width': '35%'}"></p-column>
+            <p-column field="quantity" header="Programadas" [sortable]="true" [style]="{'width': '13%'}"></p-column>
+            <p-column field="quantityCompleted" header="Realizadas" [sortable]="true" [style]="{'width': '12%'}"></p-column>
+            <p-column field="serviceFrecuencyName" header="Frecuencia" [sortable]="true" [style]="{'width': '15%'}"></p-column>
+            <p-column field="initialDate" header="F. Inicio" [sortable]="true" [style]="{'width': '15%'}"></p-column>
+            <p-column field="stateName" header="Estado" [sortable]="true" [style]="{'width': '15%'}"></p-column>
+        </p-dataTable>
+    </p-fieldset>
+    <br>
+    <br>
+    <p-fieldset collapsed="true" legend="Detalle de Visitas - {{currentAssignService.serviceName}}" [class.hidden]="!inServiceSelectMode"
+        [toggleable]="true">
+        <div class="row">
+        </div>
+        <div class="content-section implementation ui-fluid">
+            <p-dataTable [class.hidden]="!inServiceSelectMode" [(selection)]="selectedDetails" [editable]="false" [value]="assignServicesDetail">
+                <p-column [style]="&#123;'width':'5%'&#125;" selectionMode="multiple"></p-column>
+                <p-column field="consecutive" header="Visita" required="true" [style]="{'width': '8%'}"></p-column>
+                <p-column field="dateVisit" header="Fecha visita" [editable]="true" required="true" [style]="{'width': '15%','overflow':'visible'}">
+                    <template let-col let-detail="rowData" pTemplate="body">
+                        <p-calendar [(ngModel)]="detail[col.field]" dateFormat="dd-mm-yy"></p-calendar>
+                    </template>
+                    <template let-col let-detail="rowData" pTemplate="editor">
+                        <p-calendar [(ngModel)]="detail[col.field]" dateFormat="dd-mm-yy"></p-calendar>
+                    </template>
+                </p-column>
+                <p-column field="professionalId" header="Profesional" [editable]="true" required="true" [style]="{'width': '25%', 'overflow':'visible'}">
+                    <template let-col let-ProfessionalT="rowData" pTemplate="body">
+                        <div>
+                            <select [(ngModel)]="ProfessionalT[col.field]" style="display:block">
+                             <option *ngFor="let c of professionalsSelect" [value]="c.value">{{c.label}}</option>
+                             </select>
+                        </div>
+                        <!--<p-dropdown [(ngModel)]="ProfessionalT[col.field]" [options]="professionalsSelect" [autoWidth]="false" [style]="{'width':'100%'}"></p-dropdown>-->
+                    </template>
+                </p-column>
+                <p-column field="stateId" header="Estado" [editable]="true" required="true" [style]="{'width': '15%', 'overflow':'visible'}">
+                    <template let-col let-StateT="rowData" pTemplate="body">
+                        <div>
+                            <select [(ngModel)]="StateT[col.field]" style="display:block" (focus)="onFocusState($event)" (change)="onChangeStateService($event)">
+                             <option *ngFor="let c of stateDetailSelect" [value]="c.value">{{c.label}}</option>
+                            </select>
+                        </div>
+                        <!--<p-dropdown (onChange)="onChangeStateService($event,StateT[col.field])" [(ngModel)]="StateT[col.field]" [options]="stateDetailSelect" [autoWidth]="false" [style]="{'width':'100%'}"></p-dropdown>-->
+
+                    </template>
+                    <!--<template let-col let-StateT="rowData" pTemplate="editor">
+                        <p-dropdown (onChange)="onChangeStateService($event)" [(ngModel)]="StateT[col.field]" [options]="stateDetailSelect" [autoWidth]="false" [style]="{'width':'100%'}"></p-dropdown>
+                                    
+                    </template>  -->
+                </p-column>
+                <p-column field="observation" header="Observación" [editable]="true" [style]="{'width': '10%'}">
+                    <template let-col let-row="rowData" pTemplate="body">
+                        <input type="text" pInputText [(ngModel)]="row[col.field]" />
+                    </template>
+                </p-column>
+                <p-column field="verified" header="Verificado" styleClass="text-center" [editable]="true" [style]="{'width': '10%'}">
+                    <template let-col let-row="rowData" pTemplate="edit" let-index="index">
+                        <p-checkbox [(ngModel)]="row.verified" name="chk_{{row.assignServiceDetailId}}" binary="true" (onChange)="verifyVisit(row)"></p-checkbox>
+                    </template>
+                </p-column>
+                <p-column styleClass="col-button" header="Calidad" styleClass="text-center" [style]="{'width': '10%'}">
+                    <template let-row="rowData" pTemplate="body" item-width="5%">
+                        <a [class.disabled]="row.isQualityTestDone" class="blue-text text-lighten-1 left" href="assignservice#!" (click)="qualityTest(row)">
+                        Evaluación
+                    </a>
+                    </template>
+                </p-column>
+            </p-dataTable>
+            <div class="row">
+                <div class="input-field col s4">
+                    <a [class.hidden]="!onCreatePermission" [class.disabled]="!currentAssignService.allowsUpdate" href="assignservice#!" class="waves-effect waves-light btn green text-lighten-1"
+                        (click)="updateDetails()">Guardar cambios</a>
+                </div>
+                <div class="input-field col s4">
+                    <a [class.hidden]="!onCreatePermission" [class.disabled]="!currentAssignService.allowsUpdate" href="assignservice#!" class="waves-effect waves-light btn blue text-lighten-1"
+                        (click)="edit()">Editar servicio</a>
+                </div>
+                <div class="input-field col s4">
+                    <a [class.hidden]="!onCreatePermission" [class.disabled]="!currentAssignService.allowsUpdate" href="assignservice#!" class="waves-effect waves-light btn red text-lighten-1"
+                        (click)="cancelStateDetails()">Cancelar citas</a>
+                </div>
+            </div>
+        </div>
+    </p-fieldset>
+    <br>
+    <br>
+    <p-fieldset collapsed="true" legend="Detalle del servicio" [class.hidden]="!inServiceSelectMode" [toggleable]="true">
+        <div class="row" style="margin:0px">
+            <div class="col col-md-6">
+                <span><b>ENTIDAD:</b> {{currentAssignService.entityName}}</span>
+
+            </div>
+            <div class="col col-md-6">
+                <span><b>PLAN:</b> {{currentAssignService.planEntityName}}</span>
+            </div>
+        </div>
+        <div class="row" style="margin:0px">
+            <div class="col col-md-6">
+                <span><b>CONTRATO:</b> {{currentAssignService.contractNumber}}</span>
+            </div>
+            <div class="col col-md-6">
+                <span><b>F. SOLICITUD:</b> {{currentAssignService.initialDate}}</span>
+            </div>
+        </div>
+        <div class="row" style="margin:0px">
+            <div class="col col-md-6">
+                <span><b>CIE 10:</b> {{currentAssignService.cie10}}</span>
+            </div>
+
+            <div class="col col-md-6">
+                <span><b>DESC. CIE 10:</b> {{currentAssignService.descriptionCie10}}</span>
+            </div>
+        </div>
+        <div class="row" style="margin:0px">
+            <div class="col col-md-6">
+                <span><b>SERVICIO:</b> {{currentAssignService.serviceName}}</span>
+            </div>
+            <div class="col col-md-6">
+                <span><b>CANTIDAD:</b> {{currentAssignService.quantity}}</span>
+            </div>
+        </div>
+        <div class="row" style="margin:0px">
+            <div class="col col-md-6">
+                <span><b>F. INICIO:</b> {{currentAssignService.initialDate}}</span>
+            </div>
+            <div class="col col-md-6">
+                <span><b>F. FINALIZA:</b> {{currentAssignService.finalDate}}</span>
+            </div>
+        </div>
+        <div class="row">
+        </div>
+    </p-fieldset>
+    <br>
+    <br>
+    <p-fieldset collapsed="true" legend="Insumos del servicio" [class.hidden]="!inServiceSelectMode" [toggleable]="true">
+        <div class="row">
+            <div class="input-field col s12">
+                <a [class.hidden]="!onCreatePermission" [class.disabled]="!currentAssignService.allowsUpdate" href="assignservice#!" class="waves-effect waves-light btn blue text-lighten-1"
+                    (click)="createSupply()">Añadir insumo</a>
+            </div>
+        </div>
+        <div class="row">
+            <p-dataTable [value]="assignServicesSupply" [rows]="rowsRecords" [paginator]="true" [globalFilter]="gb" #dt>
+                <p-column field="supplyName" header="Insumo" [sortable]="true" [style]="{'width': '60%'}"></p-column>
+                <p-column field="quantity" header="Cantidad" [sortable]="true" [style]="{'width': '12%'}"></p-column>
+                <p-column field="billedName" header="Facturado a" [sortable]="true" [style]="{'width': '20%'}"></p-column>
+                <p-column styleClass="col-button" header="Acción" styleClass="text-center" [style]="{'width': '8%'}">
+                    <template let-supply="rowData" pTemplate="body" item-width="5%">
+                        <a [class.hidden]="!onCreatePermission" class="blue-text text-lighten-1 left" href="assignservice#!" (click)="deleteSupplyService(supply)">
+                        Borrar
+                    </a>
+                    </template>
+                </p-column>
+            </p-dataTable>
+        </div>
+    </p-fieldset>
+    <p-dialog collapsed="true" header="Añadir nuevo insumo" [(visible)]="displayNewSupply" modal="modal" width="800" responsive="true">
+        <alertmessage></alertmessage>
+        <div class="row">
+            <div class="col s12">
+                <form #assignSupplyForm="ngForm">
+                    <div class="row">
+                        <div class="input-field col s5">
+                            <select name="supplyId" id="supplyId" materialize="material_select" [materializeSelectOptions]="supplies" [(ngModel)]="assignServiceSupplyTemp.supplyId"
+                                class="validate" required>
+                                <option [ngValue]="undefined">Seleccione</option>
+                                <option *ngFor="let type of supplies" [ngValue]="type.supplyId">{{type.name}}</option>
+                            </select>
+                            <label>Insumo</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s5">
+                            <input type="number" placeholder="" id="quantityI" name="quantityI" class="validate" [(ngModel)]="assignServiceSupplyTemp.quantity"
+                                required>
+                            <label for="quantityI">Cantidad</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s5">
+                            <select name="billedToId" id="billedToId" materialize="material_select" [materializeSelectOptions]="billedTo" [(ngModel)]="assignServiceSupplyTemp.billedToId"
+                                class="validate" required>
+                                <option [ngValue]="undefined">Seleccione</option>
+                                <option *ngFor="let type of billedTo" [ngValue]="type.id">{{type.name}}</option>
+                            </select>
+                            <label>Facturado a</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 center">
+                            <button type="button" class="waves-effect waves-light btn blue text-lighten-1" [disabled]="!assignSupplyForm.form.valid"
+                                (click)="saveNewSupply()">Guardar</button>
+                            <a href="assignservice#!" class="waves-effect waves-light btn grey" (click)="cancelSupply()">Cancelar</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </p-dialog>
+    <p-dialog header="Datos del paciente" [(visible)]="displayEditPatient" modal="modal" width="1000" responsive="true">
+        <div class="row">
+            <div class="col s12">
+                <form #PatientForm="ngForm">
+                    <div class="row">
+                        <div class="input-field col s5">
+                            <select name="documentType" id="documentType" materialize="material_select" [materializeSelectOptions]="documentType" [(ngModel)]="currentPatient.documentTypeId"
+                                class="validate" required>
+                                <option [ngValue]="undefined">Seleccione</option>
+                                <option *ngFor="let type of documentType" [ngValue]="type.id">{{type.name}}</option>
+                            </select>
+                            <label>Tipo de documento</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                        <div class="input-field col s5">
+                            <input autofocus placeholder="" type="text" id="document" name="document" (change)="findDocument()" class="validate form-control"
+                                [(ngModel)]="currentPatient.document" required minlength="4" maxlength="30">
+                            <label for="document" class="active">Documento</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                        <div class="input-field col s5">
+                            <input type="text" placeholder="" id="firstName" name="firstName" class="validate" [(ngModel)]="currentPatient.firstName"
+                                required minlength="1" maxlength="30">
+                            <label for="firstName" data-error="Correo inválido.">Primer nombre</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input type="text" placeholder="" id="secondName" name="secondName" class="validate" [(ngModel)]="currentPatient.secondName">
+                            <label for="secondName">Segundo nombre</label>
+                        </div>
+                        <div class="input-field col s5">
+                            <input type="text" placeholder="" id="surname" name="surname" class="validate" [(ngModel)]="currentPatient.surname" required
+                                minlength="1" maxlength="30">
+                            <label for="surname">Primer apellido</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input type="text" placeholder="" id="secondSurname" name="secondSurname" class="validate" [(ngModel)]="currentPatient.secondSurname"
+                                minlength="1" maxlength="30">
+                            <label for="secondSurname">Segundo apellido</label>
+                        </div>
+                        <div class="input-field col s5">
+                            <input name="groupGender" [(ngModel)]="currentPatient.genderId" [value]="1" required class="validate" id="masculino" type="radio"
+                            />
+                            <label for="masculino">Masculino</label>
+                            <input name="groupGender" [(ngModel)]="currentPatient.genderId" [value]="2" required class="validate" id="femenino" type="radio"
+                            />
+                            <label for="femenino">Femenino</label>
+                            <label class="active">Género</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input type="text" placeholder="" id="occupation" name="occupation" class="validate" [(ngModel)]="currentPatient.occupation"
+                                minlength="1" maxlength="30">
+                            <label for="occupation">Ocupación</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <my-date-picker name="birthday" [options]="myDatePickerOptions" (dateChanged)="onBirthdayChanged($event)" required></my-date-picker>
+                            <label class="active">Fecha de nacimiento</label>
+                        </div>
+                        <div class="input-field col s3">
+                            <input type="number" placeholder="" id="age" name="age" class="validate" [(ngModel)]="currentPatient.age" required />
+                            <label for="age">Edad</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                        <div class="input-field col s2">
+                            <select name="patientTypeId" id="unitTimeId" materialize="material_select" [materializeSelectOptions]="unitTime" [(ngModel)]="currentPatient.unitTimeId"
+                                class="validate" required>
+                                <option [ngValue]="undefined">Seleccione</option>
+                                <option *ngFor="let type of unitTime" [ngValue]="type.id">{{type.name}}</option>
+                            </select>
+                        </div>
+                        <div class="input-field col s5">
+                            <input type="text" placeholder="" id="address" name="address" class="validate" [(ngModel)]="currentPatient.address" required
+                                minlength="1" maxlength="200">
+                            <label for="address">Dirección</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input type="text" placeholder="" id="neighborhood" name="neighborhood" class="validate" [(ngModel)]="currentPatient.neighborhood"
+                                minlength="1" maxlength="30">
+                            <label for="address">Barrio</label>
+                        </div>
+                        <div class="input-field col s5">
+                            <input type="number" placeholder="" id="telephone1" name="telephone1" class="validate" [(ngModel)]="currentPatient.telephone1"
+                                required minlength="7" maxlength="10" />
+                            <label for="telephone1">Celular principal</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input type="number" placeholder="" id="telephone2" name="telephone2" class="validate" [(ngModel)]="currentPatient.telephone2"
+                            />
+                            <label for="telephone2">Teléfono 2</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input autofocus type="email" placeholder="" id="email" name="email" class="validate form-control" [(ngModel)]="currentPatient.email"
+                                minlength="4" maxlength="30">
+                            <label for="email">Correo electrónico</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input type="text" placeholder="" id="attendantName" name="attendantName" class="validate" [(ngModel)]="currentPatient.attendantName"
+                            />
+                            <label for="attendantName">Nombre acudiente</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input type="text" placeholder="" id="attendantRelationship" name="attendantRelationship" class="validate" [(ngModel)]="currentPatient.attendantRelationship"
+                            />
+                            <label for="attendantRelationship">Relación acudiente</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input type="text" placeholder="" id="attendantPhone" name="attendantPhone" pattern="[0-9]{10}" class="validate" [(ngModel)]="currentPatient.attendantPhone"
+                            />
+                            <label for="attendantPhone">Teléfono acudiente</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input autofocus type="email" placeholder="" id="attendantEmail" name="attendantEmail" class="validate form-control" [(ngModel)]="currentPatient.attendantEmail"
+                            />
+                            <label for="attendantEmail">Correo electrónico acudiente</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input type="text" placeholder="" id="profile" name="profile" class="validate" [(ngModel)]="currentPatient.profile" minlength="4"
+                                maxlength="255" />
+                            <label for="profile">Perfil</label>
+                        </div>
+                        <div class="input-field col s5">
+                            <select name="patientTypeId" id="patientTypeId" materialize="material_select" [materializeSelectOptions]="patientType" [(ngModel)]="currentPatient.patientTypeId"
+                                class="validate" required>
+                                <option [ngValue]="undefined">Seleccione</option>
+                                <option *ngFor="let type of patientType" [ngValue]="type.id">{{type.name}}</option>
+                            </select>
+                            <label>Tipo de paciente</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                        <div class="input-field col s6" [class.hidden]="!inEditMode">
+                            <input type="text" placeholder="" placeholder="" id="createdOn" name="createdOn" [(ngModel)]="currentPatient.createdOn" readonly/>
+                            <label for="createdOn" class="active">Fecha de creación</label>
+                        </div>
+                        <div class="input-field col s12 center">
+                            <button type="button" class="waves-effect waves-light btn blue text-lighten-1" [disabled]="!PatientForm.form.valid" (click)="savePatient()">Guardar</button>
+                            <a href="assignservice#!" class="waves-effect waves-light btn grey" (click)="cancel()">Cancelar</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </p-dialog>
+
+    <p-dialog id="dialogAddNewService" header="Añadir nuevo servicio" [(visible)]="displayNewService" modal="modal" width="1000"
+        responsive="true">
+        <div class="row" displayNewService>
+            <div class="col s12">
+                <form #assignServiceForm="ngForm">
+                    <div class="row">
+                        <div class="input-field col s3">
+                            <input type="text" id="contractNumber" placeholder="" name="contractNumber" class="validate" [(ngModel)]="currentAssignService.contractNumber"
+                                required minlength="1" maxlength="30">
+                            <label for="contractNumber">Nro contrato</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                        <div class="input-field col s3">
+                            <select name="entityId" id="entityId" materialize="material_select" (ngModelChange)="loadPlans($event)" [materializeSelectOptions]="entities"
+                                [(ngModel)]="currentAssignService.entityId" class="validate" required>
+                                <option [ngValue]="undefined">Seleccione</option>
+                                <option *ngFor="let type of entities" [ngValue]="type.entityId">{{type.name}}</option>
+                            </select>
+                            <label>Entidad</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                        <div class="input-field col s3">
+                            <select name="planEntityId" id="planEntityId" materialize="material_select" (ngModelChange)="loadServices($event)" [materializeSelectOptions]="plansEntity"
+                                [(ngModel)]="currentAssignService.planEntityId" class="validate" required>
+                                <option [ngValue]="undefined">Seleccione</option>
+                                <option *ngFor="let type of plansEntity" [ngValue]="type.planEntityId">{{type.name}}</option>
+                            </select>
+                            <label>Plan</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s2">
+                            <input type="text" id="cie10" placeholder="" name="cie10" class="validate" [(ngModel)]="currentAssignService.cie10" required
+                                minlength="1" maxlength="4">
+                            <label for="cie10">CIE10</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                        <div class="input-field col s9">
+                            <input type="text" id="descriptionCie10" placeholder="" name="descriptionCie10" class="validate" [(ngModel)]="currentAssignService.descriptionCie10"
+                                minlength="1" maxlength="100">
+                            <label for="descriptionCie10">Descripción Cie10</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s3">
+                            <input type="text" id="authorizationNumber" placeholder="" name="authorizationNumber" class="validate" [(ngModel)]="currentAssignService.authorizationNumber"
+                                required minlength="1" maxlength="30">
+                            <label for="authorizationNumber">Nro autorización</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                        <div class="input-field col s3">
+                            <my-date-picker name="validity" [options]="myDatePickerOptions" (dateChanged)="onValidityDateChanged($event)" required></my-date-picker>
+                            <label class="active" for="validity">Fecha de vigencia</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                        <div class="input-field col s3">
+                            <input type="text" id="applicantName" name="applicantName" required placeholder="" class="validate" [(ngModel)]="currentAssignService.applicantName"
+                                required minlength="1" maxlength="30">
+                            <label for="applicantName">Nombre del solicitante</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s3">
+                            <select name="serviceId" id="serviceId" materialize="material_select" [materializeSelectOptions]="services" [(ngModel)]="currentAssignService.serviceId"
+                                class="validate" required>
+                                <option [ngValue]="undefined">Seleccione</option>
+                                <option *ngFor="let type of services" [ngValue]="type.serviceId">{{type.name}}</option>
+                            </select>
+                            <label>Servicio</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                        <div class="input-field col s2">
+                            <input type="number" placeholder="" id="quantity" name="quantity" class="validate" (ngModelChange)="onChangeQuantity($event)"
+                                [(ngModel)]="currentAssignService.quantity" required>
+                            <label for="quantity">Cantidad</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                        <div class="input-field col s4">
+                            <select name="serviceFrecuencyId" id="serviceFrecuencyId" materialize="material_select" (ngModelChange)="onChangeServiceFrecuency($event)"
+                                [materializeSelectOptions]="serviceFrecuency" [(ngModel)]="currentAssignService.serviceFrecuencyId"
+                                class="validate" required>
+                                <option [ngValue]="undefined">Seleccione</option>
+                                <option *ngFor="let type of serviceFrecuency" [ngValue]="type.serviceFrecuencyId">{{type.name}}</option>
+                            </select>
+                            <label>Frec. servicio</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s3">
+                            <my-date-picker name="initialDate" [options]="myDatePickerOptions" (dateChanged)="onInitialDateChanged($event)" required></my-date-picker>
+                            <label class="active" for="initialDate">F. Inicio</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                        <div class="input-field col s3">
+                            <my-date-picker name="finalDate" [options]="myDatePickerOptions" (dateChanged)="onInitialDateChanged($event)" required></my-date-picker>
+                            <label class="active" for="finalDate">F. Finalización</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                        <div class="input-field col s3">
+                            <select name="professionalId" id="professionalId" materialize="material_select" [materializeSelectOptions]="professionals"
+                                [(ngModel)]="currentAssignService.professionalId" class="validate" required>
+                                <option [ngValue]="undefined">Seleccione</option>
+                                <option [ngValue]="-1">Por Asignar</option>
+                                <option *ngFor="let type of professionals" [ngValue]="type.professionalId">{{type.firstName}} {{type.secondName}} {{type.surname}} {{type.secondSurname}}</option>
+                            </select>
+                            <label>Profesional</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s3">
+                            <input type="number" placeholder="" id="coPaymentAmount" name="coPaymentAmount" class="validate" [(ngModel)]="currentAssignService.coPaymentAmount"
+                                required>
+                            <label class="active" for="coPaymentAmount">Valor copago</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                        <div class="input-field col s3">
+                            <select name="coPaymentFrecuencyId" id="coPaymentFrecuencyId" materialize="material_select" [materializeSelectOptions]="coPaymentsFrecuency"
+                                [(ngModel)]="currentAssignService.coPaymentFrecuencyId" class="validate" required>
+                                <option [ngValue]="undefined">Seleccione</option>
+                                <option *ngFor="let type of coPaymentsFrecuency" [ngValue]="type.coPaymentFrecuencyId">{{type.name}}</option>
+                            </select>
+                            <label>Frec. Copago</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                        <div class="input-field col s1">
+                            <input type="number" required placeholder="" id="consultation" name="consultation" class="validate" [(ngModel)]="currentAssignService.consultation"
+                                required>
+                            <label for="consultation">Consulta</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                        <div class="input-field col s1">
+                            <input type="number" placeholder="" id="external" name="external" class="validate" [(ngModel)]="currentAssignService.external"
+                                required>
+                            <label for="external">Externa</label>
+                        </div>
+                        <div class="input-field col s1">
+                            <label><font color="red">*</font></label>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12 center">
+                                <button type="button" class="waves-effect waves-light btn blue text-lighten-1" [disabled]="!assignServiceForm.form.valid"
+                                    (click)="save()">Guardar</button>
+                                <a href="assignservice#!" class="waves-effect waves-light btn grey" (click)="cancel()">Cancelar</a>
+                            </div>
+                        </div>
+                    </div>
+                    <alertmessage></alertmessage>
+
+                </form>
+            </div>
+        </div>
+    </p-dialog>
+    <p-dialog header="Editar servicio" [(visible)]="displayEditService" modal="modal" width="800" responsive="true">
+        <alertmessage></alertmessage>
+        <div class="col s12">
+            <form #assignServiceForm="ngForm">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input type="text" id="authorizationNumber" placeholder="" name="authorizationNumber" class="validate" [(ngModel)]="currentAssignService.authorizationNumber"
+                            required minlength="1" maxlength="30">
+                        <label for="authorizationNumber">Nro autorización</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <select name="coPaymentFrecuencyId" id="coPaymentFrecuencyId" materialize="material_select" [materializeSelectOptions]="coPaymentsFrecuency"
+                            [(ngModel)]="currentAssignService.coPaymentFrecuencyId" class="validate" required>
+                            <option [ngValue]="undefined">Seleccione</option>
+                            <option *ngFor="let type of coPaymentsFrecuency" [ngValue]="type.coPaymentFrecuencyId">{{type.name}}</option>
+                        </select>
+                        <label>Frecuencia del Copago</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input type="number" placeholder="" id="coPaymentAmount" name="coPaymentAmount" class="validate" [(ngModel)]="currentAssignService.coPaymentAmount"
+                            required>
+                        <label class="active" for="coPaymentAmount">Valor copago</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12 center">
+                        <button type="button" class="waves-effect waves-light btn blue text-lighten-1" [disabled]="!assignServiceForm.form.valid"
+                            (click)="save()">Guardar</button>
+                        <a href="assignservice#!" class="waves-effect waves-light btn grey" (click)="cancelEdit()">Cancelar</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </p-dialog>
+    <br>
+    <br>
+    <alertmessage></alertmessage>
+    <p-dialog collapsed="true" header="Evaluación de calidad" [(visible)]="displayQualityTest" modal="modal" width="800" responsive="true">
+        <div class="col s12">
+            <form #assignServiceForm="ngForm">
+                <ul *ngFor="let item of qualityQuestions; let i = index" [attr.data-index]="i">
+                    <div class="row">
+                        <div class="col s6">
+                            <li style="padding-top: 10px;">{{i + 1}}. {{item.questionText.toUpperCase()}} <span style="color:red">*</span></li>
+                        </div>
+                        <div class="col s4">
+                            <select name="scoreItem" style="display:block" [(ngModel)]="item.answerId">
+                             <option *ngFor="let c of scoreItems" [value]="c.value">{{c.label}} </option>
+                            </select>
+                        </div>
+                    </div>
+                </ul>
+                <div class="row">
+                    <button type="button" class="waves-effect waves-light btn blue text-lighten-1" (click)="saveQualityTest()">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </p-dialog>
+    <!--<p-fieldset collapsed="true" legend="Observación del servicio" [class.hidden]="!inServiceSelectMode" [toggleable]="true">
+        <div class="col s12">
+            <form #assignServiceObservationForm="ngForm">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea placeholder="" id="observation" name="observation" maxlength="120" [(ngModel)]="currentAssignService.observation" class="materialize-textarea"></textarea>
+                        <label for="observation">Observaciones</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12 center">
+                        <button type="button" class="waves-effect waves-light btn blue text-lighten-1" [disabled]="!assignServiceObservationForm.form.valid"
+                            (click)="save()">Guardar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </p-fieldset>-->
+</div>

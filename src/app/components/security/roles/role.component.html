@@ -1,0 +1,62 @@
+﻿<div class="container">
+    <alertmessage></alertmessage>
+    <h4 [class.hidden]="!inReadMode" class="blue-text text-lighten-1">Lista de Roles</h4>
+    <div class="row" [class.hidden]="!inReadMode">
+        <div class="input-field col s12">
+            <a [class.hidden]="!onCreatePermission" href="role#!" class="waves-effect waves-light btn blue text-lighten-1" (click)="create()">Crear</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s6">
+        </div>
+        <div class="input-field col s5" [class.hidden]="!inReadMode">
+            <input #gb type="text"  placeholder="Búsqueda">
+        </div>
+        <div class="input-field col s1" [class.hidden]="!inReadMode">
+            <i class="fa fa-search" style="margin:20px 0px 0 0"></i>
+        </div>
+    </div>
+    <h4 [class.hidden]="!inCreateMode" class="blue-text text-lighten-1">Nuevo Rol</h4>
+    <h4 [class.hidden]="!inEditMode" class="blue-text text-lighten-1">Editar Rol</h4>
+    <div [class.hidden]="inReadMode" class="row">
+        <div class="col s12">
+            <form #roleForm="ngForm">
+                <div class="row">
+                    <div class="input-field col s5">
+                        <input autofocus type="text" id="name" name="name" class="validate" [(ngModel)]="currentRole.name" required minlength="1"
+                            maxlength="30">
+                        <label [ngClass]="currentRole.name ? 'active' : ''" for="name">Nombre</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s6" [class.hidden]="inCreateMode">
+                        <input type="checkbox" id="state" class="validate" name="state" [checked]="currentRole.state" [(ngModel)]="currentRole.state"
+                        />
+                        <label [ngClass]="currentRole.state ? 'active' : ''" for="state">Estado</label>
+                    </div>
+                    <div class="input-field col s12 center">
+                        <button type="button" class="waves-effect waves-light btn blue text-lighten-1" [disabled]="!roleForm.form.valid" (click)="save()">Guardar</button>
+                        <a href="role#!" class="waves-effect waves-light btn grey" (click)="cancel()">Cancelar</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <p-dataTable [class.hidden]="!inReadMode" [value]="roles" [rows]="rowsRecords" [totalRecords]="totalRecords"
+        [paginator]="true" [globalFilter]="gb" #dt>
+        <p-column field="state" header="Estado" styleClass="text-center" [style]="{'width': '20%'}">
+            <template let-col let-role="rowData" pTemplate="body">
+                <p-checkbox [(ngModel)]="role.state" binary="true" disabled="disabled"></p-checkbox>
+            </template>
+        </p-column>
+        <p-column field="name" header="Nombre" [sortable]="true" [style]="{'width': '80%'}"></p-column>
+        <p-column styleClass="col-button" header="Acción" styleClass="text-center" [style]="{'width': '10%'}">
+            <template let-role="rowData" pTemplate="body">
+                <a [class.hidden]="!onEditPermission" href="role#!" (click)="edit(role)" materialize="tooltip" class="tooltipped" data-tooltip="Editar">
+                    <i class="material-icons blue-text text-lighten-1">mode_edit</i>
+                </a>
+            </template>
+        </p-column>
+    </p-dataTable>
+</div>

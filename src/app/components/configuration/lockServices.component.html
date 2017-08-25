@@ -1,0 +1,17 @@
+<div class="container">
+    <alertmessage></alertmessage>
+    <div class="row">
+        <label class="active">Fecha de bloqueo</label>
+    </div>
+    <div class="row">
+        <div class="input-field col s6">
+            <my-date-picker name="lockDate" [options]="myDatePickerOptions" (dateChanged)="onLockDateChanged($event)" [(ngModel)]="lockService.lockDateObj"
+                required></my-date-picker>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s2">
+            <button type="button" class="waves-effect waves-light btn blue text-lighten-1" (click)="updateLockDate()">Guardar</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+﻿<div class="col s12" style="background-image: url(' ./assets/images/background.png'); height:100%;">
+    <div class="row">
+        <div class="col s7">
+        </div>
+        <div class="col s3">
+            <div class="card-panel height:100%;">
+                <br>
+                <br>
+
+                <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+                    <div class="form-group center">
+                        <img class="center" src="./assets/images/logo_adom.svg" width="200px" height="200px" style="padding: 0px" />
+                    </div>
+                    <alertmessage></alertmessage>
+                    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+                        <label for="username">Correo electrónico</label>
+                        <input autofocus type="email" class="validate form-control" name="username" [(ngModel)]="model.username" #username="ngModel"
+                            required />
+                        <div *ngIf="f.submitted && !username.valid" class="help-block">El nombre de usuario es requerido</div>
+                    </div>
+                    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+                        <label for="password">Contraseña</label>
+                        <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" required />
+                        <div *ngIf="f.submitted && !password.valid" class="help-block">La contraseña es requerido</div>
+                    </div>
+                    <div>
+                        <button [disabled]="loading" class="btn btn-primary #1565c0 blue darken-3 col s12">Ingresar</button>
+                        <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+                        />
+                        <br>
+                        <br>
+                        <a href="recoverpassword#!" class="col s12">Recuperar contraseña</a>
+                    </div>
+                </form>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+
+                <p style="font-size:11px"><b>Todos los derechos reservados por Servicios ADOM SAS</b></p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+﻿export class Patient {
+    patientId: number;
+    document: string;
+    documentTypeId: number;
+    documentTypeName: string;
+    patientTypeId: number;
+    patientTypeName: string;
+    nameCompleted: string;
+    birthDate: Date;
+    age: number;   
+    unitTimeId: number;
+    unitTimeName: string;
+    firstName: string;
+    secondName: string;
+    surname: string;
+    secondSurname: string;
+    email: string;
+    genderId: number;
+    genderName: string;
+    occupation: string;
+    address: string;
+    neighborhood: string;
+    telephone1: number;
+    telephone2: number;
+    attendantName: string;
+    attendantRelationship: string;
+    attendantPhone: string;
+    attendantEmail: string;
+    profile: string;
+    createdOn: string;
+    totalRows: number
+}

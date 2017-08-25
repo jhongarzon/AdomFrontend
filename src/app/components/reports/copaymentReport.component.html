@@ -1,0 +1,37 @@
+<div class="container container-responsive">
+    <alertmessage></alertmessage>
+    <div class="row">
+        <h3 class="blue-text text-lighten-1 left">Reporte Copagos</h3>
+    </div>
+    <div class="row" >
+        <div class="input-field col s4">
+            <select name="professionalId" id="professionalId" materialize="material_select" [materializeSelectOptions]="professionalList"
+                [(ngModel)]="copaymentReportFilter.professionalId" class="validate" required>
+                    <option [ngValue]="undefined">Seleccione...</option>
+                    <option *ngFor="let c of professionalList" [ngValue]="c.professionalId">{{c.firstName + ' ' + c.surname}}</option>
+            </select>
+            <label>Entidad</label>
+        </div>        
+        <div class="input-field col s4">
+            <br>
+            <my-date-picker name="initialDate" [options]="myDatePickerOptions" (dateChanged)="onInitialDateChanged($event)" [(ngModel)]="copaymentReportFilter.initialDateObj" required></my-date-picker>                            
+            <label class="active">F. Inicio</label>
+        </div>        
+        <div class="input-field col s4">
+            <br>
+            <my-date-picker name="finalDate" [options]="myDatePickerOptions" (dateChanged)="onFinalDateChanged($event)" [(ngModel)]="copaymentReportFilter.finalDateObj" required></my-date-picker>            
+            <label class="active">F. Finalización</label>
+        </div>
+    </div>
+    <div class="row">
+        
+        <div class="input-field col s4">
+            <br>
+            <my-date-picker name="deliverDate" [options]="myDatePickerOptions" (dateChanged)="onDeliverDateChanged($event)" [(ngModel)]="copaymentReportFilter.deliverDateObj" required></my-date-picker>            
+            <label class="active">F. Finalización</label>
+        </div>
+        <div class="col s2">
+            <br>
+            <button type="button" class="waves-effect waves-light btn blue text-lighten-1" (click)="generateReport()">Buscar</button>
+        </div>
+    </div>

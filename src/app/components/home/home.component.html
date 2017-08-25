@@ -1,0 +1,46 @@
+﻿<div class="container container-responsive">
+    <script src="node_modules/chart.js/src/chart.js"></script>
+    <div class="row">
+        Dashboard
+    </div>
+    <div class="row">
+        <div class="col col-md-4">
+            <label>ENFERMERÍA (HORAS)</label>
+            <div style="display: block">
+                <canvas baseChart [datasets]="barChartNursingData" [labels]="barChartNursingLabels" [options]="barChartOptions" [legend]="barChartLegend"
+                    [chartType]="barChartType"></canvas>
+            </div>
+        </div>
+        <div class="col col-md-4">
+            <label>TERAPIAS (VISITAS)</label>
+            <div style="display: block">
+                <canvas baseChart [datasets]="barChartTherapyData" [labels]="barChartTherapyLabels" [options]="barChartOptions" [legend]="barChartLegend"
+                    [chartType]="barChartType"></canvas>
+            </div>
+        </div>
+        <div class="col col-md-4">
+            <label>PACIENTES SIN PROFESIONAL ASIGNADO</label>
+            <p-dataTable [value]="homeReport.patientsWithoutProfessional"  [scrollable]="true" [scrollHeight]="230" [globalFilter]="gb" #dt>
+                <p-column field="patientName" header="Paciente" [sortable]="true" [style]="{'width': '50%'}"></p-column>
+                <p-column field="serviceName" header="Servicio" [sortable]="true" [style]="{'width': '50%'}"></p-column>
+            </p-dataTable>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col col-md-6">
+            <label>SERVICIOS IRREGULARES</label>
+            <p-dataTable [value]="homeReport.irreglularServices" [scrollable]="true" [scrollHeight]="230" [globalFilter]="gb" #dt>
+                <p-column field="patientName" header="Paciente" [sortable]="true" [style]="{'width': '50%'}"></p-column>
+                <p-column field="serviceName" header="Servicio" [sortable]="true" [style]="{'width': '50%'}"></p-column>
+            </p-dataTable>
+        </div>
+        <div class="col col-md-6">
+            <label>PROFESIONALES-COPAGOS</label>
+            <p-dataTable [value]="homeReport.professionalCopayments" [scrollable]="true" [scrollHeight]="230" [globalFilter]="gb" #dt>
+                <p-column field="professionalName" header="Profesional" [sortable]="true" [style]="{'width': '50%'}"></p-column>
+                <p-column field="copaymentAmount" header="Recaudado" [sortable]="true" [style]="{'width': '50%'}"></p-column>
+            </p-dataTable>
+        </div>
+    </div>
+</div>

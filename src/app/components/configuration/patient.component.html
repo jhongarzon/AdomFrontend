@@ -1,0 +1,195 @@
+<div class="container">
+    <alertmessage></alertmessage>
+    <h4 [class.hidden]="!inReadMode" class="blue-text text-lighten-1 left">Lista de Pacientes</h4>
+    <h4 [class.hidden]="!inCreateMode" class="blue-text text-lighten-1">Nuevo Paciente</h4>
+    <h4 [class.hidden]="!inEditMode" class="blue-text text-lighten-1">Editar Paciente</h4>
+    <div [class.hidden]="inReadMode" class="row">
+        <div class="col s12">
+            <form #PatientForm="ngForm">
+                <div class="row">
+                    <div class="input-field col s5">
+                        <select name="documentType" id="documentType" materialize="material_select" [materializeSelectOptions]="documentType" [(ngModel)]="currentPatient.documentTypeId"
+                            class="validate" required>
+                            <option [ngValue]="undefined">Seleccione</option>
+                            <option *ngFor="let type of documentType" [ngValue]="type.id">{{type.name}}</option>
+                        </select>
+                        <label>Tipo de documento</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s5">
+                        <input autofocus placeholder="" type="text" id="document" name="document" (change)="findDocument()" class="validate form-control"
+                            [(ngModel)]="currentPatient.document" required minlength="4" maxlength="30">
+                        <label for="document" class="active">Documento</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s5">
+                        <input type="text" placeholder="" id="firstName" name="firstName" class="validate" [(ngModel)]="currentPatient.firstName"
+                            required minlength="1" maxlength="30">
+                        <label for="firstName" data-error="Correo inválido.">Primer nombre</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="text" placeholder="" id="secondName" name="secondName" class="validate" [(ngModel)]="currentPatient.secondName">
+                        <label for="secondName">Segundo nombre</label>
+                    </div>
+                    <div class="input-field col s5">
+                        <input type="text" placeholder="" id="surname" name="surname" class="validate" [(ngModel)]="currentPatient.surname" required
+                            minlength="1" maxlength="30">
+                        <label for="surname">Primer apellido</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="text" placeholder="" id="secondSurname" name="secondSurname" class="validate" [(ngModel)]="currentPatient.secondSurname"
+                            minlength="1" maxlength="30">
+                        <label for="secondSurname">Segundo apellido</label>
+                    </div>
+                    <div class="input-field col s5">
+                        <input name="groupGender" [(ngModel)]="currentPatient.genderId" [value]="1" required class="validate" id="masculino" type="radio"
+                        />
+                        <label for="masculino">Masculino</label>
+                        <input name="groupGender" [(ngModel)]="currentPatient.genderId" [value]="2" required class="validate" id="femenino" type="radio"
+                        />
+                        <label for="femenino">Femenino</label>
+                        <label class="active">Género</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="text" placeholder="" id="occupation" name="occupation" class="validate" [(ngModel)]="currentPatient.occupation"
+                            minlength="1" maxlength="30">
+                        <label for="occupation">Ocupación</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <my-date-picker name="birthday" [options]="myDatePickerOptions" (dateChanged)="calculateAge($event)" required></my-date-picker>                        
+                        <label class="active">Fecha de nacimiento</label>
+                    </div>
+                    <div class="input-field col s3">
+                        <input type="number" placeholder="" id="age" name="age" class="validate" [(ngModel)]="currentPatient.age" required />
+                        <label for="age">Edad</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s2">
+                        <select name="patientTypeId" id="unitTimeId" materialize="material_select" [materializeSelectOptions]="unitTime" [(ngModel)]="currentPatient.unitTimeId"
+                            class="validate" required>
+                            <option [ngValue]="undefined">Seleccione</option>
+                            <option *ngFor="let type of unitTime" [ngValue]="type.id">{{type.name}}</option>
+                        </select>
+                    </div>
+                    <div class="input-field col s5">
+                        <input type="text" placeholder="" id="address" name="address" class="validate" [(ngModel)]="currentPatient.address" required
+                            minlength="1" maxlength="200">
+                        <label for="address">Dirección</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="text" placeholder="" id="neighborhood" name="neighborhood" class="validate" [(ngModel)]="currentPatient.neighborhood"
+                            minlength="1" maxlength="30">
+                        <label for="address">Barrio</label>
+                    </div>
+                    <div class="input-field col s5">
+                        <input type="number" placeholder="" id="telephone1" name="telephone1" class="validate" [(ngModel)]="currentPatient.telephone1"
+                            required minlength="7" maxlength="10" />
+                        <label for="telephone1">Celular principal</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="number" placeholder="" id="telephone2" name="telephone2" class="validate" [(ngModel)]="currentPatient.telephone2"
+                        />
+                        <label for="telephone2">Teléfono 2</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input autofocus type="email" placeholder="" id="email" name="email" class="validate form-control" [(ngModel)]="currentPatient.email"
+                            minlength="4" maxlength="30">
+                        <label for="email">Correo electrónico</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="text" placeholder="" id="attendantName" name="attendantName" class="validate" [(ngModel)]="currentPatient.attendantName"
+                        />
+                        <label for="attendantName">Nombre acudiente</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="text" placeholder="" id="attendantRelationship" name="attendantRelationship" class="validate" [(ngModel)]="currentPatient.attendantRelationship"
+                        />
+                        <label for="attendantRelationship">Relación acudiente</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="text" placeholder="" id="attendantPhone" name="attendantPhone" pattern="[0-9]{10}" class="validate" [(ngModel)]="currentPatient.attendantPhone"
+                        />
+                        <label for="attendantPhone">Teléfono acudiente</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input autofocus type="email" placeholder="" id="attendantEmail" name="attendantEmail" class="validate form-control" [(ngModel)]="currentPatient.attendantEmail"
+                        />
+                        <label for="attendantEmail">Correo electrónico acudiente</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input type="text" placeholder="" id="profile" name="profile" class="validate" [(ngModel)]="currentPatient.profile" minlength="4"
+                            maxlength="255" />
+                        <label for="profile">Perfil</label>
+                    </div>
+                    <div class="input-field col s5">
+                        <select name="patientTypeId" id="patientTypeId" materialize="material_select" [materializeSelectOptions]="patientType" [(ngModel)]="currentPatient.patientTypeId"
+                            class="validate" required>
+                            <option [ngValue]="undefined">Seleccione</option>
+                            <option *ngFor="let type of patientType" [ngValue]="type.id">{{type.name}}</option>
+                        </select>
+                        <label>Tipo de paciente</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s6" [class.hidden]="!inEditMode">
+                        <input type="text" placeholder="" placeholder="" id="createdOn" name="createdOn" [(ngModel)]="currentPatient.createdOn" readonly/>
+                        <label for="createdOn" class="active">Fecha de creación</label>
+                    </div>
+                    <div class="input-field col s12 center">
+                        <button type="button" class="waves-effect waves-light btn blue text-lighten-1" [disabled]="!PatientForm.form.valid" (click)="save()">Guardar</button>
+                        <a href="patient#!" class="waves-effect waves-light btn grey" (click)="cancel()">Cancelar</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row"></div>
+    <div class="row" [class.hidden]="!inReadMode">
+        <div class="input-field col s6">
+            <a [class.hidden]="!onCreatePermission" href="patient#!" class="waves-effect waves-light btn blue text-lighten-1" (click)="create()">Crear</a>
+        </div>
+        <div class="input-field col s5" [class.hidden]="!inReadMode">
+            <input #gb type="text" placeholder="Búsqueda">
+        </div>
+        <div class="col s1" [class.hidden]="!inReadMode">
+            <i class="fa fa-search" style="margin:40px 4px 0 0"></i>
+        </div>
+    </div>
+    <p-dataTable [class.hidden]="!inReadMode" [value]="patients" [rows]="10" [paginator]="true" [globalFilter]="gb" #dt>
+        <p-column field="documentTypeName" header="Tipo Doc" [sortable]="true" [style]="{'width': '15%'}"></p-column>
+        <p-column field="document" header="Nro Documento" [sortable]="true" [style]="{'width': '15%'}"></p-column>
+        <p-column field="firstName" header="Nombres" [sortable]="true" [style]="{'width': '20%'}"></p-column>
+        <p-column field="surname" header="Apellidos" [sortable]="true" [style]="{'width': '20%'}"></p-column>
+        <p-column field="telephone1" header="Teléfono 1" [sortable]="true" [style]="{'width': '20%'}"></p-column>
+        <p-column field="patientTypeName" header="Tipo Paciente" [sortable]="true" [style]="{'width': '15%'}"></p-column>
+        <p-column styleClass="col-button" header="Acción" styleClass="text-center" [style]="{'width': '10%'}">
+            <template let-Patient="rowData" pTemplate="body">
+                <a [class.hidden]="!onEditPermission" href="patient#!" (click)="edit(Patient)" materialize="tooltip" class="tooltipped" data-tooltip="Editar">
+                    <i class="material-icons blue-text text-lighten-1">mode_edit</i>
+                </a>
+            </template>
+        </p-column>
+    </p-dataTable>
+</div>

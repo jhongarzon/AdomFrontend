@@ -1,0 +1,169 @@
+<div class="container container-responsive">
+    <alertmessage></alertmessage>
+    <div class="row">
+        <h3 class="blue-text text-lighten-1 left">Copagos</h3>
+    </div>
+    <div class="row" [class.hidden]="!inReadMode">
+
+        <div class="input-field col s3">
+            <select name="professionalId" id="professionalId" (ngModelChange)="professionalChanged($event)" materialize="material_select"
+                [materializeSelectOptions]="professionals" [(ngModel)]="copaymentFilter.professionalId" class="validate" required>
+                    <option [ngValue]="undefined">Seleccione...</option>
+                    <option *ngFor="let c of professionals" [ngValue]="c.value">{{c.label}}</option>
+            </select>
+            <label>Profesional</label>
+
+        </div>
+        <div class="input-field col s3">
+            <select name="serviceStatusId" id="serviceStatusId" materialize="material_select" [materializeSelectOptions]="serviceStatuses"
+                [(ngModel)]="copaymentFilter.serviceStatusId" class="validate" required>
+                    <option [ngValue]="undefined">Seleccione...</option>
+                    <option *ngFor="let c of serviceStatuses" [ngValue]="c.value">{{c.label}}</option>
+            </select>
+            <label>Estado del servicio</label>
+        </div>
+        <div class="input-field col s3">
+            <select name="copaymentStatusId" id="copaymentStatusId" materialize="material_select" [materializeSelectOptions]="copaymentStatuses"
+                [(ngModel)]="copaymentFilter.copaymentStatusId" class="validate" required>
+                    <option [ngValue]="undefined">Seleccione...</option>
+                    <option *ngFor="let c of copaymentStatuses" [ngValue]="c.value">{{c.label}}</option>
+            </select>
+            <label>Estado del copago</label>
+        </div>
+        <div class="col s3">
+            <br>
+            <button type="button" class="waves-effect waves-light btn blue text-lighten-1" (click)="loadCopayments()">Buscar</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <p-dataTable [value]="copayments" [rows]="5" [paginator]="true" [globalFilter]="gb" #dt scrollable="true" scrollWidth="1120px"
+                [(selection)]="selectedCopayments" dataKey="AssignServiceId">
+                <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+                <p-column field="patientDocument" header="Documento" [sortable]="true" [style]="{'width': '200px'}"></p-column>
+                <p-column field="patientName" header="Paciente" [sortable]="true" [style]="{'width': '250px'}"></p-column>
+                <p-column field="serviceName" header="Servicio" [sortable]="true" [style]="{'width': '350px%'}"></p-column>
+                <p-column field="authorizationNumber" header="No. Autorización" [sortable]="true" [style]="{'width': '200px'}"></p-column>
+                <p-column header="Ejecución" styleClass="text-center" [style]="{'width': '120px'}">
+                    <template let-copayment="rowData" pTemplate="body">
+                        {{copayment.quantityCompleted }} / {{copayment.quantity }}
+                    </template>
+                </p-column>
+                <p-column field="finalDate" header="F. Finalización" [sortable]="true" [style]="{'width': '150px'}"></p-column>
+                <p-column field="entityName" header="Entidad" [sortable]="true" [style]="{'width': '250px'}"></p-column>
+                <p-column field="coPaymentFrecuencyName" header="Frec. copago" [sortable]="true" [style]="{'width': '160px'}"></p-column>
+                <p-column field="coPaymentAmount" header="Valor uni. copago" [sortable]="true" [style]="{'width': '180px'}"></p-column>
+                <p-column field="kitMnb" header="kit MNB" [sortable]="true" [style]="{'width': '150px'}"></p-column>
+                <p-column field="copaymentStatus" header="Estado copagos" [sortable]="true" [style]="{'width': '180px'}"></p-column>
+                <p-column field="totalCopaymentReported" header="Tot. copagos report" [sortable]="true" [style]="{'width': '250px'}"></p-column>
+                <p-column field="otherValuesReported" header="Otros valores reportados" [sortable]="true" [style]="{'width': '300px'}"></p-column>
+                <p-column field="totalCopaymentReceived" header="Copagos Recibidos" [editable]="true" [style]="{'width': '200px'}">
+                    <template let-col let-row="rowData" pTemplate="body">
+                        <div *ngIf="row['copaymentStatus']=='SE'">
+                            <input type="text" pInputText [(ngModel)]="row[col.field]" style="margin:0px" />
+                        </div>
+                        <div *ngIf="row['copaymentStatus']=='E'">
+                            <span> {{row[col.field]}}</span>
+                        </div>
+                    </template>
+                </p-column>
+                <p-column field="otherValuesReceived" header="Otros valores Recibidos" [editable]="true" [style]="{'width': '300px'}">
+                    <template let-col let-row="rowData" pTemplate="body">
+                        <div *ngIf="row['copaymentStatus']=='SE'">
+                            <input type="text" pInputText [(ngModel)]="row[col.field]" style="margin:0px" />
+                        </div>
+
+                        <div *ngIf="row['copaymentStatus']=='E'">
+                            <span> {{row[col.field]}}</span>
+                        </div>
+
+                    </template>
+                </p-column>
+                <p-column field="deliveredCopayments" header="Copagos entregados" [editable]="true" [style]="{'width': '200px'}">
+                    <template let-col let-row="rowData" pTemplate="body">
+                        <div *ngIf="row['copaymentStatus']=='SE'">
+                            <input type="text" pInputText [(ngModel)]="row[col.field]" style="margin:0px" />
+                        </div>
+
+                        <div *ngIf="row['copaymentStatus']=='E'">
+                            <span> {{row[col.field]}}</span>
+                        </div>
+
+                    </template>
+                </p-column>
+                <p-column field="discounts" header="Descuentos" [editable]="true" [style]="{'width': '160px'}">
+                    <template let-col let-row="rowData" pTemplate="body">
+                        <div *ngIf="row['copaymentStatus']=='SE'">
+                            <input type="text" pInputText [(ngModel)]="row[col.field]" style="margin:0px" />
+                        </div>
+
+                        <div *ngIf="row['copaymentStatus']=='E'">
+                            <span> {{row[col.field]}}</span>
+                        </div>
+                    </template>
+                </p-column>
+            </p-dataTable>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <div class="row">
+                <div class="col s12 text-right">
+                    <button type="button" class="waves-effect waves-light btn blue text-lighten-1" (click)="showPreview()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p-dialog header="Vista previa - Comprobante de copagos recibidos" [(visible)]="displayPreview" modal="modal" width="1200"
+        responsive="true">
+        <alertmessage></alertmessage>
+        <div class="row">
+            <div class="col s12">
+                <form #assignServiceForm="ngForm">
+                    <div class="row">
+                        <div class="input-field col s4">
+                            <label class="active">Profesional:</label>
+                            <br>
+                            <span>{{currentProfessional.firstName}} {{currentProfessional.surname}}</span>
+                        </div>
+                        <div class="input-field col s4">
+                            <label class="active">Documento:</label>
+                            <br>
+                            <span>{{currentProfessional.document}}</span>
+                        </div>
+                        <div class="input-field col s4">
+                            <label class="active">Fecha de entrega:</label>
+                            <br>
+                            <span>{{formattedDate}}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <p-dataTable [value]="selectedCopayments" [globalFilter]="gb" #dt >
+                                <p-column field="patientName" header="Paciente" [sortable]="true" [style]="{'width': '250px'}"></p-column>
+                                <p-column field="entityName" header="Entidad" [sortable]="true" [style]="{'width': '180px'}"></p-column>
+                                <p-column field="serviceName" header="Servicio" [sortable]="true" [style]="{'width': '350px%'}"></p-column>
+                                <p-column field="valueToPayToProfessional" header="Valor servicio" [sortable]="true" [style]="{'width': '150px'}"></p-column>
+                                <p-column header="Cantidad" styleClass="text-center" [style]="{'width': '100px'}">
+                                    <template let-copayment="rowData" pTemplate="body" style="padding:0px">
+                                        {{copayment.quantityCompleted }}
+                                    </template>
+                                </p-column>
+                                <p-column field="totalCopaymentReported" header="Efec. Recibido" [sortable]="true" [style]="{'width': '180px'}"></p-column>
+                                <p-column field="totalCopaymentReceived" header="Efec. Entregado" [sortable]="true" [style]="{'width': '180px'}"></p-column>
+                                <p-column field="discounts" header="Descuento" [sortable]="true" [style]="{'width': '150px'}"></p-column>
+                                <p-column field="grandTotalToPay" header="Valor a pagar" [editable]="true" [style]="{'width': '150px'}"></p-column>
+                            </p-dataTable>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 text-right" [class.hidden]="!hasEditPermission">
+                <button type="button" class="waves-effect waves-light btn blue text-lighten-1" (click)="hideDialog()">Editar</button>
+                <button type="button" class="waves-effect waves-light btn blue text-lighten-1" (click)="saveChanges()">Guardar</button>
+            </div>
+        </div>
+    </p-dialog>
+</div>

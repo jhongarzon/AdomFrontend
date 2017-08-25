@@ -1,0 +1,471 @@
+/*!
+ * Bootstrap Docs (http://getbootstrap.com)
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under the Creative Commons Attribution 3.0 Unported License. For
+ * details, see http://creativecommons.org/licenses/by/3.0/.
+ */
+#outlet-container{
+  padding-left: 300px;
+  overflow: auto !important;
+  height: 88%;
+}
+@media only screen and (max-width: 992px) {
+header,
+main,
+footer {
+  padding-left: 0;
+}
+}
+.h1, .h2, .h3, h1, h2, h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.h1, h1 {
+  font-size: 36px;
+}
+
+.btn-group-lg > .btn, .btn-lg {
+  font-size: 18px;
+}
+
+section {
+  padding-top: 30px;
+}
+
+.bd-pageheader {
+  margin-top: 51px;
+}
+
+.page-header {
+  padding-bottom: 9px;
+  margin: 40px 0 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.navbar-default .navbar-nav > li > a {
+  color: #777;
+}
+
+.navbar {
+  padding: 0;
+}
+
+.navbar-nav .nav-item {
+  margin-left: 0 !important;
+}
+
+.nav > li > a {
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+}
+
+.nav .navbar-brand {
+  float: left;
+  height: 50px;
+  padding: 15px 15px;
+  font-size: 18px;
+  line-height: 20px;
+  margin-right: 0 !important;
+}
+
+.navbar-brand {
+  color: #777;
+  float: left;
+  height: 50px;
+  padding: 15px 15px;
+  font-size: 18px;
+  line-height: 20px;
+}
+
+.navbar-toggler {
+  margin-top: 8px;
+  margin-right: 15px;
+}
+
+.navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
+  color: #333;
+  background-color: transparent;
+}
+
+.bd-pageheader, .bs-docs-masthead {
+  position: relative;
+  padding: 30px 0;
+  color: #cdbfe3;
+  text-align: center;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, .1);
+  background-color: #6f5499;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#563d7c), to(#6f5499));
+  background-image: -webkit-linear-gradient(top, #563d7c 0, #6f5499 100%);
+  background-image: -o-linear-gradient(top, #563d7c 0, #6f5499 100%);
+  background-image: linear-gradient(to bottom, #563d7c 0, #6f5499 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#563d7c', endColorstr='#6F5499', GradientType=0);
+  background-repeat: repeat-x;
+}
+
+.bd-pageheader {
+  margin-bottom: 40px;
+  font-size: 20px;
+}
+
+.bd-pageheader h1 {
+  margin-top: 0;
+  color: #fff;
+}
+
+.bd-pageheader p {
+  margin-bottom: 0;
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+.bd-pageheader .btn {
+  margin: 10px 0;
+}
+
+.scrollable-menu .nav-link {
+  color: #337ab7;
+  font-size: 14px;
+}
+
+.scrollable-menu .nav-link:hover {
+  color: #23527c;
+  background-color: #eee;
+}
+
+@media (min-width: 992px) {
+  .bd-pageheader h1, .bd-pageheader p {
+    margin-right: 380px;
+  }
+}
+
+@media (min-width: 768px) {
+  .bd-pageheader {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    font-size: 24px;
+    text-align: left;
+  }
+
+  .bd-pageheader h1 {
+    font-size: 60px;
+    line-height: 1;
+  }
+
+  .navbar-nav > li > a.nav-link {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 14px;
+  }
+
+  .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
+    margin-left: -15px;
+  }
+}
+
+@media (max-width: 767px) {
+  .hidden-xs {
+    display: none !important;
+  }
+
+  .navbar .container {
+    width: 100%;
+    max-width: 100%;
+  }
+  .navbar .container,
+  .navbar .container .navbar-header {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+@media (max-width: 400px) {
+  code, kbd {
+    font-size: 60%;
+  }
+}
+
+/**
+    * VH and VW units can cause issues on iOS devices: http://caniuse.com/#feat=viewport-units
+    *
+    * To overcome this, create media queries that target the width, height, and orientation of iOS devices.
+    * It isn't optimal, but there is really no other way to solve the problem. In this example, I am fixing
+    * the height of element '.scrollable-menu' —which is a full width and height cover image.
+    *
+    * iOS Resolution Quick Reference: http://www.iosres.com/
+    */
+
+.scrollable-menu {
+  height: 90vh !important;
+  width: 100vw;
+  overflow-x: hidden;
+  padding: 0 0 20px;
+}
+
+/**
+ * iPad with portrait orientation.
+ */
+@media all and (device-width: 768px) and (device-height: 1024px) and (orientation: portrait) {
+  .scrollable-menu {
+    height: 1024px !important;
+  }
+}
+
+/**
+ * iPad with landscape orientation.
+ */
+@media all and (device-width: 768px) and (device-height: 1024px) and (orientation: landscape) {
+  .scrollable-menu {
+    height: 768px !important;
+  }
+}
+
+/**
+ * iPhone 5
+ * You can also target devices with aspect ratio.
+ */
+@media screen and (device-aspect-ratio: 40/71) {
+  .scrollable-menu {
+    height: 500px !important;
+  }
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #888;
+}
+
+.navbar-toggle:focus {
+  outline: 0
+}
+
+.navbar-toggle .icon-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 1px
+}
+
+.navbar-toggle .icon-bar + .icon-bar {
+  margin-top: 4px
+}
+
+pre {
+  white-space: pre-wrap;       /* CSS 3 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+/* label color */
+    input:not([type]):focus:not([readonly])+label, input[type=text]:focus:not([readonly])+label, input[type=password]:focus:not([readonly])+label, input[type=email]:focus:not([readonly])+label, input[type=url]:focus:not([readonly])+label, input[type=time]:focus:not([readonly])+label, input[type=date]:focus:not([readonly])+label, input[type=datetime]:focus:not([readonly])+label, input[type=datetime-local]:focus:not([readonly])+label, input[type=tel]:focus:not([readonly])+label, input[type=number]:focus:not([readonly])+label, input[type=search]:focus:not([readonly])+label, textarea.materialize-textarea:focus:not([readonly])+label {
+        color: #2196F3;
+    }
+   .input-field label, {
+     color: #2196F3;
+   }
+   input:focus:not([readonly])+label,{
+      color: #2196F3 !important;
+   }
+   /* label focus color */
+   .input-field input[type=text]:focus + label {
+     color: #2196F3 !important;
+   }
+   /* label underline focus color */
+   .input-field input[type=text]:focus {
+     border-bottom: 1px solid #2196F3 !important;
+     box-shadow: 0 1px 0 0 #2196F3 !important;
+   }
+   /* valid color */
+   .input-field input[type=text].valid,input[type=number].valid,input[type=email].valid {
+     border-bottom: 1px solid #2196F3 !important;
+     box-shadow: 0 1px 0 0 #2196F3 !important;
+   }
+   /* icon prefix focus color */
+   .input-field .prefix.active {
+     color: #2196F3 !important;
+   }
+   select:focus{
+     outline: 1px solid #f2f2f2 !important;
+   }
+   input[type="checkbox"]:checked+label:before {
+    border-right: 2px solid #2196F3 !important;
+    border-bottom: 2px solid #2196F3 !important;
+   }
+textarea.materialize-textarea:focus.valid + label:after {
+  content: attr(data-success);
+  color: #2196F3 !important;;
+  opacity: 1;
+}
+
+.slider .indicators .indicator-item.active {
+  background-color: #2196F3 !important;
+}
+input:not([type]):not([readonly]):focus, input[type=text]:not([readonly]):focus, input[type=password]:not([readonly]):focus, input[type=email]:not([readonly]):focus, input[type=url]:not([readonly]):focus, input[type=time]:not([readonly]):focus, input[type=date]:not([readonly]):focus, input[type=datetime]:not([readonly]):focus, input[type=datetime-local]:not([readonly]):focus, input[type=tel]:not([readonly]):focus, input[type=number]:not([readonly]):focus, input[type=search]:not([readonly]):focus, textarea:not([readonly]).materialize-textarea:focus {
+  border-bottom: 1px solid #2196F3 !important;
+  box-shadow:0px 1px 0px 0px #2196F3 !important;
+}
+.input-field input[type=text].valid+label:after{
+    content: attr(data-success);
+    color: #2196F3 !important;
+    opacity: 1;
+}
+input:not([type]).valid+label:after, input:not([type]):focus.valid+label:after, input[type=text].valid+label:after, input[type=text]:focus.valid+label:after, input[type=password].valid+label:after, input[type=password]:focus.valid+label:after, input[type=email].valid+label:after, input[type=email]:focus.valid+label:after, input[type=url].valid+label:after, input[type=url]:focus.valid+label:after, input[type=time].valid+label:after, input[type=time]:focus.valid+label:after, input[type=date].valid+label:after, input[type=date]:focus.valid+label:after, input[type=datetime].valid+label:after, input[type=datetime]:focus.valid+label:after, input[type=datetime-local].valid+label:after, input[type=datetime-local]:focus.valid+label:after, input[type=tel].valid+label:after, input[type=tel]:focus.valid+label:after, input[type=number].valid+label:after, input[type=number]:focus.valid+label:after, input[type=search].valid+label:after, input[type=search]:focus.valid+label:after, textarea.materialize-textarea.valid+label:after, textarea.materialize-textarea:focus.valid+label:after {
+    content: attr(data-success);
+    color: #2196F3 !important;
+    opacity: 1;
+}
+
+input[type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:before, [type="radio"].with-gap:checked+label:after{
+  border: 2px #2196F3 !important;
+}
+input[type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:after {
+    background-color: #2196F3 !important;
+}
+/*.ui-widget-content a {
+     color: #fff !important; 
+}*/
+.dropdown-content li>a, .dropdown-content li>span{
+  color: #2196F3 !important;
+}
+.caret {
+  border-color: transparent !important;
+}
+.ui-dialog-content{ 
+    max-width: 950px !important; 
+    /*Joya*/
+    /*max-height: 550px !important;*/
+    margin-bottom: 5px !important;
+}
+.form-input-field label{
+  color: #6E6E6E;
+}
+
+.container-responsive
+{
+  width: 95%;
+}
+
+/* -------------------- Select Box Styles: bavotasan.com Method (with special adaptations by ericrasch.com) */
+/* -------------------- Source: http://bavotasan.com/2011/style-select-box-using-only-css/ */
+.styled-select {
+   background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
+   height: 29px;
+   overflow: hidden;
+   
+}
+
+.styled-select select {
+   background: transparent;
+   border: none;
+   font-size: 14px;
+   height: 29px;
+   padding: 5px; /* If you add too much padding here, the options won't show in IE */
+   width: 268px;
+}
+
+.styled-select.slate {
+   background: url(http://i62.tinypic.com/2e3ybe1.jpg) no-repeat right center;
+   height: 34px;
+   
+}
+
+.styled-select.slate select {
+   border: 1px solid #ccc;
+   font-size: 16px;
+   height: 34px;
+   width: 268px;
+}
+
+/* -------------------- Rounded Corners */
+.rounded {
+   -webkit-border-radius: 20px;
+   -moz-border-radius: 20px;
+   border-radius: 20px;
+}
+
+.semi-square {
+   -webkit-border-radius: 5px;
+   -moz-border-radius: 5px;
+   border-radius: 5px;
+}
+
+/* -------------------- Colors: Background */
+.slate   { background-color: #ddd; }
+.green   { background-color: #779126; }
+.blue    { background-color: #3b8ec2; }
+.yellow  { background-color: #eec111; }
+.black   { background-color: #000; }
+
+/* -------------------- Colors: Text */
+.slate select   { color: #000; }
+.green select   { color: #fff; }
+.blue select    { color: #fff; }
+.yellow select  { color: #000; }
+.black select   { color: #fff; }
+
+
+/* -------------------- Select Box Styles: danielneumann.com Method */
+/* -------------------- Source: http://danielneumann.com/blog/how-to-style-dropdown-with-css-only/ */
+#mainselection select {
+   border: 0;
+   color: #EEE;
+   background: transparent;
+   font-size: 20px;
+   font-weight: bold;
+   padding: 2px 10px;
+   width: 378px;
+   *width: 350px;
+   *background: #58B14C;
+   -webkit-appearance: none;
+}
+
+#mainselection {
+   overflow:hidden;
+   width:350px;
+   -moz-border-radius: 9px 9px 9px 9px;
+   -webkit-border-radius: 9px 9px 9px 9px;
+   border-radius: 9px 9px 9px 9px;
+   box-shadow: 1px 1px 11px #330033;
+   background: #58B14C url("http://i62.tinypic.com/15xvbd5.png") no-repeat scroll 319px center;
+}
+
+
+/* -------------------- Select Box Styles: stackoverflow.com Method */
+/* -------------------- Source: http://stackoverflow.com/a/5809186 */
+select#soflow, select#soflow-color {
+   -webkit-appearance: button;
+   -webkit-border-radius: 2px;
+   -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+   -webkit-padding-end: 20px;
+   -webkit-padding-start: 2px;
+   -webkit-user-select: none;
+   background-image: url(http://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
+   background-position: 97% center;
+   background-repeat: no-repeat;
+   border: 1px solid #AAA;
+   color: #555;
+   font-size: inherit;
+   margin: 20px;
+   overflow: hidden;
+   padding: 5px 10px;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   width: 300px;
+}
+
+select#soflow-color {
+   color: #fff;
+   background-image: url(http://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#779126, #779126 40%, #779126);
+   background-color: #779126;
+   -webkit-border-radius: 20px;
+   -moz-border-radius: 20px;
+   border-radius: 20px;
+   padding-left: 15px;
+}
+.disabled {
+        pointer-events: none;
+        cursor: default;
+        opacity: 0.6;
+        color: gray;
+    }

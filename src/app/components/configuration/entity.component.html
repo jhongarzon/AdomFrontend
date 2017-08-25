@@ -1,0 +1,184 @@
+<div class="container">
+    <alertmessage></alertmessage>
+    <h4 [class.hidden]="!inReadMode" class="blue-text text-lighten-1 left">Lista de Entidades</h4>
+    <div class="row"></div>
+    <div class="row" [class.hidden]="!inReadMode">
+        <div class="input-field col s6">
+            <a [class.hidden]="!onCreatePermission" href="entity#!" class="waves-effect waves-light btn blue text-lighten-1" (click)="create()">Crear</a>
+        </div>
+        <div class="input-field col s5" [class.hidden]="!inReadMode" style="padding:4px 10px;border-bottom: 0 none">
+            <input #gb type="text" placeholder="Búsqueda">
+        </div>
+        <div class="col s1" [class.hidden]="!inReadMode">
+            <i class="fa fa-search" style="margin:40px 4px 0 0"></i>
+        </div>
+    </div>
+    <h4 [class.hidden]="!inCreateMode" class="blue-text text-lighten-1">Nuevo Entidad</h4>
+    <h4 [class.hidden]="!inEditMode" class="blue-text text-lighten-1">Editar Entidad</h4>
+    <div [class.hidden]="inReadMode" class="row">
+        <div class="col s12">
+            <form #EntityForm="ngForm">
+                <div class="row">
+                    <div class="input-field col s5">
+                        <input autofocus type="text" placeholder="" id="nit" name="nit" class="validate form-control" [(ngModel)]="currentEntity.nit"
+                            required minlength="1" maxlength="30">
+                        <label for="nit">Nit</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s5">
+                        <input type="text" placeholder="" id="businessName" name="businessName" class="validate" [(ngModel)]="currentEntity.businessName"
+                            required minlength="1" maxlength="150">
+                        <label for="businessName">Razón social</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s5">
+                        <input type="text" placeholder="" id="code" name="code" class="validate" [(ngModel)]="currentEntity.code" required minlength="1"
+                            maxlength="30">
+                        <label for="code">Código entidad</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s5">
+                        <input type="text" placeholder="" id="name" name="name" class="validate" [(ngModel)]="currentEntity.name" required minlength="1"
+                            maxlength="30">
+                        <label for="name">Nombre entidad</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                </div>
+                <div class="input-field col s12 center">
+                    <button type="button" class="waves-effect waves-light btn blue text-lighten-1" [disabled]="!EntityForm.form.valid" (click)="save()">Guardar</button>
+                    <a href="entity#!" class="waves-effect waves-light btn grey" (click)="cancel()">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <p-dataTable [class.hidden]="!inReadMode" [value]="entities" [rows]="5" [paginator]="true" [globalFilter]="gb" #dt>
+        <p-column field="nit" header="Nit" [sortable]="true" [style]="{'width': '15%'}"></p-column>
+        <p-column field="businessName" header="Razón social" [sortable]="true" [style]="{'width': '40%'}"></p-column>
+        <p-column field="code" header="Código entidad" [sortable]="true" [style]="{'width': '20%'}"></p-column>
+        <p-column field="name" header="Nombre entidad" [sortable]="true" [style]="{'width': '20%'}"></p-column>
+        <p-column styleClass="col-button" header="Acción" styleClass="text-center" [style]="{'width': '20%'}">
+            <template let-Entity="rowData" pTemplate="body">
+                <div class="row">                    
+                    <div class="col s3">
+                        <a [class.hidden]="!onEditPermission" href="entity#!" (click)="edit(Entity)" materialize="tooltip" class="tooltipped" data-tooltip="Editar">
+                            <i class="material-icons blue-text text-lighten-1">mode_edit</i>
+                        </a>
+                    </div>
+                    <div class="col s9">
+                        <a [class.hidden]="!onReadPlanRatePermission" class="blue-text text-lighten-1 left" href="entity#!" (click)="viewPlansRates(Entity)">Planes y tarifas</a>
+                    </div>
+                </div>
+            </template>
+        </p-column>
+    </p-dataTable>
+ 
+    <p-dialog [(visible)]="displayPlanRate" id="modalCreatePlan" modal="modal" minHeight="500" width="1000" responsive="true">
+        <p-header>
+            Planes y tarifas: {{currentEntity.name}}
+        </p-header>
+        <alertmessage></alertmessage>
+        <div class="col s12">
+            <form #PlanEntityForm="ngForm">
+                <div class="row">
+                    <div class="input-field col s5">
+                        <input autofocus type="text" id="name" name="name" placeholder="" class="validate form-control" [(ngModel)]="currentPlanEntity.name"
+                            required minlength="1" maxlength="30">
+                        <label for="nit">Nombre del plan</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s6" [class.hidden]="!onCreatePlanRatePermission">
+                        <button type="button" class="waves-effect waves-light btn blue text-lighten-1" [disabled]="!PlanEntityForm.form.valid" (click)="savePlanEntity()">Crear</button>
+                    </div>
+                </div>
+            </form>
+            <form #PlanEntityListForm="ngForm">
+                <div class="row">
+                    <div class="input-field col s5">
+                        <select name="planEntityId" id="planEntityId" materialize="material_select" (ngModelChange)="loadPlanRate($event)" [materializeSelectOptions]="plansEntity"
+                            [(ngModel)]="currentPlanEntity.planEntityId" class="validate" required>
+                            <option [ngValue]="undefined">Seleccione</option>
+                            <option *ngFor="let type of plansEntity" [ngValue]="type.planEntityId">{{type.name}}</option>
+                        </select>
+                        <label>Lista de planes disponibles</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s6" [class.hidden]="!onCreatePlanRatePermission">
+                        <div [class.hidden]="!onSelectedValuePlanEntity">
+                            <div class="col s3" *ngIf="validActivePlanEntity">
+                                <a class="waves-effect waves-light btn grey darken-1" href="entity#!" (click)="updatePlanEntity(false)">
+                                    Desactivar
+                                </a>
+                            </div>
+                            <div class="col s3" *ngIf="!validActivePlanEntity">
+                                <a class="waves-effect waves-light btn blue text-lighten-1" href="entity#!" (click)="updatePlanEntity(true)">
+                                    Activar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="row" [class.hidden]="!onSelectedValuePlanEntity">
+                <form #PlanRateForm="ngForm">
+                    <div class="input-field col s4">
+                        <select name="serviceId" id="serviceId" materialize="material_select" [materializeSelectOptions]="services" [(ngModel)]="currentPlanRate.serviceId"
+                            class="validate" required>
+                            <option [ngValue]="undefined">Seleccione</option>
+                            <option *ngFor="let type of services" [ngValue]="type.serviceId">{{type.name}}</option>
+                        </select>
+                        <label>Servicio</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s2">
+                        <input type="number" placeholder="" id="rate" name="rate" placeholder="" class="validate" [(ngModel)]="currentPlanRate.rate"
+                            required>
+                        <label for="rate">Tarifa</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s3">
+                        <my-date-picker name="validity" [options]="myDatePickerOptions" (dateChanged)="onValidityCHange($event)" required></my-date-picker>
+                        <label class="active">Vigencia</label>
+                    </div>
+                    <div class="input-field col s1">
+                        <label><font color="red">*</font></label>
+                    </div>
+                    <div class="input-field col s12 center">
+                        <button type="button" class="waves-effect waves-light btn blue text-lighten-1" [disabled]="!PlanRateForm.form.valid" (click)="savePlanRate()">Añadir</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row" [class.hidden]="!onSelectedValuePlanEntity">
+            <p-dataTable [value]="plansRates" [rows]="5" [paginator]="true" [globalFilter]="gb" #dt>
+                <p-column field="serviceName" header="Servicio" [sortable]="true" [style]="{'width': '40%'}"></p-column>
+                <p-column field="rate" header="Tarifa" [sortable]="true" [style]="{'width': '20%'}"></p-column>
+                <p-column field="validity" header="Vigencia" [sortable]="true" [style]="{'width': '20%'}"></p-column>
+                <p-column styleClass="col-button" header="Acción" styleClass="text-center" [style]="{'width': '20%'}">
+                    <template let-PlanRate="rowData" pTemplate="body">
+                        <a [class.hidden]="!onCreatePlanRatePermission" href="entity#!" (click)="deletePlanRate(PlanRate)" class="waves-effect waves-light btn blue text-lighten-1">
+                            Borrar
+                        </a>
+                    </template>
+                </p-column>
+            </p-dataTable>
+        </div>
+    </p-dialog>
+</div>

@@ -1,0 +1,5 @@
+{
+ "apiUrl": "http://localhost:49669/api/",
+ "debugging": true,
+ "pageSize": 5
+}
