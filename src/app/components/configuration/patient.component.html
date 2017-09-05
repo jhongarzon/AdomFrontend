@@ -8,7 +8,7 @@
             <form #PatientForm="ngForm">
                 <div class="row">
                     <div class="input-field col s5">
-                        <select name="documentType" id="documentType" materialize="material_select" [materializeSelectOptions]="documentType" [(ngModel)]="currentPatient.documentTypeId"
+                        <select name="documentType" id="documentType" (change)="findDocument()" materialize="material_select" [materializeSelectOptions]="documentType" [(ngModel)]="currentPatient.documentTypeId"
                             class="validate" required>
                             <option [ngValue]="undefined">Seleccione</option>
                             <option *ngFor="let type of documentType" [ngValue]="type.id">{{type.name}}</option>

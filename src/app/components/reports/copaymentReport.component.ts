@@ -45,11 +45,9 @@ export class CopaymentReportComponent implements OnInit {
 
     }
     public generateReport(): void {
-        debugger;
         this.copaymentReportService.getCopaymentReport(this.copaymentReportFilter)
             .subscribe((res) => {
                 if (res) {
-                    debugger;
                     FileSaver.saveAs(res, "CopaymentReport.xlsx");
                 } else {
                     this.alertService.error("No se ha recibido respuesta del servidor");

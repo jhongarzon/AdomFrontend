@@ -10,7 +10,7 @@ import { Rips } from '../../models/rips';
 import { PlanEntity } from '../../models/planEntity';
 import { RipsFilter } from '../../models/ripsFilter';
 import { RipsService } from '../../services/rips.service';
-import { RipsGenerationData } from "app/models/ripsGenerationData";
+import { RipsGenerationData } from "../../models/ripsGenerationData";
 import * as FileSaver from 'file-saver';
 import { IMyDpOptions, IMyDateModel } from 'mydatepicker';
 
@@ -153,7 +153,6 @@ export class RipsServiceComponent implements OnInit {
     }
 
     public generateRips(): void {
-        debugger;
         if (this.selectedRips == null) {
             this.alertService.error("Seleccione por lo menos un registro");
             return;
@@ -209,7 +208,6 @@ export class RipsServiceComponent implements OnInit {
         this.ripsService.generateRips(ripsGenerationData)
             .subscribe((res) => {
                 if (res) {
-                    debugger;
                     FileSaver.saveAs(res, "Rips.zip");
                     this.loadRips();
                 } else {

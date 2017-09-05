@@ -30,7 +30,6 @@ export class HomeComponent implements OnInit {
                 if (res.success) {
                     this.homeReport = res.result;
                     this.populateData();
-                    debugger;
                 } else {
                     console.error(res.errors);
                     this.alertService.error(res.errors);
@@ -38,9 +37,6 @@ export class HomeComponent implements OnInit {
             });
     }
     public populateData(): void {
-
-        debugger;
-
         let nursingClone = JSON.parse(JSON.stringify(this.barChartNursingData));
 
         for (var i = 0; i < this.homeReport.nursingStatuses.length; i++) {
@@ -61,7 +57,6 @@ export class HomeComponent implements OnInit {
             therapyClone[i] = serie;
         }
         this.barChartTherapyData = therapyClone;
-        debugger;
     }
     public barChartOptions: any = {
         scaleShowVerticalLines: false,

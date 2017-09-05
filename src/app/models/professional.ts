@@ -26,5 +26,7 @@
     familyRelationship: string;
     familyPhone: string;
     state: boolean;
-    totalRows: number
+    totalRows: number;
+    birthDateObj: Object;
+    dateAdmissionObj: Object;
 }

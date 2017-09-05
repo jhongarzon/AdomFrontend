@@ -35,14 +35,12 @@ export class LockServicesComponent implements OnInit {
         };
         this.lockService.lockDateObj = today;
         let datePipe = new DatePipe("es-CO");
-        debugger;
         this.lockService.lockDate = datePipe.transform(currentDate, 'dd/MM/yyyy');
     }
     public onLockDateChanged(event: IMyDateModel) {
         this.lockService.lockDate = event.formatted;
     }
     public updateLockDate(): void {
-        debugger;
         this.lockServicesService.update(this.lockService)
             .subscribe((res) => {
                 if (res) {
@@ -54,7 +52,6 @@ export class LockServicesComponent implements OnInit {
     }
 
     public ngOnInit() {
-        debugger;
         this.authenticationService.isAuthorize("/LockServices/Edit");
         this.onEditPermission = this.authenticationService.hasPermissionResourceAction("/LockServices/Edit");
     }

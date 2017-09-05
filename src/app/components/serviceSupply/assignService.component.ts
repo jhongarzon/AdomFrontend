@@ -86,14 +86,13 @@ export class AssignServiceComponent implements OnInit {
     public rowsRecords: number;
     public quantityTemp: number;
     public serviceFrecuencyIdTemp: number;
-    public initialDateTemp: string;
     public unitTime: Parameter[] = [];
     public documentType: Parameter[] = [];
     public gender: Parameter[] = [];
     public patientType: Parameter[] = [];
-    public validity: string;
-    public initialDate: string;
-    public finalDate: string;
+    public validity: Object;
+    public initialDate: Object;
+    public finalDate: Object;
     public oldValueState: string;
     private displayQualityTest: boolean = false;
     private qualityQuestions: QualityQuestion[] = [];
@@ -120,17 +119,13 @@ export class AssignServiceComponent implements OnInit {
         this.assignServiceDetailObservation = new AssignServiceDetail();
         this.quantityTemp = 0;
         this.serviceFrecuencyIdTemp = 0;
-        this.initialDateTemp = null;
+
         this.findPatient = " ";
         this.loadPatients();
         this.findPatient = "";
         this.loadScores();
-        let currentDate = new Date();
-        let datePipe = new DatePipe("es-CO");
-        this.currentAssignService.validity = datePipe.transform(currentDate, 'dd/MM/yyyy');
-        this.currentAssignService.initialDate = datePipe.transform(currentDate, 'dd/MM/yyyy');
-        this.currentAssignService.finalDate = datePipe.transform(currentDate, 'dd/MM/yyyy');
-        this.currentPatient.birthDate = currentDate;
+        this.initializeCalendars();
+
     }
 
     public edit(): void {
@@ -145,6 +140,7 @@ export class AssignServiceComponent implements OnInit {
         this.inReadMode = false;
         this.inCreateMode = true;
         this.displayNewService = true;
+        this.initializeCalendars();
         this.loadProfessionals();
         this.loadCoPaymentFrecuency();
         this.loadSupplies();
@@ -183,7 +179,7 @@ export class AssignServiceComponent implements OnInit {
         this.currentAssignService = new AssignService();
         this.quantityTemp = 0;
         this.serviceFrecuencyIdTemp = 0;
-        this.initialDateTemp = null;
+
         this.inEditMode = false;
         this.inReadMode = true;
         this.inCreateMode = false;
@@ -331,22 +327,26 @@ export class AssignServiceComponent implements OnInit {
         this.calculateFinalDateAssignService();
     }
 
-    public onChangeInitialDate(initialDate: string): void {
-        if (this.validateDate(initialDate)) {
-            this.initialDateTemp = initialDate;
-            this.calculateFinalDateAssignService();
-        }
-        else {
-            this.initialDate = null;
-        }
-    }
-
     public calculateFinalDateAssignService(): void {
-        if (this.quantityTemp != 0 && this.serviceFrecuencyIdTemp != 0 && this.initialDateTemp != null) {
-            this.service.calculateFinalDateAssignService(this.quantityTemp, this.serviceFrecuencyIdTemp, this.initialDateTemp)
+
+        if (this.quantityTemp != 0 && this.serviceFrecuencyIdTemp != 0 && this.currentAssignService.initialDate != null) {
+            this.service.calculateFinalDateAssignService(this.quantityTemp, this.serviceFrecuencyIdTemp, this.currentAssignService.initialDate)
                 .subscribe((res) => {
                     if (res.success) {
-                        this.currentAssignService.finalDate = res.result;
+                        debugger;
+                        let dateResult = res.result;
+                        var dateParts = dateResult.split("-");
+                        if (dateParts.length == 3) {
+                            this.currentAssignService.finalDate = dateResult.replace("-", "/").replace("-", "/");
+                            let finalDateResult = {
+                                date: {
+                                    year: parseInt(dateParts[2]),
+                                    month: parseInt(dateParts[1]),
+                                    day: parseInt(dateParts[0])
+                                }
+                            };
+                            this.finalDate = finalDateResult;
+                        }
                     } else {
                         console.error(res.errors);
                         this.alertService.error(res.errors);
@@ -399,38 +399,25 @@ export class AssignServiceComponent implements OnInit {
             });
     }
 
-    public validateDateInitial(dateValue: string): void {
-        if (!this.validateDate(dateValue)) {
-            this.initialDate = "";
-            this.currentAssignService.initialDate = "";
-        }
-    }
-
-    public validateDateFinal(dateValue: string): void {
-        if (!this.validateDate(dateValue)) {
-            this.finalDate = "";
-            this.currentAssignService.finalDate = "";
-        }
-    }
-
-    public validateDateValidity(dateValue: string): void {
-        if (!this.validateDate(dateValue)) {
-            this.validity = "";
-            this.currentAssignService.validity = "";
-        }
-    }
-
     public validateDate(dateValue: string): boolean {
-        var dateTemp: Date = new Date(dateValue);
-        var datePlusOneMonth: Date = new Date();
-        datePlusOneMonth.setDate(datePlusOneMonth.getDate() - 30);
+        debugger;
+        let dateParts = dateValue.split("/");
+        let day = dateParts[0];
+        let month = dateParts[1];
+        let year = dateParts[2];
+        if (day != null && month != null && year != null) {
+            let dateConcat = year + "-" + month + "-" + day;
+            var dateTemp: Date = new Date(dateConcat);
+            var datePlusOneMonth: Date = new Date();
+            datePlusOneMonth.setDate(datePlusOneMonth.getDate() - 30);
 
-        if (dateTemp.getTime() < datePlusOneMonth.getTime()) {
-            //this.alertService.error("La fecha no puede ser superior a un mes..");
-            return false;
-        }
-        else {
-            //this.alertService.clean(null);
+            if (dateTemp.getTime() < datePlusOneMonth.getTime()) {
+                //this.alertService.error("La fecha no puede ser superior a un mes..");
+                return false;
+            }
+            else {
+                //this.alertService.clean(null);
+            }
         }
 
         return true;
@@ -456,6 +443,7 @@ export class AssignServiceComponent implements OnInit {
     }
 
     private saveNewAssignService(): void {
+        debugger;
         if (this.validateDate(this.currentAssignService.validity) && this.validateDate(this.currentAssignService.initialDate) && this.validateDate(this.currentAssignService.finalDate)) {
             this.currentAssignService.patientId = this.currentPatient.patientId;
             this.service.create(this.currentAssignService)
@@ -464,7 +452,6 @@ export class AssignServiceComponent implements OnInit {
                         this.currentAssignService = new AssignService();
                         this.quantityTemp = 0;
                         this.serviceFrecuencyIdTemp = 0;
-                        this.initialDateTemp = null;
                         this.inEditMode = false;
                         this.inReadMode = true;
                         this.inCreateMode = false;
@@ -543,7 +530,6 @@ export class AssignServiceComponent implements OnInit {
         this.serviceDetail.getByAssignServiceId(this.currentAssignService.assignServiceId)
             .subscribe((res) => {
                 if (res.success) {
-                    debugger;
                     this.assignServicesDetail = res.result;
                 } else {
                     console.error(res.errors);
@@ -592,7 +578,7 @@ export class AssignServiceComponent implements OnInit {
     private loadPatients(): void {
         this.patientsFound = [];
         this.inFoundMode = false;
-        this.patientService.getByNamesOrDocument(this.findPatient)
+        this.patientService.getByNames(this.findPatient)
             .subscribe((res) => {
                 if (res.success) {
                     this.patientsFound = res.result;
@@ -751,13 +737,15 @@ export class AssignServiceComponent implements OnInit {
     }
 
     private convertProfessionalSelectitem(values: Professional[]): any {
+        debugger;
+        var enabledProfessionals = values.filter(x => x.state == true);
         let select: SelectItem[] = [];
         let item1 = new SelectItem();
         item1.label = "Por Asignar";
         item1.value = "-1";
         select[0] = item1;
 
-        for (var i = 0; i < values.length; i++) {
+        for (var i = 0; i < enabledProfessionals.length; i++) {
             let j = i + 1;
             let item = new SelectItem();
             item.label = values[i].firstName + (values[i].secondName == null ? " " : " " + values[i].secondName + " ") + values[i].surname + (values[i].secondSurname == null ? "" : " " + values[i].secondSurname);
@@ -866,6 +854,7 @@ export class AssignServiceComponent implements OnInit {
     }
 
     public ngOnInit() {
+
         this.rowsRecords = this.configuration.get("pageSize");
         this.authenticationService.isAuthorize("/AssignService/Get");
         this.onCreatePermission = this.authenticationService.hasPermissionResourceAction("/AssignService/Create");
@@ -874,6 +863,14 @@ export class AssignServiceComponent implements OnInit {
 
         this.configuration.ConfigHeightModals();
         this.oldValueState = "-1";
+    }
+    private initializeCalendars() {
+        let currentDate = new Date();
+        let datePipe = new DatePipe("es-CO");
+        this.currentAssignService.validity = datePipe.transform(currentDate, 'dd/MM/yyyy');
+        this.currentAssignService.initialDate = datePipe.transform(currentDate, 'dd/MM/yyyy');
+        this.currentAssignService.finalDate = datePipe.transform(currentDate, 'dd/MM/yyyy');
+        this.currentPatient.birthDate = currentDate;
     }
     private verifyVisit(assignServiceDetail: AssignServiceDetail): void {
         let details: AssignServiceDetail[] = [];
@@ -902,7 +899,6 @@ export class AssignServiceComponent implements OnInit {
             })
     }
     public qualityTest(assignServiceDetail: AssignServiceDetail): void {
-        debugger;
         this.qualityTestAssingDetailServiceId = assignServiceDetail.assignServiceDetailId;
         let assignService = this.assignServices.find(x => x.assignServiceId == assignServiceDetail.assignServiceId);
         if (assignService != null) {
@@ -920,7 +916,6 @@ export class AssignServiceComponent implements OnInit {
                     if (res.success) {
                         this.displayQualityTest = true;
                         this.qualityQuestions = res.result;
-                        debugger;
                         this.alertService.clean(null);
                     }
                     else {
@@ -971,13 +966,17 @@ export class AssignServiceComponent implements OnInit {
         this.currentAssignService.validity = event.formatted;
     }
     public onInitialDateChanged(event: IMyDateModel) {
+        debugger;
         this.currentAssignService.initialDate = event.formatted;
+
+        if (this.validateDate(this.currentAssignService.initialDate)) {
+            this.calculateFinalDateAssignService();
+        }
     }
     public onFinalDateChanged(event: IMyDateModel) {
         this.currentAssignService.finalDate = event.formatted;
     }
     public onBirthdayChanged(event: IMyDateModel) {
-        debugger;
         let date = new Date(event.formatted);
         this.currentPatient.birthDate = date;
     }

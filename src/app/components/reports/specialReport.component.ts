@@ -91,7 +91,6 @@ export class SpecialReportComponent implements OnInit {
                     this.alertService.error(res.errors);
                 }
             });
-        debugger;
         this.loadPlans(this.specialReportFilter.entityId);
 
     }
@@ -110,7 +109,6 @@ export class SpecialReportComponent implements OnInit {
         this.specialReportService.getSpecialReport(this.specialReportFilter)
             .subscribe((res) => {
                 if (res) {
-                    debugger;
                     FileSaver.saveAs(res, "SpecialReport.xlsx");
                 } else {
                     this.alertService.error("No se ha recibido respuesta del servidor");

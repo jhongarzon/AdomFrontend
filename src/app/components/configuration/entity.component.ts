@@ -55,8 +55,17 @@ export class EntityComponent implements OnInit {
         this.currentPlanEntity = new PlanEntity();
         this.currentPlanRate = new PlanRate();
         let currentDate = new Date();
+        let today = {
+            date: {
+                year: currentDate.getFullYear(),
+                month: currentDate.getMonth() + 1,
+                day: currentDate.getDate()
+            }
+        };
         let datePipe = new DatePipe("es-CO");
         this.currentPlanRate.validity = datePipe.transform(currentDate, 'dd/MM/yyyy');
+        this.currentPlanRate.validityObj = today;
+
     }
 
     public edit(Entity: Entity): void {
@@ -167,6 +176,10 @@ export class EntityComponent implements OnInit {
     }
 
     public savePlanRate(): void {
+        if(this.currentPlanRate.rate < 1){
+            this.alertService.error("La tarifa debe ser mayor a cero");
+            return;
+        }
         this.currentPlanRate.planEntityId = this.currentPlanEntity.planEntityId;
         this.servicePlanRate.create(this.currentPlanRate)
             .subscribe((res) => {
@@ -175,7 +188,17 @@ export class EntityComponent implements OnInit {
                     this.loadPlansRates();
                     this.currentPlanRate = new PlanRate();
                     this.currentPlanRate.rate = 0;
-                    this.currentPlanRate.validity = null;
+                    let currentDate = new Date();                    
+                    let datePipe = new DatePipe("es-CO");
+                    this.currentPlanRate.validity = datePipe.transform(currentDate, 'dd/MM/yyyy');
+                    let today = {
+                        date: {
+                            year: currentDate.getFullYear(),
+                            month: currentDate.getMonth() + 1,
+                            day: currentDate.getDate()
+                        }
+                    };
+                    this.currentPlanRate.validityObj = today;
                     this.loadServices();
                 }
                 else {
@@ -261,7 +284,7 @@ export class EntityComponent implements OnInit {
         this.servicePlanRate.getByEntityId(this.currencyPlanEntityId)
             .subscribe((res) => {
                 if (res.success) {
-                    this.plansRates = res.result;
+                    this.plansRates = res.result;                    
                     this.alertService.clean(null);
 
                 } else {
@@ -303,7 +326,7 @@ export class EntityComponent implements OnInit {
 
 
     }
-    public onValidityDateChanged(event: IMyDateModel) {
+    public onValidityDateChanged(event: IMyDateModel) {        
         this.currentPlanRate.validity = event.formatted;
     }
 }

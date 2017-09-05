@@ -154,7 +154,7 @@
                         <label><font color="red">*</font></label>
                     </div>
                     <div class="input-field col s3">
-                        <my-date-picker name="validity" [options]="myDatePickerOptions" (dateChanged)="onValidityCHange($event)" required></my-date-picker>
+                        <my-date-picker name="validity" [options]="myDatePickerOptions" (dateChanged)="onValidityDateChanged($event)" required [(ngModel)]="currentPlanRate.validityObj"></my-date-picker>
                         <label class="active">Vigencia</label>
                     </div>
                     <div class="input-field col s1">

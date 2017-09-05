@@ -67,7 +67,6 @@ export class NoticesComponent implements OnInit {
     {
         if(confirm('Desea eliminar el anuncio?'))
         {
-            debugger;
          this.configuration.ShowLoading();
          
           this.noticesService.delete(noticeId).subscribe((res) => {

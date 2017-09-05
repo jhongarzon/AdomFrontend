@@ -38,13 +38,51 @@ export class ProfessionalComponent implements OnInit {
         private configuration: Config, private parameterService: ParameterService) {
         this.currentProfessional = new Professional();
         let currentDate = new Date();
+        let today = {
+            date: {
+                year: currentDate.getFullYear(),
+                month: currentDate.getMonth() + 1,
+                day: currentDate.getDate()
+            }
+        };
         let datePipe = new DatePipe("es-CO");
         this.currentProfessional.birthDate = datePipe.transform(currentDate, 'dd/MM/yyyy');
-        this.currentProfessional.dateAdmission =  datePipe.transform(currentDate, 'dd/MM/yyyy');
+        this.currentProfessional.dateAdmission = datePipe.transform(currentDate, 'dd/MM/yyyy');
+        this.currentProfessional.birthDateObj = today;
+        this.currentProfessional.dateAdmissionObj = today;
     }
 
     public edit(professional: Professional): void {
         this.currentProfessional = professional;
+        debugger;
+        if (professional.birthDate != null) {
+            var birthDayParts = professional.birthDate.split("-");
+            if (birthDayParts.length == 3) {
+                let birthday = {
+                    date: {
+                        year: parseInt(birthDayParts[2]),
+                        month: parseInt(birthDayParts[1]),
+                        day: parseInt(birthDayParts[0])
+                    }
+                };
+                this.currentProfessional.birthDateObj = birthday;
+            }
+        }
+        if (professional.dateAdmission != null) {
+            var dateAdmissionParts = professional.dateAdmission.split("-");
+            if (dateAdmissionParts.length == 3) {
+                let dateAdmission = {
+                    date: {
+                        year: parseInt(dateAdmissionParts[2]),
+                        month: parseInt(dateAdmissionParts[1]),
+                        day: parseInt(dateAdmissionParts[0])
+                    }
+                };
+                this.currentProfessional.dateAdmissionObj = dateAdmission;
+            }
+        }
+
+
         this.inEditMode = true;
         this.inReadMode = false;
         this.inCreateMode = false;
@@ -107,6 +145,7 @@ export class ProfessionalComponent implements OnInit {
     }
 
     private updateProfessional(): void {
+        debugger;
         this.service.update(this.currentProfessional)
             .subscribe((res) => {
                 if (res.success) {
@@ -200,11 +239,9 @@ export class ProfessionalComponent implements OnInit {
         this.loadAccountType();
     }
     public onBirthdayChanged(event: IMyDateModel) {
-        debugger;
         this.currentProfessional.birthDate = event.formatted;
     }
     public onAdmissionDateChanged(event: IMyDateModel) {
-        debugger;
         this.currentProfessional.dateAdmission = event.formatted;
     }
 }

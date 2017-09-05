@@ -6,9 +6,9 @@ import { AuthenticationService } from './authentication.service';
 
 @Injectable()
 export class AssignServiceService {
-        
 
-    constructor(private http: Http, private configuration: Config, private authenticationService: AuthenticationService) { 
+
+    constructor(private http: Http, private configuration: Config, private authenticationService: AuthenticationService) {
     }
 
     getAllWithoutPagination() {
@@ -20,7 +20,8 @@ export class AssignServiceService {
     }
 
     calculateFinalDateAssignService(quantity: number, serviceFrecuencyId: number, initialDate: string) {
-        return this.http.get(this.configuration.get("apiUrl") + 'assignService/' + quantity + "/" + serviceFrecuencyId + "/" + initialDate, this.authenticationService.jwt()).map((response: Response) => response.json());
+        let iniDate = initialDate.replace("/", "-").replace("/", "-");
+        return this.http.get(this.configuration.get("apiUrl") + 'assignService/' + quantity + "/" + serviceFrecuencyId + "/" + iniDate, this.authenticationService.jwt()).map((response: Response) => response.json());
     }
 
     create(assignService: AssignService) {

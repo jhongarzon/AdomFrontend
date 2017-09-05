@@ -61,10 +61,8 @@ export class Config {
                     }
                 );
             } catch (error) {
-                debugger;
+                console.log(error);
             }
-
-
         });
     }
 

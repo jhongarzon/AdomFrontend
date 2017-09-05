@@ -235,7 +235,7 @@
         <alertmessage></alertmessage>
         <div class="row">
             <div class="col s12">
-                <form #assignSupplyForm="ngForm">
+                <form #assignSupplyForm="ngForm" >
                     <div class="row">
                         <div class="input-field col s5">
                             <select name="supplyId" id="supplyId" materialize="material_select" [materializeSelectOptions]="supplies" [(ngModel)]="assignServiceSupplyTemp.supplyId"
@@ -510,7 +510,7 @@
                             <label><font color="red">*</font></label>
                         </div>
                         <div class="input-field col s3">
-                            <my-date-picker name="validity" [options]="myDatePickerOptions" (dateChanged)="onValidityDateChanged($event)" required></my-date-picker>
+                            <my-date-picker name="validity" [options]="myDatePickerOptions" (dateChanged)="onValidityDateChanged($event)" required [(ngModel)]="validity"></my-date-picker>
                             <label class="active" for="validity">Fecha de vigencia</label>
                         </div>
                         <div class="input-field col s1">
@@ -560,14 +560,14 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s3">
-                            <my-date-picker name="initialDate" [options]="myDatePickerOptions" (dateChanged)="onInitialDateChanged($event)" required></my-date-picker>
+                            <my-date-picker name="initialDate" [options]="myDatePickerOptions" (dateChanged)="onInitialDateChanged($event)" required [(ngModel)]="initialDate"></my-date-picker>
                             <label class="active" for="initialDate">F. Inicio</label>
                         </div>
                         <div class="input-field col s1">
                             <label><font color="red">*</font></label>
                         </div>
                         <div class="input-field col s3">
-                            <my-date-picker name="finalDate" [options]="myDatePickerOptions" (dateChanged)="onInitialDateChanged($event)" required></my-date-picker>
+                            <my-date-picker name="finalDate" [options]="myDatePickerOptions" (dateChanged)="onFinalDateChanged($event)" required [(ngModel)]="finalDate"></my-date-picker>
                             <label class="active" for="finalDate">F. Finalización</label>
                         </div>
                         <div class="input-field col s1">
@@ -639,7 +639,7 @@
     <p-dialog header="Editar servicio" [(visible)]="displayEditService" modal="modal" width="800" responsive="true">
         <alertmessage></alertmessage>
         <div class="col s12">
-            <form #assignServiceForm="ngForm">
+            <form #editServiceForm="ngForm">
                 <div class="row">
                     <div class="input-field col s6">
                         <input type="text" id="authorizationNumber" placeholder="" name="authorizationNumber" class="validate" [(ngModel)]="currentAssignService.authorizationNumber"
@@ -679,7 +679,7 @@
     <alertmessage></alertmessage>
     <p-dialog collapsed="true" header="Evaluación de calidad" [(visible)]="displayQualityTest" modal="modal" width="800" responsive="true">
         <div class="col s12">
-            <form #assignServiceForm="ngForm">
+            <form #qualityTestForm="ngForm">
                 <ul *ngFor="let item of qualityQuestions; let i = index" [attr.data-index]="i">
                     <div class="row">
                         <div class="col s6">
@@ -697,23 +697,5 @@
                 </div>
             </form>
         </div>
-    </p-dialog>
-    <!--<p-fieldset collapsed="true" legend="Observación del servicio" [class.hidden]="!inServiceSelectMode" [toggleable]="true">
-        <div class="col s12">
-            <form #assignServiceObservationForm="ngForm">
-                <div class="row">
-                    <div class="input-field col s12">
-                        <textarea placeholder="" id="observation" name="observation" maxlength="120" [(ngModel)]="currentAssignService.observation" class="materialize-textarea"></textarea>
-                        <label for="observation">Observaciones</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s12 center">
-                        <button type="button" class="waves-effect waves-light btn blue text-lighten-1" [disabled]="!assignServiceObservationForm.form.valid"
-                            (click)="save()">Guardar</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </p-fieldset>-->
+    </p-dialog>    
 </div>

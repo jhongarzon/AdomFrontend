@@ -4,7 +4,7 @@ import { ParameterService } from '../../services/parameter.service';
 import { Patient } from '../../models/patient';
 import { Parameter } from '../../models/parameter';
 import { AlertService } from '../../services/alert.service';
-import {  AuthenticationService } from '../../services/authentication.service';
+import { AuthenticationService } from '../../services/authentication.service';
 import { Config } from "../../config/config";
 import { IMyDpOptions, IMyDateModel } from 'mydatepicker';
 @Component({
@@ -20,17 +20,20 @@ export class PatientComponent implements OnInit {
     public patientType: Parameter[] = [];
     public inEditMode: boolean = false;
     public inReadMode: boolean = true;
-    public onCreatePermission : boolean = false;
-    public onEditPermission : boolean = false;
+    public documentIsValid: boolean = false;
+    public onCreatePermission: boolean = false;
+    public onEditPermission: boolean = false;
     public inCreateMode: boolean = false;
     public currentPatient: Patient;
+    public documentToEdit: string = "";
+    public documentTypeToEdit: number = 0;
     private myDatePickerOptions: IMyDpOptions = {
         dateFormat: 'dd/mm/yyyy', editableDateField: false, openSelectorOnInputClick: true
     };
 
     constructor(private service: PatientService, private alertService: AlertService,
-                private authenticationService: AuthenticationService,
-                private configuration: Config, private parameterService: ParameterService) {
+        private authenticationService: AuthenticationService,
+        private configuration: Config, private parameterService: ParameterService) {
         this.currentPatient = new Patient();
         let currentDate = new Date();
         this.currentPatient.birthDate = currentDate;
@@ -38,7 +41,10 @@ export class PatientComponent implements OnInit {
 
     public edit(Patient: Patient): void {
         this.currentPatient = Patient;
+        this.documentToEdit = Patient.document;
+        this.documentTypeToEdit = Patient.documentTypeId;
         this.inEditMode = true;
+        this.documentIsValid = true;
         this.inReadMode = false;
         this.inCreateMode = false;
     }
@@ -67,63 +73,78 @@ export class PatientComponent implements OnInit {
     }
 
     public findDocument(): void {
-        this.service.getByNamesOrDocument(this.currentPatient.document)
-            .subscribe((res) => {
-                if (res.success) {
-                    if(res.result.length > 0){
-                        this.alertService.error("El documento ya existe.");
+        if (this.currentPatient != null && this.currentPatient.documentTypeId > 0 && this.currentPatient.document == undefined) {
+            return;
+        }
+        if (this.inEditMode && this.currentPatient.document == this.documentToEdit && this.currentPatient.documentTypeId == this.documentTypeToEdit) {
+            return;
+        }
+        if (this.currentPatient != null && this.currentPatient.document != undefined) {
+
+            this.service.getByDocument(this.currentPatient.documentTypeId, this.currentPatient.document)
+                .subscribe((res) => {
+                    if (res.success) {
+                        if (res.result.length > 0) {
+                            this.documentIsValid = false;
+                            this.alertService.error("El documento ya existe.");
+                        }
+                        else {
+                            this.documentIsValid = true;
+                            this.alertService.clean(null);
+                        }
+                    } else {
+                        this.documentIsValid = false;
+                        console.error(res.errors);
+                        this.alertService.error(res.errors);
                     }
-                    else{
-                        this.alertService.clean(null);
-                    }
-                } else {
-                    console.error(res.errors);
-                    this.alertService.error(res.errors);
-                }
-            });
+                });
+        } else {
+            this.alertService.error("Seleccione un tipo de documento");
+        }
     }
 
-    public calculateAge(event: IMyDateModel) :void{
-        debugger;
+    public calculateAge(event: IMyDateModel): void {
         let date = new Date(event.formatted);
         this.currentPatient.birthDate = date;
         this.ValidateFutureDate(this.currentPatient.birthDate);
         let birthDate = new Date(this.currentPatient.birthDate);
         let birthMonth = birthDate.getMonth();
         let birthDay = birthDate.getDay();
-        let todayDate= new Date();
+        let todayDate = new Date();
         let todayYear = todayDate.getFullYear();
         let todayMonth = todayDate.getMonth();
         let todayDay = todayDate.getDate();
-        let age = todayYear - birthDate.getFullYear(); 
+        let age = todayYear - birthDate.getFullYear();
 
-        if (todayMonth < birthMonth - 1)
-        {
+        if (todayMonth < birthMonth - 1) {
             age--;
         }
 
-        if (birthMonth - 1 == todayMonth && todayDay < birthDay)
-        {
+        if (birthMonth - 1 == todayMonth && todayDay < birthDay) {
             age--;
         }
 
         this.currentPatient.age = age;
     }
 
-    public ValidateFutureDate(date: Date) : void {
-        let todayDate= new Date();
+    public ValidateFutureDate(date: Date): void {
+        let todayDate = new Date();
         let dateValue = new Date(date);
 
-        if(dateValue > todayDate){
+        if (dateValue > todayDate) {
             this.alertService.error("Debe diligenciar una fecha inferior o igual a hoy");
             date = null;
         }
-        else{
+        else {
             this.alertService.clean(null);
         }
     }
 
     private saveNewPatient(): void {
+        if (!this.documentIsValid) {
+            this.alertService.error("El documento ingresado ya existe en el sistema");
+            return;
+        }
         this.service.create(this.currentPatient)
             .subscribe((res) => {
                 if (res.success) {
@@ -143,6 +164,13 @@ export class PatientComponent implements OnInit {
     }
 
     private updatePatient(): void {
+        if (this.currentPatient.document == this.documentToEdit && this.currentPatient.documentTypeId == this.documentTypeToEdit) {
+            this.documentIsValid = true;
+        }
+        if (!this.documentIsValid) {
+            this.alertService.error("El documento ingresado ya existe en el sistema");
+            return;
+        }
         this.service.update(this.currentPatient)
             .subscribe((res) => {
                 if (res.success) {

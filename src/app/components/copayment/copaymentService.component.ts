@@ -53,7 +53,6 @@ export class CopaymentServicesComponent implements OnInit {
     ngOnInit(): void {
         this.authenticationService.isAuthorize("/Copayment/Get");
         this.hasSearchPermission = this.authenticationService.hasPermissionResourceAction("/Copayment/Get");
-        debugger;
         this.hasEditPermission = this.authenticationService.hasPermissionResourceAction("/Copayment/Edit");
         this.copaymentStatuses = this.loadCopaymentStatuses();
         this.serviceStatuses = this.loadServiceStatuses();
@@ -71,7 +70,6 @@ export class CopaymentServicesComponent implements OnInit {
         this.copaymentService.getCopayments(this.copaymentFilter.professionalId, this.copaymentFilter.serviceStatusId, this.copaymentFilter.copaymentStatusId)
             .subscribe((res) => {
                 if (res.success) {
-                    debugger;
                     this.copayments = res.result;
                 } else {
                     console.error(res.errors);
@@ -161,7 +159,6 @@ export class CopaymentServicesComponent implements OnInit {
         }
         let hasErrors = false;
         this.selectedCopayments.forEach(element => {
-            debugger;
             if (element != null) {
                 if (element.valueToPayToProfessional == null || element.valueToPayToProfessional < 1) {
                     this.alertService.error("El valor a pagar al profesional no se encuentra configurado correctamente Aut:" + element.authorizationNumber);
@@ -203,12 +200,10 @@ export class CopaymentServicesComponent implements OnInit {
         this.selectedCopayments
     }
     public saveChanges() {
-        debugger;
         this.selectedCopayments.forEach(element => {
             let counter = 0;
             this.copaymentService.markAsDelivered(element)
                 .subscribe((res) => {
-                    debugger;
                     if (res.success) {
                         this.currentCopayment = res.result;
                         if (this.currentCopayment == null) {

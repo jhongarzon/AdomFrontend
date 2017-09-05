@@ -4,7 +4,7 @@ import { Config } from "../config/config";
 import { AuthenticationService } from './authentication.service';
 import { Copayment } from '../models/copayment';
 import { CopaymentReportFilter } from '../models/copaymentReportFilter';
-import { RipsGenerationData } from "app/models/ripsGenerationData";
+import { RipsGenerationData } from "../../app/models/ripsGenerationData";
 
 @Injectable()
 export class CopaymentReportService {

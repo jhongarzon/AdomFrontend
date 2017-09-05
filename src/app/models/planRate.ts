@@ -5,4 +5,5 @@
     serviceName: string;
     rate: number;
     validity: string;
+    validityObj: Object;
 }

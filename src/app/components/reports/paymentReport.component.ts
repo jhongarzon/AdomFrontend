@@ -73,7 +73,6 @@ export class PaymentReportComponent implements OnInit {
         this.paymentReportService.getPaymentReport(this.paymentReportFilter)
             .subscribe((res) => {
                 if (res) {
-                    debugger;
                     FileSaver.saveAs(res, "PaymentReport.xlsx");
                 } else {
                     this.alertService.error("No se ha recibido respuesta del servidor");

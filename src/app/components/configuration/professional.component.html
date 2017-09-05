@@ -38,6 +38,8 @@
                     <div class="input-field col s1">
                         <label><font color="red">*</font></label>
                     </div>
+                </div>
+                <div class="row">
                     <div class="input-field col s5">
                         <input type="text" placeholder="" id="firstName" name="firstName" class="validate" [(ngModel)]="currentProfessional.firstName"
                             required minlength="1" maxlength="30">
@@ -50,6 +52,8 @@
                         <input type="text" placeholder="" id="secondName" name="secondName" class="validate" [(ngModel)]="currentProfessional.secondName">
                         <label for="secondName">Segundo nombre</label>
                     </div>
+                </div>
+                <div class="row">
                     <div class="input-field col s5">
                         <input type="text" placeholder="" id="surname" name="surname" class="validate" [(ngModel)]="currentProfessional.surname"
                             required minlength="1" maxlength="30">
@@ -63,6 +67,18 @@
                             minlength="1" maxlength="30">
                         <label for="secondSurname">Segundo apellido</label>
                     </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <my-date-picker name="birthDate" [options]="myDatePickerOptions" (dateChanged)="onBirthdayChanged($event)" [(ngModel)]="currentProfessional.birthDateObj"></my-date-picker>
+                        <label class="active">Fecha de nacimiento</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <my-date-picker name="dateAdmission" [options]="myDatePickerOptions" (dateChanged)="onAdmissionDateChanged($event)"  [(ngModel)]="currentProfessional.dateAdmissionObj"></my-date-picker>
+                        <label class="active">Fecha de ingreso</label>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="input-field col s5">
                         <input name="groupGender" [(ngModel)]="currentProfessional.genderId" [value]="1" required class="validate" id="masculino"
                             type="radio" />
@@ -72,6 +88,7 @@
                         <label for="femenino">Femenino</label>
                         <label class="active">Género</label>
                     </div>
+                    <div class="row"></div>
                     <div class="input-field col s1">
                         <label><font color="red">*</font></label>
                     </div>
@@ -86,14 +103,8 @@
                     <div class="input-field col s1">
                         <label><font color="red">*</font></label>
                     </div>
-                    <div class="input-field col s6">
-                        <my-date-picker name="birthDate" [options]="myDatePickerOptions" (dateChanged)="onBirthdayChanged($event)" required></my-date-picker>                        
-                        <label class="active">Fecha de nacimiento</label>
-                    </div>
-                    <div class="input-field col s6">
-                        <my-date-picker name="dateAdmission" [options]="myDatePickerOptions" (dateChanged)="onAdmissionDateChanged($event)" required></my-date-picker>
-                        <label class="active">Fecha de ingreso</label>
-                    </div>
+                </div>
+                <div class="row">
                     <div class="input-field col s5">
                         <input type="text" placeholder="" id="address" name="address" class="validate" [(ngModel)]="currentProfessional.address"
                             required minlength="1" maxlength="200">
@@ -107,6 +118,8 @@
                         />
                         <label for="neighborhood">Barrio</label>
                     </div>
+                </div>
+                <div class="row">
                     <div class="input-field col s5">
                         <input type="text" placeholder="" id="telephone1" name="telephone1" pattern="[0-9]{10}" class="validate" [(ngModel)]="currentProfessional.telephone1"
                             required/>
@@ -120,6 +133,8 @@
                         />
                         <label for="telephone2">Teléfono 2</label>
                     </div>
+                </div>
+                <div class="row">
                     <div class="input-field col s5">
                         <input autofocus type="email" placeholder="" id="email" name="email" class="validate form-control" [(ngModel)]="currentProfessional.email"
                             required minlength="4" maxlength="100">
@@ -136,11 +151,15 @@
                     <div class="input-field col s1">
                         <label><font color="red">*</font></label>
                     </div>
+                </div>
+                <div class="row">
                     <div class="input-field col s12">
                         <input type="text" placeholder="" id="coverage" name="coverage" class="validate" [(ngModel)]="currentProfessional.coverage"
                         />
                         <label for="coverage">Cobertura</label>
                     </div>
+                </div>
+                <div class="row">
                     <div class="input-field col s6">
                         <input type="text" placeholder="" id="familyName" name="familyName" class="validate" [(ngModel)]="currentProfessional.familyName"
                         />
@@ -151,6 +170,8 @@
                         />
                         <label for="familyRelationship">Relación</label>
                     </div>
+                </div>
+                <div class="row">
                     <div class="input-field col s6">
                         <input type="text" placeholder="" id="familyPhone" name="familyPhone" pattern="[0-9]{10}" class="validate" [(ngModel)]="currentProfessional.familyPhone"
                         />

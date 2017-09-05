@@ -87,7 +87,6 @@ export class ProfessionalAssignedServicesComponent implements OnInit {
         if (this.currentAssignService == null) {
             this.currentAssignService = this.completedServices.find(item => item.serviceId == professionalService.serviceId);
         }
-        debugger;
         this.patientService.getById(professionalService.patientId)
             .subscribe((res) => {
 
@@ -135,7 +134,6 @@ export class ProfessionalAssignedServicesComponent implements OnInit {
         return items;
     }
     public markDetailAsCompleted(assignServiceDetail: AssignServiceDetail): void {
-        debugger;
         if (assignServiceDetail.paymentType == 0) {
             this.configuration.ShowAlertMessage("Ingrese un medio de pago");
             return;

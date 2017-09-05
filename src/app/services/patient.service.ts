@@ -6,20 +6,22 @@ import { AuthenticationService } from './authentication.service';
 
 @Injectable()
 export class PatientService {
-        
 
-    constructor(private http: Http, private configuration: Config, private authenticationService: AuthenticationService) { 
+
+    constructor(private http: Http, private configuration: Config, private authenticationService: AuthenticationService) {
     }
 
-    getAll(pageNumber:number, pageSize: number) {
+    getAll(pageNumber: number, pageSize: number) {
         return this.http.get(this.configuration.get("apiUrl") + 'patient?pageNumber=' + pageNumber + '&pageSize=' + pageSize, this.authenticationService.jwt()).map((response: Response) => response.json());
     }
 
     getAllWithoutPagination() {
         return this.http.get(this.configuration.get("apiUrl") + 'patient', this.authenticationService.jwt()).map((response: Response) => response.json());
     }
-
-    getByNamesOrDocument(dataFind: string) {
+    getByDocument(documentTypeId: number, dataFind: string) {
+        return this.http.get(this.configuration.get("apiUrl") + 'patient/' + documentTypeId + "/" + dataFind + "/1", this.authenticationService.jwt()).map((response: Response) => response.json());
+    }
+    getByNames(dataFind: string) {
         return this.http.get(this.configuration.get("apiUrl") + 'patient/' + dataFind, this.authenticationService.jwt()).map((response: Response) => response.json());
     }
 
