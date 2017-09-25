@@ -26,6 +26,9 @@ export class SpecialReportComponent implements OnInit {
     public planEntityList: PlanEntity[] = [];
     public patientTypeList: SelectItem[] = [];
     public reportTypeList: SelectItem[] = [];
+    private myDatePickerOptions: IMyDpOptions = {
+        dateFormat: 'dd/mm/yyyy', editableDateField: false, openSelectorOnInputClick: true
+    };
 
     constructor(
         private authenticationService: AuthenticationService,
@@ -55,7 +58,7 @@ export class SpecialReportComponent implements OnInit {
         items[1] = acute;
         return items;
     }
-     public loadReportTypes(): any {
+    public loadReportTypes(): any {
         let items: SelectItem[] = [];
 
         let consolidated = new SelectItem();
@@ -106,6 +109,31 @@ export class SpecialReportComponent implements OnInit {
             });
     }
     public generateReport(): void {
+        if (this.specialReportFilter.initialDateIni != null && this.specialReportFilter.initialDateEnd == null) {
+            this.alertService.error("Debe completar el rango para la fecha inicial");
+            return;
+        }
+        if (this.specialReportFilter.initialDateEnd != null && this.specialReportFilter.initialDateIni == null) {
+            this.alertService.error("Debe completar el rango para la fecha inicial");
+            return;
+        }
+        if (this.specialReportFilter.requestDateIni != null && this.specialReportFilter.requestDateEnd == null) {
+            this.alertService.error("Debe completar el rango para la fecha de solicitud");
+            return;
+        }
+        if (this.specialReportFilter.requestDateEnd != null && this.specialReportFilter.requestDateIni == null) {
+            this.alertService.error("Debe completar el rango para la fecha de solicitud");
+            return;
+        }
+        if (this.specialReportFilter.visitDateIni != null && this.specialReportFilter.visitDateEnd == null) {
+            this.alertService.error("Debe completar el rango para la fecha de solicitud");
+            return;
+        }
+        if (this.specialReportFilter.visitDateEnd != null && this.specialReportFilter.visitDateIni == null) {
+            this.alertService.error("Debe completar el rango para la fecha de visita");
+            return;
+        }
+
         this.specialReportService.getSpecialReport(this.specialReportFilter)
             .subscribe((res) => {
                 if (res) {
@@ -115,13 +143,46 @@ export class SpecialReportComponent implements OnInit {
                 }
             });
     }
-    onInitialDateChanged(event: IMyDateModel) {
-        this.specialReportFilter.initialDate = event.formatted;
+    onInitialDateIniChanged(event: IMyDateModel) {
+        if (event.formatted == "") {
+            this.specialReportFilter.initialDateIni = null;
+        } else {
+            this.specialReportFilter.initialDateIni = event.formatted;
+        }
     }
-    onRequestDateChanged(event: IMyDateModel) {
-        this.specialReportFilter.requestDate = event.formatted;
+    onRequestDateIniChanged(event: IMyDateModel) {
+        if (event.formatted == "") {
+            this.specialReportFilter.requestDateIni = null;
+        } else {
+            this.specialReportFilter.requestDateIni = event.formatted;
+        }
     }
-    onVisitDateChanged(event: IMyDateModel) {
-        this.specialReportFilter.visitDate = event.formatted;
+    onVisitDateIniChanged(event: IMyDateModel) {
+        if (event.formatted == "") {
+            this.specialReportFilter.visitDateIni = null;
+        } else {
+            this.specialReportFilter.visitDateIni = event.formatted;
+        }
+    }
+    onInitialDateEndChanged(event: IMyDateModel) {
+        if (event.formatted == "") {
+            this.specialReportFilter.initialDateEnd = null;
+        } else {
+            this.specialReportFilter.initialDateEnd = event.formatted;
+        }
+    }
+    onRequestDateEndChanged(event: IMyDateModel) {
+        if (event.formatted == "") {
+            this.specialReportFilter.requestDateEnd = null;
+        } else {
+            this.specialReportFilter.requestDateEnd = event.formatted;
+        }
+    }
+    onVisitDateEndChanged(event: IMyDateModel) {
+        if (event.formatted == "") {
+            this.specialReportFilter.visitDateEnd = null;
+        } else {
+            this.specialReportFilter.visitDateEnd = event.formatted;
+        }
     }
 }

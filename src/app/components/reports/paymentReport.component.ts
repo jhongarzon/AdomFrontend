@@ -22,6 +22,9 @@ export class PaymentReportComponent implements OnInit {
     public entityList: Entity[] = [];
     public serviceList: Service[] = [];
     public planEntityList: PlanEntity[] = [];
+    private myDatePickerOptions: IMyDpOptions = {
+        dateFormat: 'dd/mm/yyyy', editableDateField: false, openSelectorOnInputClick: true
+    };
 
     constructor(
         private authenticationService: AuthenticationService,
@@ -59,6 +62,7 @@ export class PaymentReportComponent implements OnInit {
 
     }
     private loadPlans(entityId: number): void {
+        this.paymentReportFilter.planEntityId = -1;
         this.planEntityService.getByEntityId(entityId)
             .subscribe((res) => {
                 if (res.success) {
@@ -70,6 +74,14 @@ export class PaymentReportComponent implements OnInit {
             });
     }
     public generateReport(): void {
+        if (this.paymentReportFilter.initialDateIni != null && this.paymentReportFilter.initialDateEnd == null) {
+            this.alertService.error("Debe completar el rango para la fecha de atención");
+            return;
+        }
+        if (this.paymentReportFilter.initialDateEnd != null && this.paymentReportFilter.initialDateIni == null) {
+            this.alertService.error("Debe completar el rango para la fecha de atención");
+            return;
+        }
         this.paymentReportService.getPaymentReport(this.paymentReportFilter)
             .subscribe((res) => {
                 if (res) {
@@ -79,7 +91,18 @@ export class PaymentReportComponent implements OnInit {
                 }
             });
     }
-    onInitialDateChanged(event: IMyDateModel) {
-        this.paymentReportFilter.initialDate = event.formatted;
+    onInitialDateIniChanged(event: IMyDateModel) {
+        if (event.formatted == "") {
+            this.paymentReportFilter.initialDateIni = null;
+        } else {
+            this.paymentReportFilter.initialDateIni = event.formatted;
+        }        
+    }
+    onInitialDateEndChanged(event: IMyDateModel) {
+        if (event.formatted == "") {
+            this.paymentReportFilter.initialDateEnd = null;
+        } else {
+            this.paymentReportFilter.initialDateEnd = event.formatted;
+        }
     }
 }

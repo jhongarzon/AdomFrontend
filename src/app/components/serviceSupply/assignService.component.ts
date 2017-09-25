@@ -333,7 +333,7 @@ export class AssignServiceComponent implements OnInit {
             this.service.calculateFinalDateAssignService(this.quantityTemp, this.serviceFrecuencyIdTemp, this.currentAssignService.initialDate)
                 .subscribe((res) => {
                     if (res.success) {
-                        debugger;
+
                         let dateResult = res.result;
                         var dateParts = dateResult.split("-");
                         if (dateParts.length == 3) {
@@ -400,7 +400,7 @@ export class AssignServiceComponent implements OnInit {
     }
 
     public validateDate(dateValue: string): boolean {
-        debugger;
+
         let dateParts = dateValue.split("/");
         let day = dateParts[0];
         let month = dateParts[1];
@@ -425,6 +425,7 @@ export class AssignServiceComponent implements OnInit {
 
     private updateDetails(): void {
         this.configuration.ShowLoading();
+        debugger;
         this.currentAssignService.patientId = this.currentPatient.patientId;
         this.serviceDetail.update(this.currentAssignService.assignServiceId, this.assignServicesDetail)
             .subscribe((res) => {
@@ -443,7 +444,7 @@ export class AssignServiceComponent implements OnInit {
     }
 
     private saveNewAssignService(): void {
-        debugger;
+
         if (this.validateDate(this.currentAssignService.validity) && this.validateDate(this.currentAssignService.initialDate) && this.validateDate(this.currentAssignService.finalDate)) {
             this.currentAssignService.patientId = this.currentPatient.patientId;
             this.service.create(this.currentAssignService)
@@ -559,6 +560,7 @@ export class AssignServiceComponent implements OnInit {
     }
 
     private onRowSelectAssignService(assignServiceObject: any): void {
+
         this.configuration.ShowLoading();
         this.currentAssignService = assignServiceObject.data;
         this.inEditMode = true;
@@ -573,6 +575,7 @@ export class AssignServiceComponent implements OnInit {
         this.loadAssignServicesSupply();
         this.loadStateDetail();
         this.loadEntities();
+
     }
 
     private loadPatients(): void {
@@ -614,6 +617,7 @@ export class AssignServiceComponent implements OnInit {
         this.entityService.getAllWithoutPagination()
             .subscribe((res) => {
                 if (res.success) {
+
                     this.entities = res.result;
                     this.alertService.clean(null);
                 } else {
@@ -631,6 +635,7 @@ export class AssignServiceComponent implements OnInit {
             .subscribe((res) => {
                 if (res.success) {
                     this.professionalsSelect = this.convertProfessionalSelectitem(res.result);
+
                     this.professionals = res.result;
                     this.alertService.clean(null);
                 } else {
@@ -647,6 +652,7 @@ export class AssignServiceComponent implements OnInit {
         this.supplyService.getAllWithoutPagination()
             .subscribe((res) => {
                 if (res.success) {
+
                     this.supplies = res.result;
                     this.alertService.clean(null);
                 } else {
@@ -678,6 +684,7 @@ export class AssignServiceComponent implements OnInit {
         this.inFoundMode = false;
         this.coPaymentFrecService.getAllWithoutPagination()
             .subscribe((res) => {
+
                 if (res.success) {
                     this.coPaymentsFrecuency = res.result;
                     this.alertService.clean(null);
@@ -694,6 +701,7 @@ export class AssignServiceComponent implements OnInit {
         this.parameterService.getData("billedTo")
             .subscribe((res) => {
                 if (res.success) {
+
                     this.billedTo = res.result;
                     this.alertService.clean(null);
                 } else {
@@ -737,7 +745,7 @@ export class AssignServiceComponent implements OnInit {
     }
 
     private convertProfessionalSelectitem(values: Professional[]): any {
-        debugger;
+
         var enabledProfessionals = values.filter(x => x.state == true);
         let select: SelectItem[] = [];
         let item1 = new SelectItem();
@@ -966,7 +974,7 @@ export class AssignServiceComponent implements OnInit {
         this.currentAssignService.validity = event.formatted;
     }
     public onInitialDateChanged(event: IMyDateModel) {
-        debugger;
+
         this.currentAssignService.initialDate = event.formatted;
 
         if (this.validateDate(this.currentAssignService.initialDate)) {
@@ -979,5 +987,10 @@ export class AssignServiceComponent implements OnInit {
     public onBirthdayChanged(event: IMyDateModel) {
         let date = new Date(event.formatted);
         this.currentPatient.birthDate = date;
+    }
+    public onDateVisitChanged(event, details: AssignServiceDetail) {
+        debugger;
+        let d = new Date(Date.parse(event));
+        details.dateVisit = `${("0" + d.getDate()).slice(-2)}-${("0" + (d.getMonth()+1)).slice(-2)}-${d.getFullYear()}`;
     }
 }

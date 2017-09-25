@@ -7,7 +7,7 @@
         <div class="input-field col s3">
             <select name="serviceId" id="serviceId" materialize="material_select" [materializeSelectOptions]="serviceList" [(ngModel)]="specialReportFilter.serviceId"
                 class="validate" required>
-                    <option [ngValue]="undefined">Seleccione...</option>
+                    <option [ngValue]="-1">Todos</option>
                     <option *ngFor="let c of serviceList" [ngValue]="c.serviceId">{{c.name}}</option>
             </select>
             <label>Servicio</label>
@@ -15,7 +15,7 @@
         <div class="input-field col s3">
             <select name="entityId" id="entityId" materialize="material_select" [materializeSelectOptions]="entityList" [(ngModel)]="specialReportFilter.entityId"
                 class="validate" required>
-                    <option [ngValue]="undefined">Seleccione...</option>
+                    <option [ngValue]="-1">Todos</option>
                     <option *ngFor="let c of entityList"  [ngValue]="c.entityId">{{c.name}}</option>
             </select>
             <label>Entidad</label>
@@ -23,7 +23,7 @@
         <div class="input-field col s3">
             <select name="patientType" id="patientType" materialize="material_select" [materializeSelectOptions]="patientTypeList" [(ngModel)]="specialReportFilter.patientType"
                 class="validate" required>
-                 <option [ngValue]="undefined">Seleccione...</option>
+                    <option [ngValue]="-1">Todos</option>
                     <option *ngFor="let c of patientTypeList" [ngValue]="c.value">{{c.label}}</option>
             </select>
             <label>Tipo Paciente</label>
@@ -41,21 +41,36 @@
     <div class="row">
         <div class="input-field col s3">
             <br>
-            <my-date-picker name="initialDate" [options]="myDatePickerOptions" (dateChanged)="onInitialDateChanged($event)" [(ngModel)]="specialReportFilter.initialDateObj"
-                required></my-date-picker>
+            <my-date-picker name="initialDateIni" [options]="myDatePickerOptions" (dateChanged)="onInitialDateIniChanged($event)" required></my-date-picker>
             <label class="active">Fecha inicio</label>
         </div>
 
         <div class="input-field col s3">
             <br>
-            <my-date-picker name="requestDate" [options]="myDatePickerOptions" (dateChanged)="onRequestDateChanged($event)" [(ngModel)]="specialReportFilter.requestDateObj"
-                required></my-date-picker>
+            <my-date-picker name="requestDateIni" [options]="myDatePickerOptions" (dateChanged)="onRequestDateIniChanged($event)" required></my-date-picker>
             <label class="active">Fecha solicitud</label>
         </div>
         <div class="input-field col s3">
             <br>
-            <my-date-picker name="visitDate" [options]="myDatePickerOptions" (dateChanged)="onVisitDateChanged($event)" [(ngModel)]="specialReportFilter.visitDateObj"
-                required></my-date-picker>
+            <my-date-picker name="visitDateIni" [options]="myDatePickerOptions" (dateChanged)="onVisitDateIniChanged($event)" required></my-date-picker>
+            <label class="active">Fecha atención</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s3">
+            <br>
+            <my-date-picker name="initialDateEnd" [options]="myDatePickerOptions" (dateChanged)="onInitialDateEndChanged($event)" required></my-date-picker>
+            <label class="active">Fecha inicio</label>
+        </div>
+
+        <div class="input-field col s3">
+            <br>
+            <my-date-picker name="requestDateEnd" [options]="myDatePickerOptions" (dateChanged)="onRequestDateEndChanged($event)" required></my-date-picker>
+            <label class="active">Fecha solicitud</label>
+        </div>
+        <div class="input-field col s3">
+            <br>
+            <my-date-picker name="visitDateEnd" [options]="myDatePickerOptions" (dateChanged)="onVisitDateEndChanged($event)" required></my-date-picker>
             <label class="active">Fecha atención</label>
         </div>
         <div class="col s2">

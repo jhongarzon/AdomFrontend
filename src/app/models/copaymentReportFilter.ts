@@ -1,6 +1,9 @@
 export class CopaymentReportFilter {
     professionalId: number;
-    initialDate: string;
-    finalDate: string;
-    deliverDate: string;  
+    initialDateIni: string;
+    finalDateIni: string;
+    deliverDateIni: string;  
+    initialDateEnd: string;
+    finalDateEnd: string;
+    deliverDateEnd: string;  
 }

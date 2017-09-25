@@ -54,7 +54,7 @@ export class ProfessionalComponent implements OnInit {
 
     public edit(professional: Professional): void {
         this.currentProfessional = professional;
-        debugger;
+        
         if (professional.birthDate != null) {
             var birthDayParts = professional.birthDate.split("-");
             if (birthDayParts.length == 3) {
@@ -145,7 +145,7 @@ export class ProfessionalComponent implements OnInit {
     }
 
     private updateProfessional(): void {
-        debugger;
+        
         this.service.update(this.currentProfessional)
             .subscribe((res) => {
                 if (res.success) {

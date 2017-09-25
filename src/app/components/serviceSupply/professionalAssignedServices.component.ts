@@ -87,6 +87,7 @@ export class ProfessionalAssignedServicesComponent implements OnInit {
         if (this.currentAssignService == null) {
             this.currentAssignService = this.completedServices.find(item => item.serviceId == professionalService.serviceId);
         }
+        debugger;
         this.patientService.getById(professionalService.patientId)
             .subscribe((res) => {
 
@@ -169,7 +170,7 @@ export class ProfessionalAssignedServicesComponent implements OnInit {
         this.assignServiceDetailService.update(assignServiceDetail.assignServiceId, serviceDetailArray)
             .subscribe((res) => {
                 if (res.success) {
-                    this.viewProfessionalServiceDetail(this.currentAssignService);
+                    
                     this.alertService.clean(null);
                     this.configuration.ShowAlertMessage("Se guardaron los datos correctamente.");
                 }
@@ -177,7 +178,7 @@ export class ProfessionalAssignedServicesComponent implements OnInit {
                     console.error(res.errors);
                     this.alertService.error(res.errors);
                 }
-
+                this.viewProfessionalServiceDetail(this.currentAssignService);
                 this.configuration.CloseLoading();
             })
     }
@@ -196,5 +197,10 @@ export class ProfessionalAssignedServicesComponent implements OnInit {
         this.inEditMode = false;
         this.loadAssignedServices();
         this.loadCompletedServices();
+    }
+    public onDateVisitChanged(event, assignServiceDetail: AssignServiceDetail) {
+        debugger;
+        let d = new Date(Date.parse(event));
+        assignServiceDetail.dateVisit = `${("0" + d.getDate()).slice(-2)}-${("0" + (d.getMonth()+1)).slice(-2)}-${d.getFullYear()}`;
     }
 }

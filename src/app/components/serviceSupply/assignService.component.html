@@ -93,12 +93,9 @@
                 <p-column [style]="&#123;'width':'5%'&#125;" selectionMode="multiple"></p-column>
                 <p-column field="consecutive" header="Visita" required="true" [style]="{'width': '8%'}"></p-column>
                 <p-column field="dateVisit" header="Fecha visita" [editable]="true" required="true" [style]="{'width': '15%','overflow':'visible'}">
-                    <template let-col let-detail="rowData" pTemplate="body">
-                        <p-calendar [(ngModel)]="detail[col.field]" dateFormat="dd-mm-yy"></p-calendar>
-                    </template>
-                    <template let-col let-detail="rowData" pTemplate="editor">
-                        <p-calendar [(ngModel)]="detail[col.field]" dateFormat="dd-mm-yy"></p-calendar>
-                    </template>
+                    <ng-template let-col let-detail="rowData" pTemplate="body">
+                        <p-calendar [(ngModel)]="detail[col.field]" (onSelect)="onDateVisitChanged($event, detail)" dateFormat="dd-mm-yy"></p-calendar>
+                    </ng-template>
                 </p-column>
                 <p-column field="professionalId" header="Profesional" [editable]="true" required="true" [style]="{'width': '25%', 'overflow':'visible'}">
                     <template let-col let-ProfessionalT="rowData" pTemplate="body">

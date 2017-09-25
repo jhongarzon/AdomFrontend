@@ -1,36 +1,35 @@
-
 <div class="container container-responsive">
     <alertmessage></alertmessage>
-    <div class="row" [class.hidden]="!isCreated">
+    <div class="row" [class.hidden]="!deleteNotices">
         Nuevo Anuncio
     </div>
     <div class="row">
-    <div class="col col-md-3" [class.hidden]="!isCreated">
-        <div class="form-group row">
-                    <label for="txtNoticeTitle" class="col-2 col-form-label">Titulo</label>
-                    <div class="col-10">
-                        <input class="form-control" type="text" [(ngModel)]="noticeInsert.noticeTitle"  id="txtNoticeTitle">
-                    </div>
-        </div>
-        <div class="form-group row">
-                    <label for="txtNoticeText" class="col-2 col-form-label">Texto</label>
-                    <div class="col-10">
-                        <textarea class="form-control" type="text" [(ngModel)]="noticeInsert.noticeText"  id="txtNoticeText">
+        <div class="col col-md-3" [class.hidden]="!deleteNotices">
+            <div class="form-group row">
+                <label for="txtNoticeTitle" class="col-2 col-form-label">Titulo</label>
+                <div class="col-10">
+                    <input class="form-control" type="text" [(ngModel)]="noticeInsert.noticeTitle" id="txtNoticeTitle">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="txtNoticeText" class="col-2 col-form-label">Texto</label>
+                <div class="col-10">
+                    <textarea class="form-control" type="text" [(ngModel)]="noticeInsert.noticeText" id="txtNoticeText">
                         </textarea>
-                    </div>
+                </div>
+            </div>
+            <div>
+                <a class="btn btn-info" href="javascript:void(0)" value="Crear" (click)="create()">Crear</a>
+            </div>
         </div>
-    <div>
-        <a class="btn btn-info" href="javascript:void(0)" value="Crear" (click)="create()">Crear</a>
-    </div>
-    </div>
-    <div class="col col-md-9" id="divContentNotices">
-        <div id="divNotices" style="margin:25px;border:0px">
-            
-            <div><b style="color:rgb(0, 176, 240);font-size:30px;text-decoration:underline">Anuncios</b></div>
-            <br/>
-            <br/>
-            <div [class.hidden]="!isCreated">
-                <span style="color:rgb(0, 176, 240);font-size:30px">{{noticeInsert.noticeTitle}}</span>
+        <div class="col col-md-9" id="divContentNotices">
+            <div id="divNotices" style="margin:25px;border:0px">
+
+                <div><b style="color:rgb(0, 176, 240);font-size:30px;text-decoration:underline">Anuncios</b></div>
+                <br/>
+                <br/>
+                <div [class.hidden]="!deleteNotices">
+                    <span style="color:rgb(0, 176, 240);font-size:30px">{{noticeInsert.noticeTitle}}</span>
                     <br/>
                     <span style="color:rgb(0, 176, 240);font-size:15px">{{noticeInsert.creationDate|date:'longDate'}} por {{noticeInsert.creationUserName}}</span>
                     <br/>
@@ -39,26 +38,26 @@
                     <br/>
                     <br/>
                     <br/>
+                </div>
+
+                <p-dataList [value]="notices">
+                    <template let-notice pTemplate="item">
+                        <div style="position:relative;float:right;cursor:hand;cursor:pointer" [class.hidden]="!deleteNotices">
+                            <a href="javascript:void(0)" (click)="delete(notice.noticeId)"><i class="fa fa-times" aria-hidden="true"></i></a>
+                        </div>
+                        <span style="color:rgb(0, 176, 240);font-size:30px">{{notice.noticeTitle}}</span>
+                        <br/>
+                        <span style="color:rgb(0, 176, 240);font-size:15px">{{notice.creationDate|date:'longDate'}} por {{notice.creationUserName}}</span>
+                        <br/>
+                        <br/>
+                        <span style="color:black;font-size:15px;word-wrap:break-word">{{notice.noticeText}}</span>
+                        <br/>
+                        <br/>
+                        <hr>
+                    </template>
+                </p-dataList>
             </div>
-            
-          <p-dataList [value]="notices">
-                <template let-notice pTemplate="item">
-                    <div style="position:relative;float:right;cursor:hand;cursor:pointer" [class.hidden]="!isCreated" >
-                        <a href="javascript:void(0)" (click)="delete(notice.noticeId)"><i class="fa fa-times" aria-hidden="true"></i></a>
-                    </div>
-                    <span style="color:rgb(0, 176, 240);font-size:30px">{{notice.noticeTitle}}</span>
-                    <br/>
-                    <span style="color:rgb(0, 176, 240);font-size:15px">{{notice.creationDate|date:'longDate'}} por {{notice.creationUserName}}</span>
-                    <br/>
-                    <br/>
-                    <span style="color:black;font-size:15px;word-wrap:break-word">{{notice.noticeText}}</span>
-                    <br/>
-                    <br/>
-                    <hr>
-                </template>
-          </p-dataList>
         </div>
-    </div>
-        
+
     </div>
 </div>
