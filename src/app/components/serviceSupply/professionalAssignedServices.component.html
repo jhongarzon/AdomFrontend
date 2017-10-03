@@ -128,7 +128,7 @@
             <p-column field="dateVisit" header="Fecha visita" [editable]="true" required="true" [style]="{'width': '15%','overflow':'visible'}">
                 <template let-col let-row="rowData" pTemplate="body">
                     <div *ngIf="row['stateId'] == 1">
-                        <p-calendar (onSelect)="onDateVisitChanged($event, row)" dateFormat="yy-mm-dd" readonlyInput="true"></p-calendar>
+                        <p-calendar (onSelect)="onDateVisitChanged($event, row)" dateFormat="dd-mm-yy" readonlyInput="true"></p-calendar>
                     </div>
 
                     <div *ngIf="row['stateId'] != 1">

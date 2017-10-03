@@ -8,7 +8,7 @@
         <div class="input-field col s3">
             <select name="professionalId" id="professionalId" (ngModelChange)="professionalChanged($event)" materialize="material_select"
                 [materializeSelectOptions]="professionals" [(ngModel)]="copaymentFilter.professionalId" class="validate" required>
-                    <option [ngValue]="undefined">Seleccione...</option>
+                    <option [ngValue]="-1">Seleccione...</option>
                     <option *ngFor="let c of professionals" [ngValue]="c.value">{{c.label}}</option>
             </select>
             <label>Profesional</label>
@@ -17,7 +17,7 @@
         <div class="input-field col s3">
             <select name="serviceStatusId" id="serviceStatusId" materialize="material_select" [materializeSelectOptions]="serviceStatuses"
                 [(ngModel)]="copaymentFilter.serviceStatusId" class="validate" required>
-                    <option [ngValue]="undefined">Seleccione...</option>
+                    <option [ngValue]="-1">Seleccione...</option>
                     <option *ngFor="let c of serviceStatuses" [ngValue]="c.value">{{c.label}}</option>
             </select>
             <label>Estado del servicio</label>
@@ -25,7 +25,7 @@
         <div class="input-field col s3">
             <select name="copaymentStatusId" id="copaymentStatusId" materialize="material_select" [materializeSelectOptions]="copaymentStatuses"
                 [(ngModel)]="copaymentFilter.copaymentStatusId" class="validate" required>
-                    <option [ngValue]="undefined">Seleccione...</option>
+                    <option [ngValue]="3">Seleccione...</option>
                     <option *ngFor="let c of copaymentStatuses" [ngValue]="c.value">{{c.label}}</option>
             </select>
             <label>Estado del copago</label>

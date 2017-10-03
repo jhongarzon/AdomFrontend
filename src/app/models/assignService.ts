@@ -31,4 +31,5 @@
     observation: string;
     allowsUpdate: boolean;
     totalRows: number;
+    assignedBy: number;
 }

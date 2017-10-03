@@ -74,16 +74,18 @@ export class CoordinatorComponent implements OnInit {
     }
 
     private saveNewCoordinator(): void {
+        
         this.service.create(this.currentCoordinator)
             .subscribe((res) => {
+                debugger;
                 if (res.success) {
                     this.coordinators.push(res.result);
                     this.currentCoordinator = new Coordinator();
                     this.inEditMode = false;
                     this.inReadMode = true;
                     this.inCreateMode = false;
-                    this.loadCoordinators();
                     this.alertService.success("Datos almacenados correctamente");
+                    this.loadCoordinators();
                 }
                 else {
                     console.error(res.errors);
@@ -100,7 +102,9 @@ export class CoordinatorComponent implements OnInit {
                     this.inEditMode = false;
                     this.inReadMode = true;
                     this.inCreateMode = false;
+                    this.alertService.success("Datos almacenados correctamente");
                     this.loadCoordinators();
+                    
                 }
                 else {
                     console.error(res.errors);

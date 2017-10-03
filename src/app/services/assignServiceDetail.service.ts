@@ -27,6 +27,6 @@ export class AssignServiceDetailService {
         return this.http.get(this.configuration.get("apiUrl") + 'questions/' + serviceId, this.authenticationService.jwt()).map((response: Response) => response.json());
     }
     saveQualityTest(assignServicesDetailId: number, answers: QualityQuestion[]) {
-        return this.http.post(this.configuration.get("apiUrl") + 'questions/' + assignServicesDetailId, JSON.stringify(answers), this.authenticationService.jwt()).map((response: Response) => response.json());
+        return this.http.post(this.configuration.get("apiUrl") + 'questions/' + assignServicesDetailId + '/' + this.authenticationService.getUserId(), JSON.stringify(answers), this.authenticationService.jwt()).map((response: Response) => response.json());
     }
 }    

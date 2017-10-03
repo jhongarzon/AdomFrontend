@@ -159,6 +159,7 @@ export class AssignServiceComponent implements OnInit {
 
         this.currentAssignService.consultation = 10;
         this.currentAssignService.external = 13;
+        this.currentAssignService.assignedBy = this.authenticationService.getUserId();
         this.loadPlans(this.currentAssignService.entityId);
         this.loadServices(this.currentAssignService.planEntityId);
 
@@ -425,7 +426,6 @@ export class AssignServiceComponent implements OnInit {
 
     private updateDetails(): void {
         this.configuration.ShowLoading();
-        debugger;
         this.currentAssignService.patientId = this.currentPatient.patientId;
         this.serviceDetail.update(this.currentAssignService.assignServiceId, this.assignServicesDetail)
             .subscribe((res) => {
@@ -888,13 +888,11 @@ export class AssignServiceComponent implements OnInit {
         this.serviceDetail.update(assignServiceDetail.assignServiceDetailId, details)
             .subscribe((res) => {
                 if (res != null) {
+                    this.loadAssignServicesDetail();
                     if (res.success) {
-
-                        this.loadAssignServicesDetail();
                         this.alertService.clean(null);
                     }
                     else {
-                        console.error(res.errors);
                         this.alertService.error(res.errors);
                     }
 
@@ -989,7 +987,6 @@ export class AssignServiceComponent implements OnInit {
         this.currentPatient.birthDate = date;
     }
     public onDateVisitChanged(event, details: AssignServiceDetail) {
-        debugger;
         let d = new Date(Date.parse(event));
         details.dateVisit = `${("0" + d.getDate()).slice(-2)}-${("0" + (d.getMonth()+1)).slice(-2)}-${d.getFullYear()}`;
     }

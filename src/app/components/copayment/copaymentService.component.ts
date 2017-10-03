@@ -48,6 +48,11 @@ export class CopaymentServicesComponent implements OnInit {
         private copaymentService: CopaymentService,
         private patientService: PatientService,
         private professionalService: ProfessionalService) {
+        this.currentProfessional = new Professional();
+        this.copaymentFilter = new CopaymentFilter();
+        this.copaymentFilter.copaymentStatusId = 3;
+        this.copaymentFilter.professionalId = 0;
+        this.copaymentFilter.serviceStatusId = 0;
 
     }
     ngOnInit(): void {
@@ -57,16 +62,21 @@ export class CopaymentServicesComponent implements OnInit {
         this.copaymentStatuses = this.loadCopaymentStatuses();
         this.serviceStatuses = this.loadServiceStatuses();
         this.loadProfessionals();
-        this.copaymentFilter = new CopaymentFilter();
+
         let currentDate = new Date();
         this.formattedDate = currentDate.getFullYear().toString() + "/" + currentDate.getMonth().toString() + "/" + currentDate.getDate().toString();
-        this.currentProfessional = new Professional();
+
 
     }
 
     private loadCopayments(): void {
         this.copayments = [];
-
+        debugger;
+        if (this.copaymentFilter.professionalId == 0 && this.copaymentFilter.serviceStatusId == 0 && this.copaymentFilter.copaymentStatusId == 3) {
+            this.alertService.error("Seleccione al menos un valor en el filtro");
+            return;
+        }
+        this.copayments = null;
         this.copaymentService.getCopayments(this.copaymentFilter.professionalId, this.copaymentFilter.serviceStatusId, this.copaymentFilter.copaymentStatusId)
             .subscribe((res) => {
                 if (res.success) {
@@ -81,41 +91,41 @@ export class CopaymentServicesComponent implements OnInit {
     public loadServiceStatuses(): any {
         let items: SelectItem[] = [];
 
-        let completed = new SelectItem();
-        completed.value = "2";
-        completed.label = "Completado";
+        let all = new SelectItem();
+        all.value = "-1";
+        all.label = "Todos";
 
         let inProcess = new SelectItem();
         inProcess.value = "1";
         inProcess.label = "En proceso";
 
-        let all = new SelectItem();
-        all.value = "3";
-        all.label = "Todos";
+        let completed = new SelectItem();
+        completed.value = "2";
+        completed.label = "Completado";
 
-        items[0] = completed;
+        items[0] = all;
         items[1] = inProcess;
-        items[2] = all;
+        items[2] = completed;
         return items;
     }
     public loadCopaymentStatuses(): any {
         let items: SelectItem[] = [];
+
+        let all = new SelectItem();
+        all.value = "2";
+        all.label = "Todos";
 
         let completed = new SelectItem();
         completed.value = "1";
         completed.label = "Entregado";
 
         let inProcess = new SelectItem();
-        inProcess.value = "2";
+        inProcess.value = "0";
         inProcess.label = "Sin entregar";
 
-        let all = new SelectItem();
-        all.value = "3";
-        all.label = "Todos";
-
-        items[0] = completed;
+        items[0] = all;
         items[1] = inProcess;
-        items[2] = all;
+        items[2] = completed;
         return items;
     }
     public loadProfessionals() {
@@ -222,7 +232,7 @@ export class CopaymentServicesComponent implements OnInit {
                 });
             counter++;
             if (counter == this.selectedCopayments.length) {
-                this.displayPreview = false;                
+                this.displayPreview = false;
                 this.loadCopayments();
                 this.alertService.error("Datos actualizados correctamente");
             }
