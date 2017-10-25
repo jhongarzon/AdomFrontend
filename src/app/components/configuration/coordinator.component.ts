@@ -6,6 +6,8 @@ import { Parameter } from '../../models/parameter';
 import { AlertService } from '../../services/alert.service';
 import {  AuthenticationService } from '../../services/authentication.service';
 import { Config } from "../../config/config";
+import { DatePipe } from '@angular/common';
+import { IMyDpOptions, IMyDateModel } from 'mydatepicker';
 
 @Component({
     selector: 'coordinators',
@@ -22,15 +24,41 @@ export class CoordinatorComponent implements OnInit {
     public onEditPermission : boolean = false;
     public inCreateMode: boolean = false;
     public currentCoordinator: Coordinator;
-
+    private myDatePickerOptions: IMyDpOptions = {
+        dateFormat: 'dd/mm/yyyy', editableDateField: false, openSelectorOnInputClick: true
+    };
     constructor(private service: CoordinatorService, private alertService: AlertService,
                 private authenticationService: AuthenticationService,
                 private configuration: Config, private parameterService: ParameterService) {
         this.currentCoordinator = new Coordinator();
+        let currentDate = new Date();
+        let today = {
+            date: {
+                year: currentDate.getFullYear(),
+                month: currentDate.getMonth() + 1,
+                day: currentDate.getDate()
+            }
+        };
+        this.currentCoordinator.birthDateObj = today;
+        let datePipe = new DatePipe("es-CO");
+        this.currentCoordinator.birthDate = datePipe.transform(currentDate, 'dd/MM/yyyy');
     }
 
     public edit(Coordinator: Coordinator): void {
         this.currentCoordinator = Coordinator;
+        if (Coordinator.birthDate != null) {
+            var birthDayParts = Coordinator.birthDate.split("-");
+            if (birthDayParts.length == 3) {
+                let birthday = {
+                    date: {
+                        year: parseInt(birthDayParts[2]),
+                        month: parseInt(birthDayParts[1]),
+                        day: parseInt(birthDayParts[0])
+                    }
+                };
+                this.currentCoordinator.birthDateObj = birthday;
+            }
+        }
         this.inEditMode = true;
         this.inReadMode = false;
         this.inCreateMode = false;
@@ -159,5 +187,8 @@ export class CoordinatorComponent implements OnInit {
         this.loadCoordinators();
         this.loadDocumentType();
         this.loadGender();
+    }
+    public onBirthdayChanged(event: IMyDateModel) {
+        this.currentCoordinator.birthDate = event.formatted;
     }
 }

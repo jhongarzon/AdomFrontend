@@ -75,12 +75,17 @@ export class RipsServiceComponent implements OnInit {
                 day: currentDate.getDate()
             }
         };
-        this.ripsFilter.initialDate = formattedInitialDate;
+        this.ripsFilter.initialDateIni = formattedInitialDate;
+        this.ripsFilter.initialDateEnd = formattedInitialDate;
         this.ripsFilter.invoiceDate = formattedDate;
-        this.ripsFilter.finalDate = formattedDate;
+        this.ripsFilter.finalDateIni = formattedDate;
+        this.ripsFilter.finalDateEnd = formattedDate;
         this.ripsFilter.invoiceDateObj = today;
-        this.ripsFilter.initialDateObj = oneMonthBefore;
-        this.ripsFilter.finalDateObj = today;
+        this.ripsFilter.initialDateIniObj = oneMonthBefore;
+        this.ripsFilter.initialDateEndObj = oneMonthBefore;
+        this.ripsFilter.finalDateIniObj = today;
+        this.ripsFilter.finalDateEndObj = today;
+        debugger;
 
 
     }
@@ -135,12 +140,16 @@ export class RipsServiceComponent implements OnInit {
         this.loadPlansEntity(entityId);
     }
     public loadRips(): void {
+        debugger;
         this.ripsService.getRips(
+            
             (this.ripsFilter.entityId == null) ? 0 : this.ripsFilter.entityId,
             (this.ripsFilter.planEntityId == null) ? 0 : this.ripsFilter.planEntityId,
             (this.ripsFilter.serviceTypeId == null) ? 0 : this.ripsFilter.serviceTypeId,
-            (this.ripsFilter.initialDate == null) ? "" : this.ripsFilter.initialDate,
-            (this.ripsFilter.finalDate == null) ? "" : this.ripsFilter.finalDate)
+            (this.ripsFilter.initialDateIni == null) ? "" : this.ripsFilter.initialDateIni,
+            (this.ripsFilter.initialDateEnd == null) ? "" : this.ripsFilter.initialDateEnd,
+            (this.ripsFilter.finalDateIni == null) ? "" : this.ripsFilter.initialDateIni,
+            (this.ripsFilter.finalDateEnd == null) ? "" : this.ripsFilter.finalDateEnd)
             .subscribe((res) => {
                 if (res.success) {
                     this.selectedRips = null;
@@ -215,11 +224,17 @@ export class RipsServiceComponent implements OnInit {
                 }
             });
     }
-    onInitialDateChanged(event: IMyDateModel) {
-        this.ripsFilter.initialDate = event.formatted;
+    onInitialDateIniChanged(event: IMyDateModel) {
+        this.ripsFilter.initialDateIni = event.formatted;
     }
-    onFinalDateChanged(event: IMyDateModel) {
-        this.ripsFilter.finalDate = event.formatted;
+    onFinalDateIniChanged(event: IMyDateModel) {
+        this.ripsFilter.finalDateIni = event.formatted;
+    }
+    onInitialDateEndChanged(event: IMyDateModel) {
+        this.ripsFilter.initialDateEnd = event.formatted;
+    }
+    onFinalDateEndChanged(event: IMyDateModel) {
+        this.ripsFilter.finalDateEnd = event.formatted;
     }
     onInvoiceDateChanged(event: IMyDateModel) {
         this.ripsFilter.invoiceDate = event.formatted;

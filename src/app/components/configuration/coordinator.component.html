@@ -28,7 +28,9 @@
                         <label>Tipo de documento</label>
                     </div>
                     <div class="input-field col s1">
-                        <label><font color="red">*</font></label>
+                        <label>
+                            <font color="red">*</font>
+                        </label>
                     </div>
                     <div class="input-field col s5">
                         <input autofocus type="text" placeholder="" id="document" name="document" class="validate form-control" [(ngModel)]="currentCoordinator.document"
@@ -36,7 +38,9 @@
                         <label for="firstName" class="active">Documento</label>
                     </div>
                     <div class="input-field col s1">
-                        <label><font color="red">*</font></label>
+                        <label>
+                            <font color="red">*</font>
+                        </label>
                     </div>
                     <div class="input-field col s5">
                         <input type="text" placeholder="" id="firstName" name="firstName" class="validate" [(ngModel)]="currentCoordinator.firstName"
@@ -44,7 +48,9 @@
                         <label for="firstName" data-error="Correo inválido.">Primer nombre</label>
                     </div>
                     <div class="input-field col s1">
-                        <label><font color="red">*</font></label>
+                        <label>
+                            <font color="red">*</font>
+                        </label>
                     </div>
                     <div class="input-field col s6">
                         <input type="text" placeholder="" id="secondName" name="secondName" class="validate" [(ngModel)]="currentCoordinator.secondName">
@@ -56,15 +62,17 @@
                         <label for="surname">Primer apellido</label>
                     </div>
                     <div class="input-field col s1">
-                        <label><font color="red">*</font></label>
+                        <label>
+                            <font color="red">*</font>
+                        </label>
                     </div>
                     <div class="input-field col s6">
                         <input type="text" placeholder="" id="secondSurname" name="secondSurname" class="validate" [(ngModel)]="currentCoordinator.secondSurname">
                         <label for="secondSurname">Segundo apellido</label>
                     </div>
                     <div class="input-field col s5">
-                        <input name="groupGender" [(ngModel)]="currentCoordinator.genderId" [value]="1" required class="validate" id="masculino" type="radio"
-                        />
+                        <input name="groupGender" [(ngModel)]="currentCoordinator.genderId" [value]="1" required class="validate" id="masculino"
+                            type="radio" />
                         <label for="masculino">Masculino</label>
                         <input name="groupGender" [(ngModel)]="currentCoordinator.genderId" [value]="2" required class="validate" id="femenino" type="radio"
                         />
@@ -72,11 +80,13 @@
                         <label class="active">Género</label>
                     </div>
                     <div class="input-field col s1">
-                        <label><font color="red">*</font></label>
+                        <label>
+                            <font color="red">*</font>
+                        </label>
                     </div>
                     <div class="input-field col s6">
-                        <input type="text" placeholder="" class="form-control" (change)="ValidateFutureDate(currentCoordinator.birthDate)" [(ngModel)]="currentCoordinator.birthDate"
-                            [ngModelOptions]="{standalone: true}">
+                        <br/>
+                        <my-date-picker name="birthDate" [options]="myDatePickerOptions" (dateChanged)="onBirthdayChanged($event)" [(ngModel)]="currentCoordinator.birthDateObj"></my-date-picker>
                         <label class="active">Fecha de nacimiento</label>
                     </div>
                     <div class="input-field col s5">
@@ -85,7 +95,9 @@
                         <label for="firstName">Correo electrónico</label>
                     </div>
                     <div class="input-field col s1">
-                        <label><font color="red">*</font></label>
+                        <label>
+                            <font color="red">*</font>
+                        </label>
                     </div>
                     <div class="input-field col s6">
                         <input type="text" placeholder="" id="telephone1" name="telephone1" pattern="[0-9]{10}" class="" [(ngModel)]="currentCoordinator.telephone1"

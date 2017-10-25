@@ -3,42 +3,58 @@
     <div class="row">
         <h3 class="blue-text text-lighten-1 left">RIPS Entidad</h3>
     </div>
+
     <div class="row" [class.hidden]="!inReadMode">
-        <div class="input-field col s2">
+        <div class="input-field col s3">
+            <br>
+            <my-date-picker name="initialDateIni" [options]="myDatePickerOptions" (dateChanged)="onInitialDateIniChanged($event)" [(ngModel)]="ripsFilter.initialDateIniObj"
+                required></my-date-picker>
+            <label class="active">F. Inicio desde</label>
+        </div>
+        <div class="input-field col s3">
+            <br>
+            <my-date-picker name="initialDateEnd" [options]="myDatePickerOptions" (dateChanged)="onInitialDateEndChanged($event)" [(ngModel)]="ripsFilter.initialDateEndObj"
+                required></my-date-picker>
+            <label class="active">F. Inicio hasta</label>
+        </div>
+        <div class="input-field col s3">
+            <br>
+            <my-date-picker name="finalDateIni" [options]="myDatePickerOptions" (dateChanged)="onFinalDateIniChanged($event)" [(ngModel)]="ripsFilter.finalDateIniObj"
+                required></my-date-picker>
+            <label class="active">F. Finalización desde</label>
+        </div>
+        <div class="input-field col s3">
+            <br>
+            <my-date-picker name="finalDateEnd" [options]="myDatePickerOptions" (dateChanged)="onFinalDateEndChanged($event)" [(ngModel)]="ripsFilter.finalDateEndObj"
+                required></my-date-picker>
+            <label class="active">F. Finalización hasta</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s3">
             <select name="entityId" id="entityId" (ngModelChange)="entityChanged($event)" materialize="material_select" [materializeSelectOptions]="entityList"
                 [(ngModel)]="ripsFilter.entityId" class="validate" required>
-                    <option [ngValue]="undefined">Seleccione...</option>
-                    <option *ngFor="let c of entityList" [ngValue]="c.entityId">{{c.name}}</option>
+                <option [ngValue]="undefined">Seleccione...</option>
+                <option *ngFor="let c of entityList" [ngValue]="c.entityId">{{c.name}}</option>
             </select>
             <label>Entidad</label>
         </div>
-        <div class="input-field col s2">
+        <div class="input-field col s3">
             <select name="planEntityId" id="planEntityId" materialize="material_select" [materializeSelectOptions]="planEntityList" [(ngModel)]="ripsFilter.planEntityId"
                 class="validate" required>
-                    <option [ngValue]="undefined">Seleccione...</option>
-                    <option *ngFor="let c of planEntityList" [ngValue]="c.planEntityId">{{c.name}}</option>
+                <option [ngValue]="undefined">Seleccione...</option>
+                <option *ngFor="let c of planEntityList" [ngValue]="c.planEntityId">{{c.name}}</option>
             </select>
             <label>Plan</label>
         </div>
-        <div class="input-field col s2">
+        <div class="input-field col s3">
             <select name="serviceTypeId" id="serviceTypeId" materialize="material_select" [materializeSelectOptions]="serviceTypes" [(ngModel)]="ripsFilter.serviceTypeId"
                 class="validate" required>
-                    <option [ngValue]="undefined">Seleccione...</option>
-                    <option *ngFor="let c of serviceTypes" [ngValue]="c.value">{{c.label}}</option>
+                <option [ngValue]="undefined">Seleccione...</option>
+                <option *ngFor="let c of serviceTypes" [ngValue]="c.value">{{c.label}}</option>
             </select>
             <label>Servicio</label>
         </div>
-        <div class="input-field col s2">
-            <br>
-            <my-date-picker name="initialDate" [options]="myDatePickerOptions" (dateChanged)="onInitialDateChanged($event)" [(ngModel)]="ripsFilter.initialDateObj" required></my-date-picker>                            
-            <label class="active">F. Inicio</label>
-        </div>
-        <div class="input-field col s2">
-            <br>
-            <my-date-picker name="finalDate" [options]="myDatePickerOptions" (dateChanged)="onFinalDateChanged($event)" [(ngModel)]="ripsFilter.finalDateObj" required></my-date-picker>            
-            <label class="active">F. Finalización</label>
-        </div>
-
         <div class="col s2">
             <br>
             <button type="button" class="waves-effect waves-light btn blue text-lighten-1" (click)="loadRips()">Buscar</button>
@@ -55,7 +71,8 @@
         </div>
         <div class="input-field col s2">
             <br>
-            <my-date-picker name="invoiceDate" [options]="myDatePickerOptions" (dateChanged)="onInvoiceDateChanged($event)" [(ngModel)]="ripsFilter.invoiceDateObj" required></my-date-picker>            
+            <my-date-picker name="invoiceDate" [options]="myDatePickerOptions" (dateChanged)="onInvoiceDateChanged($event)" [(ngModel)]="ripsFilter.invoiceDateObj"
+                required></my-date-picker>
             <label class="active">F. Factura</label>
         </div>
         <div class="input-field col s2">

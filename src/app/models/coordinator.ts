@@ -5,6 +5,7 @@
     documentTypeId: number;
     genderId: number;
     birthDate: string;
+    birthDateObj: object;
     telephone1: number;
     telephone2: number;
     email: string;
