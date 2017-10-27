@@ -21,7 +21,7 @@ import { IMyDpOptions, IMyDateModel } from 'mydatepicker';
 
 export class RipsServiceComponent implements OnInit {
     private myDatePickerOptions: IMyDpOptions = {
-        dateFormat: 'dd/mm/yyyy', editableDateField: false, openSelectorOnInputClick: true
+        dateFormat: 'dd-mm-yyyy', editableDateField: false, openSelectorOnInputClick: true
     };
 
 
@@ -148,7 +148,7 @@ export class RipsServiceComponent implements OnInit {
             (this.ripsFilter.serviceTypeId == null) ? 0 : this.ripsFilter.serviceTypeId,
             (this.ripsFilter.initialDateIni == null) ? "" : this.ripsFilter.initialDateIni,
             (this.ripsFilter.initialDateEnd == null) ? "" : this.ripsFilter.initialDateEnd,
-            (this.ripsFilter.finalDateIni == null) ? "" : this.ripsFilter.initialDateIni,
+            (this.ripsFilter.finalDateIni == null) ? "" : this.ripsFilter.finalDateIni,
             (this.ripsFilter.finalDateEnd == null) ? "" : this.ripsFilter.finalDateEnd)
             .subscribe((res) => {
                 if (res.success) {

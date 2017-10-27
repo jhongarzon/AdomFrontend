@@ -7,6 +7,8 @@ import { AlertService } from '../../services/alert.service';
 import { AuthenticationService } from '../../services/authentication.service';
 import { Config } from "../../config/config";
 import { IMyDpOptions, IMyDateModel } from 'mydatepicker';
+import { DatePipe } from '@angular/common';
+
 @Component({
     selector: 'patient',
     templateUrl: 'patient.component.html'
@@ -104,7 +106,10 @@ export class PatientComponent implements OnInit {
     }
 
     public calculateAge(event: IMyDateModel): void {
-        let date = new Date(event.formatted);
+        debugger;
+        let dateArray = event.formatted.split('/');
+        let date = new Date(parseInt(dateArray[2]), parseInt(dateArray[1]) - 1, parseInt(dateArray[0]));
+
         this.currentPatient.birthDate = date;
         this.ValidateFutureDate(this.currentPatient.birthDate);
         let birthDate = new Date(this.currentPatient.birthDate);

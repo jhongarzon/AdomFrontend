@@ -114,7 +114,7 @@
             </div>
         </div>
     </div>
-    <p-dialog header="Vista previa - Comprobante de copagos recibidos" [(visible)]="displayPreview" modal="modal" width="1200"
+    <p-dialog header="Vista previa - Comprobante de copagos recibidos" [(visible)]="displayPreview" modal="modal" width="1000"
         responsive="true">
         <alertmessage></alertmessage>
         <div class="row">
@@ -124,12 +124,12 @@
                         <div class="input-field col s4">
                             <label class="active">Profesional:</label>
                             <br>
-                            <span>{{currentProfessional.firstName}} {{currentProfessional.surname}}</span>
+                            <span>{{currentProfessional?.firstName}} {{currentProfessional?.surname}}</span>
                         </div>
                         <div class="input-field col s4">
                             <label class="active">Documento:</label>
                             <br>
-                            <span>{{currentProfessional.document}}</span>
+                            <span>{{currentProfessional?.document}}</span>
                         </div>
                         <div class="input-field col s4">
                             <label class="active">Fecha de entrega:</label>

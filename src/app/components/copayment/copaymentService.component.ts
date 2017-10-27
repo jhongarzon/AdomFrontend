@@ -80,6 +80,7 @@ export class CopaymentServicesComponent implements OnInit {
         this.copaymentService.getCopayments(this.copaymentFilter.professionalId, this.copaymentFilter.serviceStatusId, this.copaymentFilter.copaymentStatusId)
             .subscribe((res) => {
                 if (res.success) {
+                    debugger;
                     this.copayments = res.result;
                 } else {
                     console.error(res.errors);
@@ -170,6 +171,7 @@ export class CopaymentServicesComponent implements OnInit {
         let hasErrors = false;
         this.selectedCopayments.forEach(element => {
             if (element != null) {
+                debugger;
                 if (element.valueToPayToProfessional == null || element.valueToPayToProfessional < 1) {
                     this.alertService.error("El valor a pagar al profesional no se encuentra configurado correctamente Aut:" + element.authorizationNumber);
                     hasErrors = true;
@@ -180,16 +182,16 @@ export class CopaymentServicesComponent implements OnInit {
                     hasErrors = true;
                     return;
                 }
-                if (element.totalCopaymentReported == null || element.totalCopaymentReported < 1) {
-                    this.alertService.error("Debe diligenciar el total de copagos reportados Aut:" + element.authorizationNumber);
-                    hasErrors = true;
-                    return;
-                }
-                if (element.totalCopaymentReceived == null || element.totalCopaymentReceived < 0) {
-                    this.alertService.error("El total recibido es inválido:" + element.authorizationNumber);
-                    hasErrors = true;
-                    return;
-                }
+                // if (element.totalCopaymentReported == null || element.totalCopaymentReported < 1) {
+                //     this.alertService.error("Debe diligenciar el total de copagos reportados Aut:" + element.authorizationNumber);
+                //     hasErrors = true;
+                //     return;
+                // }
+                // if (element.totalCopaymentReceived == null || element.totalCopaymentReceived < 0) {
+                //     this.alertService.error("El total recibido es inválido:" + element.authorizationNumber);
+                //     hasErrors = true;
+                //     return;
+                // }
                 if (element.otherValuesReported == null) {
                     element.otherValuesReported = 0;
                 }
