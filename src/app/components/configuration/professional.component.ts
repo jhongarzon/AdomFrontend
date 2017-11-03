@@ -32,6 +32,9 @@ export class ProfessionalComponent implements OnInit {
     private myDatePickerOptions: IMyDpOptions = {
         dateFormat: 'dd/mm/yyyy', editableDateField: false, openSelectorOnInputClick: true
     };
+    public documentToEdit: string = "";
+    public documentTypeToEdit: number = 0;
+    public documentIsValid: boolean = false;
 
     constructor(private service: ProfessionalService, private alertService: AlertService,
         private authenticationService: AuthenticationService,
@@ -51,10 +54,41 @@ export class ProfessionalComponent implements OnInit {
         this.currentProfessional.birthDateObj = today;
         this.currentProfessional.dateAdmissionObj = today;
     }
+    public findDocument(): void {
+        if (this.currentProfessional != null && this.currentProfessional.documentTypeId > 0 && this.currentProfessional.document == undefined) {
+            return;
+        }
+        if (this.inEditMode && this.currentProfessional.document == this.documentToEdit && this.currentProfessional.documentTypeId == this.documentTypeToEdit) {
+            return;
+        }
+        if (this.currentProfessional != null && this.currentProfessional.document != undefined) {
 
+            this.service.getByDocument(this.currentProfessional.documentTypeId, this.currentProfessional.document)
+                .subscribe((res) => {
+                    if (res.success) {
+                        if (res.result != null) {
+                            this.documentIsValid = false;
+                            this.alertService.error("El documento ya existe.");
+                        }
+                        else {
+                            this.documentIsValid = true;
+                            this.alertService.clean(null);
+                        }
+                    } else {
+                        this.documentIsValid = false;
+                        console.error(res.errors);
+                        this.alertService.error(res.errors);
+                    }
+                });
+        } else {
+            this.alertService.error("Seleccione un tipo de documento");
+        }
+    }
     public edit(professional: Professional): void {
         this.currentProfessional = professional;
-        
+        this.documentToEdit = professional.document;
+        this.documentTypeToEdit = professional.documentTypeId;
+        this.documentIsValid = true;
         if (professional.birthDate != null) {
             var birthDayParts = professional.birthDate.split("-");
             if (birthDayParts.length == 3) {
@@ -106,6 +140,7 @@ export class ProfessionalComponent implements OnInit {
 
 
     public save(): void {
+
         if (!this.inEditMode) {
             this.saveNewProfessional();
         } else {
@@ -127,6 +162,10 @@ export class ProfessionalComponent implements OnInit {
 
 
     private saveNewProfessional(): void {
+        if (!this.documentIsValid) {
+            this.alertService.error("El documento ingresado ya existe en el sistema");
+            return;
+        }
         this.service.create(this.currentProfessional)
             .subscribe((res) => {
                 if (res.success) {
@@ -145,7 +184,13 @@ export class ProfessionalComponent implements OnInit {
     }
 
     private updateProfessional(): void {
-        
+        if (this.currentProfessional.document == this.documentToEdit && this.currentProfessional.documentTypeId == this.documentTypeToEdit) {
+            this.documentIsValid = true;
+        }
+        if (!this.documentIsValid) {
+            this.alertService.error("El documento ingresado ya existe en el sistema");
+            return;
+        }
         this.service.update(this.currentProfessional)
             .subscribe((res) => {
                 if (res.success) {

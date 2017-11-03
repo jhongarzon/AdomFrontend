@@ -1,5 +1,5 @@
 {
- "apiUrl": "http://localhost:49668/api/",
- "debugging": true,
- "pageSize": 5
+    "apiUrl": "http://192.168.1.67:8081/api/",
+    "debugging": true,
+    "pageSize": 5
 }

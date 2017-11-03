@@ -444,7 +444,6 @@ export class AssignServiceComponent implements OnInit {
     }
 
     private saveNewAssignService(): void {
-
         if (this.validateDate(this.currentAssignService.validity) && this.validateDate(this.currentAssignService.initialDate) && this.validateDate(this.currentAssignService.finalDate)) {
             this.currentAssignService.patientId = this.currentPatient.patientId;
             this.service.create(this.currentAssignService)

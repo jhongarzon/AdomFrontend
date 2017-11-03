@@ -21,7 +21,7 @@
                 <div class="row">
                     <div class="input-field col s5">
                         <select name="documentTypeId" id="documentTypeId" materialize="material_select" [materializeSelectOptions]="documentType"
-                            [(ngModel)]="currentProfessional.documentTypeId" class="validate" required>
+                            [(ngModel)]="currentProfessional.documentTypeId" (change)="findDocument()" class="validate" required>
                             <option [ngValue]="undefined">Seleccione</option>
                             <option *ngFor="let type of documentType" [ngValue]="type.id">{{type.name}}</option>
                         </select>
@@ -31,7 +31,7 @@
                         <label><font color="red">*</font></label>
                     </div>
                     <div class="input-field col s5">
-                        <input autofocus type="text" placeholder="" id="document" name="document" class="validate form-control" [(ngModel)]="currentProfessional.document"
+                        <input autofocus type="text" placeholder="" (change)="findDocument()" id="document" name="document" class="validate form-control" [(ngModel)]="currentProfessional.document"
                             required minlength="4" maxlength="30">
                         <label for="document">Documento</label>
                     </div>

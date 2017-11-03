@@ -29,7 +29,7 @@
                     </div>
                     <div class="input-field col s5">
                         <input type="text" placeholder="" id="businessName" name="businessName" class="validate" [(ngModel)]="currentEntity.businessName"
-                            required minlength="1" maxlength="150">
+                            required minlength="1" maxlength="100">
                         <label for="businessName">Razón social</label>
                     </div>
                     <div class="input-field col s1">
@@ -39,7 +39,7 @@
                 <div class="row">
                     <div class="input-field col s5">
                         <input type="text" placeholder="" id="code" name="code" class="validate" [(ngModel)]="currentEntity.code" required minlength="1"
-                            maxlength="30">
+                            maxlength="50">
                         <label for="code">Código entidad</label>
                     </div>
                     <div class="input-field col s1">
@@ -47,7 +47,7 @@
                     </div>
                     <div class="input-field col s5">
                         <input type="text" placeholder="" id="name" name="name" class="validate" [(ngModel)]="currentEntity.name" required minlength="1"
-                            maxlength="30">
+                            maxlength="100">
                         <label for="name">Nombre entidad</label>
                     </div>
                     <div class="input-field col s1">
@@ -92,7 +92,7 @@
                 <div class="row">
                     <div class="input-field col s5">
                         <input autofocus type="text" id="name" name="name" placeholder="" class="validate form-control" [(ngModel)]="currentPlanEntity.name"
-                            required minlength="1" maxlength="30">
+                            required minlength="1" maxlength="100">
                         <label for="nit">Nombre del plan</label>
                     </div>
                     <div class="input-field col s1">

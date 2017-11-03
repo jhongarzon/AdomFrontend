@@ -6,12 +6,12 @@ import { AuthenticationService } from './authentication.service';
 
 @Injectable()
 export class ProfessionalService {
-        
 
-    constructor(private http: Http, private configuration: Config, private authenticationService: AuthenticationService) { 
+
+    constructor(private http: Http, private configuration: Config, private authenticationService: AuthenticationService) {
     }
 
-    getAll(pageNumber:number, pageSize: number) {
+    getAll(pageNumber: number, pageSize: number) {
         return this.http.get(this.configuration.get("apiUrl") + 'professional?pageNumber=' + pageNumber + '&pageSize=' + pageSize, this.authenticationService.jwt()).map((response: Response) => response.json());
     }
 
@@ -21,6 +21,9 @@ export class ProfessionalService {
 
     getById(id: number) {
         return this.http.get(this.configuration.get("apiUrl") + 'professional/' + id, this.authenticationService.jwt()).map((response: Response) => response.json());
+    }
+    getByDocument(documentTypeId: number, document: string) {
+        return this.http.get(this.configuration.get("apiUrl") + 'professional/' + documentTypeId + '/' + document, this.authenticationService.jwt()).map((response: Response) => response.json());
     }
 
     create(professional: Professional) {

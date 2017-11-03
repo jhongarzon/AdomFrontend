@@ -25,15 +25,14 @@
                 <div class="row">
                     <div class="input-field col s5">
                         <input type="text" id="name" placeholder="" name="name" class="validate" [(ngModel)]="currentService.name" required minlength="1"
-                            maxlength="30">
+                            maxlength="100">
                         <label for="name">Nombre del servicio</label>
                     </div>
                     <div class="input-field col s1">
                         <label><font color="red">*</font></label>
                     </div>
                     <div class="input-field col s5">
-                        <input type="number" id="value" placeholder="" name="value" class="validate" [(ngModel)]="currentService.value" required
-                            minlength="1" maxlength="30">
+                        <input type="number" id="value" min="0" placeholder="" name="value" class="validate" [(ngModel)]="currentService.value" required                           >
                         <label for="name">Valor a pagar al profesional</label>
                     </div>
                     <div class="input-field col s1">
