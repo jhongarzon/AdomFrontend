@@ -10,17 +10,17 @@
             <p-column field="initialDate" header="F. Inicio" [sortable]="true" [style]="{'width': '10%'}"></p-column>
 
             <p-column header="Ejecución" styleClass="text-center" [style]="{'width': '10%'}">
-                <template let-professionalService="rowData" pTemplate="body">
+                <ng-template let-professionalService="rowData" pTemplate="body">
                     {{professionalService.quantityCompleted }} / {{professionalService.quantity }}
-                </template>
+                </ng-template>
             </p-column>
             <p-column styleClass="col-button" header="Acción" styleClass="text-center" [style]="{'width': '10%'}">
-                <template let-professionalService="rowData" pTemplate="body">
+                <ng-template let-professionalService="rowData" pTemplate="body">
                     <a [class.hidden]="!onProfessionalServicesDetail" class="blue-text text-lighten-1" href="professionalassignedservices#!"
                         (click)="viewProfessionalServiceDetail(professionalService)" materialize="tooltip" data-tooltip="Editar">
                     Servicio
                 </a>
-                </template>
+                </ng-template>
             </p-column>
         </p-dataTable>
     </div>
@@ -34,12 +34,12 @@
             <p-column field="finalDate" header="F. Finalización" [sortable]="true" [style]="{'width': '10%'}"></p-column>
             <p-column field="totalReceived" header="Copagos Recaudados" [sortable]="true" [style]="{'width': '10%'}"></p-column>
             <p-column styleClass="col-button" header="Acción" styleClass="text-center" [style]="{'width': '10%'}">
-                <template let-professionalService="rowData" pTemplate="body">
+                <ng-template let-professionalService="rowData" pTemplate="body">
                     <a [class.hidden]="!onProfessionalServicesDetail" class="blue-text text-lighten-1" href="professionalassignedservices#!"
                         (click)="viewProfessionalServiceDetail(professionalService)" materialize="tooltip" data-tooltip="Editar">
                     Servicio
                 </a>
-                </template>
+                </ng-template>
             </p-column>
         </p-dataTable>
     </div>
@@ -58,7 +58,7 @@
                 <div class="row" style="border:solid; padding:10px;">
                     <div class="row" style="margin:0px">
                         <div class="col col-md-6">
-                            <span><b>NOMBRE PACIENTE:</b> {{currentPatient.firstName}} {{currentPatient.surname}}</span>
+                            <span><b>NOMBRE PACIENTE:</b> {{currentPatient.firstName}} {{currentPatient.secondName}} {{currentPatient.surname}} {{currentPatient.secondSurname}}</span>
                         </div>
                         <div class="col col-md-6">
                             <span><b>ENTIDAD:</b> {{currentAssignService.entityName}}</span>
@@ -126,7 +126,7 @@
             <p-column field="consecutive" header="#" [sortable]="true" [style]="{'width': '5%'}"></p-column>
             <p-column field="serviceName" header="Servicio" [sortable]="true" [style]="{'width': '20%'}"></p-column>
             <p-column field="dateVisit" header="Fecha visita" [editable]="true" required="true" [style]="{'width': '15%','overflow':'visible'}">
-                <template let-col let-row="rowData" pTemplate="body">
+                <ng-template let-col let-row="rowData" pTemplate="body">
                     <div *ngIf="row['stateId'] == 1">
                         <p-calendar (onSelect)="onDateVisitChanged($event, row)" dateFormat="dd-mm-yy" readonlyInput="true"></p-calendar>
                     </div>
@@ -134,10 +134,10 @@
                     <div *ngIf="row['stateId'] != 1">
                         <span> {{row[col.field]}}</span>
                     </div>
-                </template>
+                </ng-template>
             </p-column>
             <p-column field="paymentType" header="Medio Pago" [editable]="true" required="true" [style]="{'width': '15%', 'overflow':'visible'}">
-                <template let-col let-row="rowData" pTemplate="body">
+                <ng-template let-col let-row="rowData" pTemplate="body">
                     <div *ngIf="row['stateId'] == 1" class="styled-select slate">
                         <select item-width="200px" [(ngModel)]="row[col.field]" style="display:block">
                              <option *ngFor="let c of paymentTypes" [value]="c.value" >{{c.label}}</option>
@@ -146,10 +146,10 @@
                     <div *ngIf="row['stateId'] != 1">
                         <span> {{row['paymentName']}}</span>
                     </div>
-                </template>
+                </ng-template>
             </p-column>
             <p-column field="receivedAmount" header="Valor Recibido" [editable]="true" [style]="{'width': '10%'}">
-                <template let-col let-row="rowData" pTemplate="body">
+                <ng-template let-col let-row="rowData" pTemplate="body">
 
                     <div *ngIf="row['stateId'] == 1">
                         <div *ngIf="row['paymentType'] != 2">
@@ -161,10 +161,10 @@
                             <span> {{row[col.field]}}</span>
                         </div>                        
                     </div>
-                </template>
+                </ng-template>
             </p-column>
              <p-column field="pin" header="Pin" [editable]="true" [style]="{'width': '10%'}">
-                <template let-col let-row="rowData" pTemplate="body">
+                <ng-template let-col let-row="rowData" pTemplate="body">
 
                     <div *ngIf="row['stateId'] == 1">                        
                         <div *ngIf="row['paymentType'] == 2">
@@ -176,10 +176,10 @@
                             <span> {{row[col.field]}}</span>
                         </div>
                     </div>
-                </template>
+                </ng-template>
             </p-column>
             <p-column field="otherAmount" header="Otro Valor" [editable]="true" [style]="{'width': '10%'}">
-                <template let-col let-row="rowData" pTemplate="body">
+                <ng-template let-col let-row="rowData" pTemplate="body">
                     <div *ngIf="row['stateId'] == 1">
                         <input type="number" maxlength="6" pInputText [(ngModel)]="row[col.field]" />
                     </div>
@@ -187,15 +187,15 @@
                     <div *ngIf="row['stateId'] != 1">
                         <span> {{row[col.field]}}</span>
                     </div>
-                </template>
+                </ng-template>
             </p-column>
             <p-column field="stateName" header="Estado" [sortable]="true" [style]="{'width': '15%'}"></p-column>
             <p-column field="stateId" stateName="" styleClass="col-button" header="Acción" styleClass="text-center" [style]="{'width': '10%'}">
-                <template let-col let-row="rowData" pTemplate="body">
+                <ng-template let-col let-row="rowData" pTemplate="body">
                     <div class="row">
                         <a [class.hidden]="row[col.field] != 1" class="blue-text text-lighten-1" href="professionalassignedservices#!" (click)="markDetailAsCompleted(row)">Guardar</a>
                     </div>
-                </template>
+                </ng-template>
             </p-column>
 
         </p-dataTable>

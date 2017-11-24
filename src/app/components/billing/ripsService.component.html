@@ -83,16 +83,21 @@
         <div class="input-field col s2">
             <button type="button" class="waves-effect waves-light btn blue text-lighten-1" (click)="generateRips()">Generar RIPS</button>
         </div>
-
+    </div>
+    <div class="row">
+        <div class="input-field col s6">
+            <input type="text" placeholder="" #gb id="filterRips" name="filterRips" class="validate" />
+            <label class="active">Filtrar</label>
+        </div>
     </div>
     <div class="row">
         <div class="col s12">
-            <p-dataTable [value]="rips" [rows]="5" [paginator]="true" [globalFilter]="gb" #dt scrollable="true" scrollWidth="1120px"
-                [(selection)]="selectedRips" dataKey="AssignServiceId">
+            <p-dataTable [value]="rips"  [globalFilter]="gb" [rows]="5" [paginator]="true" [(selection)]="selectedRips" dataKey="assignServiceId" [headerCheckboxToggleAllPages]="true">
                 <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+                <p-column field="assignServiceId" header="" [sortable]="true" [hidden]="true" [style]="{'width': '250px'}"></p-column>
                 <p-column field="patientName" header="Paciente" [sortable]="true" [style]="{'width': '250px'}"></p-column>
                 <p-column field="patientDocument" header="Documento" [sortable]="true" [style]="{'width': '200px'}"></p-column>
-                <p-column field="serviceName" header="Servicio" [sortable]="true" [style]="{'width': '350px%'}"></p-column>
+                <p-column field="serviceName" header="Servicio" [sortable]="true" [style]="{'width': '350px'}"></p-column>
                 <p-column field="authorizationNumber" header="No. Autorización" [sortable]="true" [style]="{'width': '180px'}"></p-column>
                 <p-column field="initialDate" header="F. Inicio" [sortable]="true" [style]="{'width': '130px'}"></p-column>
                 <p-column field="finalDate" header="F. Finalización" [sortable]="true" [style]="{'width': '150px'}"></p-column>

@@ -17,9 +17,9 @@
                 <p-dataTable [value]="users" [rows]="rowsRecords" selectionMode="single" (onRowSelect)="onRowSelectUser($event)" [paginator]="true" [globalFilter]="gbusers" #dt>
                     <p-column field="namesComplete" [sortable]="true" [style]="{'width': '0%', 'visibility': 'hidden'}"></p-column>
                     <p-column field="state" header="Estado" styleClass="text-center" [style]="{'width': '10%'}">
-                        <template let-col let-user="rowData" pTemplate="body">
+                        <ng-template let-col let-user="rowData" pTemplate="body">
                             <p-checkbox [(ngModel)]="user.state" binary="true" disabled="disabled"></p-checkbox>
-                        </template>
+                        </ng-template>
                     </p-column>
                     <p-column field="firstName" header="Nombres" [sortable]="true" [style]="{'width': '40%'}"></p-column>
                     <p-column field="surname" header="Apellidos" [sortable]="true" [style]="{'width': '40%'}"></p-column>
@@ -38,9 +38,9 @@
     </div>
     <p-dataTable [class.hidden]="!inUserSelected" [value]="userRoles" [rows]="10" [paginator]="true" [globalFilter]="gb" #dt>
         <p-column field="hasRole" header="Habilitar rol" styleClass="text-center" [editable]="true" [style]="{'width': '20%'}">
-            <template let-col let-userRole="rowData" pTemplate="edit">
+            <ng-template let-col let-userRole="rowData" pTemplate="edit">
                 <p-checkbox [(ngModel)]="userRole.hasRole" name="chk_{{userRole.roleId}}" binary="true" (onChange)="setOrUnsetUserRole(userRole)"></p-checkbox>
-            </template>
+            </ng-template>
         </p-column>
         <p-column field="roleName" header="Nombres" [sortable]="true" [style]="{'width': '80%'}"></p-column>
     </p-dataTable>

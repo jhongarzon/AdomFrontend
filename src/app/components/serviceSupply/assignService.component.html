@@ -8,7 +8,9 @@
         </div>
         <div class="input-field col s2">
             <a [class.hidden]="!onReadPermission" href="assignservice#!" (click)="loadPatients()" materialize="tooltip" class="tooltipped"
-                data-tooltip="Búsqueda"><i class="material-icons">search</i></a>
+                data-tooltip="Búsqueda">
+                <i class="material-icons">search</i>
+            </a>
         </div>
     </div>
     <div class="row" [class.hidden]="!inSearchMode">
@@ -19,24 +21,27 @@
             <p-column field="nameCompleted" header="Nombre completo" [sortable]="true" [style]="{'width': '50%'}"></p-column>
             <p-column field="telephone1" header="Teléfono" [sortable]="true" [style]="{'width': '20%'}"></p-column>
             <p-column styleClass="col-button" header="Acción" styleClass="text-center" [style]="{'width': '10%'}">
-                <template let-patient="rowData" pTemplate="body">
+                <ng-template let-patient="rowData" pTemplate="body">
                     <a [class.hidden]="!onReadPermission" class="blue-text text-lighten-1 left" href="assignservice#!" (click)="loadAssignServices(patient)">
                         Servicios
                     </a>
-                </template>
+                </ng-template>
             </p-column>
         </p-dataTable>
     </div>
     <p-fieldset legend="Información general del ingreso" [class.hidden]="inSearchMode" [toggleable]="true">
         <div class="row" style="margin:0px">
             <div class="input-field col s4">
-                <span><b>PACIENTE:</b> {{currentPatient.firstName}} {{currentPatient.secondName}} {{currentPatient.surname}} {{currentPatient.secondSurname}}</span>
+                <span>
+                    <b>PACIENTE:</b> {{currentPatient.firstName}} {{currentPatient.secondName}} {{currentPatient.surname}} {{currentPatient.secondSurname}}</span>
             </div>
             <div class="input-field col s4">
-                <span><b>TIPO DOC:</b> {{currentPatient.documentTypeName}}</span>
+                <span>
+                    <b>TIPO DOC:</b> {{currentPatient.documentTypeName}}</span>
             </div>
             <div class="input-field col s4">
-                <span><b>NÚMERO DOC:</b> {{currentPatient.document}}</span>
+                <span>
+                    <b>NÚMERO DOC:</b> {{currentPatient.document}}</span>
             </div>
             <!--<div class="input-field col s4">
                 <span>GENÉRO: {{currentPatient.genderName}}</span>
@@ -45,19 +50,23 @@
         </div>
         <div class="row" style="margin:0px">
             <div class="input-field col s4">
-                <span><b>EDAD:</b> {{currentPatient.age}}</span>
+                <span>
+                    <b>EDAD:</b> {{currentPatient.age}}</span>
             </div>
             <div class="input-field col s4">
-                <span><b>TIPO PACIENTE:</b> {{currentPatient.patientTypeName}}</span>
+                <span>
+                    <b>TIPO PACIENTE:</b> {{currentPatient.patientTypeName}}</span>
             </div>
             <div class="input-field col s4">
-                <span><b>TELÉFONO 1:</b> {{currentPatient.telephone1}}</span>
+                <span>
+                    <b>TELÉFONO 1:</b> {{currentPatient.telephone1}}</span>
             </div>
 
         </div>
         <div class="row" style="margin:0px">
             <div class="input-field col s4">
-                <span><b>TELÉFONO 2:</b> {{currentPatient.telephone2}}</span>
+                <span>
+                    <b>TELÉFONO 2:</b> {{currentPatient.telephone2}}</span>
             </div>
         </div>
         <div class="input-field col s12 right">
@@ -98,46 +107,46 @@
                     </ng-template>
                 </p-column>
                 <p-column field="professionalId" header="Profesional" [editable]="true" required="true" [style]="{'width': '25%', 'overflow':'visible'}">
-                    <template let-col let-ProfessionalT="rowData" pTemplate="body">
+                    <ng-template let-col let-ProfessionalT="rowData" pTemplate="body">
                         <div>
                             <select [(ngModel)]="ProfessionalT[col.field]" style="display:block">
-                             <option *ngFor="let c of professionalsSelect" [value]="c.value">{{c.label}}</option>
-                             </select>
+                                <option *ngFor="let c of professionalsSelect" [value]="c.value">{{c.label}}</option>
+                            </select>
                         </div>
                         <!--<p-dropdown [(ngModel)]="ProfessionalT[col.field]" [options]="professionalsSelect" [autoWidth]="false" [style]="{'width':'100%'}"></p-dropdown>-->
-                    </template>
+                    </ng-template>
                 </p-column>
                 <p-column field="stateId" header="Estado" [editable]="true" required="true" [style]="{'width': '15%', 'overflow':'visible'}">
-                    <template let-col let-StateT="rowData" pTemplate="body">
+                    <ng-template let-col let-StateT="rowData" pTemplate="body">
                         <div>
                             <select [(ngModel)]="StateT[col.field]" style="display:block" (focus)="onFocusState($event)" (change)="onChangeStateService($event)">
-                             <option *ngFor="let c of stateDetailSelect" [value]="c.value">{{c.label}}</option>
+                                <option *ngFor="let c of stateDetailSelect" [value]="c.value">{{c.label}}</option>
                             </select>
                         </div>
                         <!--<p-dropdown (onChange)="onChangeStateService($event,StateT[col.field])" [(ngModel)]="StateT[col.field]" [options]="stateDetailSelect" [autoWidth]="false" [style]="{'width':'100%'}"></p-dropdown>-->
 
-                    </template>
-                    <!--<template let-col let-StateT="rowData" pTemplate="editor">
+                    </ng-template>
+                    <!--<ng-template let-col let-StateT="rowData" pTemplate="editor">
                         <p-dropdown (onChange)="onChangeStateService($event)" [(ngModel)]="StateT[col.field]" [options]="stateDetailSelect" [autoWidth]="false" [style]="{'width':'100%'}"></p-dropdown>
                                     
-                    </template>  -->
+                    </ng-template>  -->
                 </p-column>
-                <p-column field="observation" header="Observación" [editable]="true" [style]="{'width': '10%'}">
-                    <template let-col let-row="rowData" pTemplate="body">
+                <p-column field="observation" header="Comentarios" [editable]="true" [style]="{'width': '10%'}">
+                    <ng-template let-col let-row="rowData" pTemplate="body">
                         <input type="text" pInputText [(ngModel)]="row[col.field]" />
-                    </template>
+                    </ng-template>
                 </p-column>
                 <p-column field="verified" header="Verificado" styleClass="text-center" [editable]="true" [style]="{'width': '10%'}">
-                    <template let-col let-row="rowData" pTemplate="edit" let-index="index">
+                    <ng-template let-col let-row="rowData" pTemplate="edit" let-index="index">
                         <p-checkbox [(ngModel)]="row.verified" name="chk_{{row.assignServiceDetailId}}" binary="true" (onChange)="verifyVisit(row)"></p-checkbox>
-                    </template>
+                    </ng-template>
                 </p-column>
                 <p-column styleClass="col-button" header="Calidad" styleClass="text-center" [style]="{'width': '10%'}">
-                    <template let-row="rowData" pTemplate="body" item-width="5%">
+                    <ng-template let-row="rowData" pTemplate="body" item-width="5%">
                         <a [class.disabled]="row.isQualityTestDone" class="blue-text text-lighten-1 left" href="assignservice#!" (click)="qualityTest(row)">
-                        Evaluación
-                    </a>
-                    </template>
+                            Evaluación
+                        </a>
+                    </ng-template>
                 </p-column>
             </p-dataTable>
             <div class="row">
@@ -159,49 +168,80 @@
     <br>
     <br>
     <p-fieldset collapsed="true" legend="Detalle del servicio" [class.hidden]="!inServiceSelectMode" [toggleable]="true">
-        <div class="row" style="margin:0px">
-            <div class="col col-md-6">
-                <span><b>ENTIDAD:</b> {{currentAssignService.entityName}}</span>
-
-            </div>
-            <div class="col col-md-6">
-                <span><b>PLAN:</b> {{currentAssignService.planEntityName}}</span>
-            </div>
-        </div>
-        <div class="row" style="margin:0px">
-            <div class="col col-md-6">
-                <span><b>CONTRATO:</b> {{currentAssignService.contractNumber}}</span>
-            </div>
-            <div class="col col-md-6">
-                <span><b>F. SOLICITUD:</b> {{currentAssignService.initialDate}}</span>
-            </div>
-        </div>
-        <div class="row" style="margin:0px">
-            <div class="col col-md-6">
-                <span><b>CIE 10:</b> {{currentAssignService.cie10}}</span>
-            </div>
-
-            <div class="col col-md-6">
-                <span><b>DESC. CIE 10:</b> {{currentAssignService.descriptionCie10}}</span>
-            </div>
-        </div>
-        <div class="row" style="margin:0px">
-            <div class="col col-md-6">
-                <span><b>SERVICIO:</b> {{currentAssignService.serviceName}}</span>
-            </div>
-            <div class="col col-md-6">
-                <span><b>CANTIDAD:</b> {{currentAssignService.quantity}}</span>
-            </div>
-        </div>
-        <div class="row" style="margin:0px">
-            <div class="col col-md-6">
-                <span><b>F. INICIO:</b> {{currentAssignService.initialDate}}</span>
-            </div>
-            <div class="col col-md-6">
-                <span><b>F. FINALIZA:</b> {{currentAssignService.finalDate}}</span>
-            </div>
-        </div>
         <div class="row">
+            <div class="row" style="margin:0px">
+                <div class="col col-md-6">
+                    <span>
+                        <b>NOMBRE PACIENTE:</b> {{currentPatient.firstName}} {{currentPatient.secondName}} {{currentPatient.surname}} {{currentPatient.secondSurname}}</span>
+                </div>
+                <div class="col col-md-6">
+                    <span>
+                        <b>ENTIDAD:</b> {{currentAssignService.entityName}}</span>
+                </div>
+            </div>
+            <div class="row" style="margin:0px">
+                <div class="col col-md-6">
+                    <span>
+                        <b>TIPO DOCUMENTO:</b> {{currentPatient.documentTypeName}}</span>
+                </div>
+                <div class="col col-md-6">
+                    <span>
+                        <b>NO. AUTORIZACIÓN:</b> {{currentAssignService.authorizationNumber}}</span>
+                </div>
+            </div>
+            <div class="row" style="margin:0px">
+                <div class="col col-md-6">
+                    <span>
+                        <b>NÚMERO DOCUMENTO:</b> {{currentPatient.document}}</span>
+                </div>
+                <div class="col col-md-6">
+                    <span>
+                        <b>COPAGO:</b> {{currentAssignService.coPaymentAmount}}</span>
+                </div>
+            </div>
+            <div class="row" style="margin:0px">
+                <div class="col col-md-6">
+                    <span>
+                        <b>EDAD:</b> {{currentPatient.age}}</span>
+                </div>
+                <div class="col col-md-6">
+                    <span>
+                        <b>FRECUENCIA COPAGO:</b> {{currentAssignService.coPaymentFrecuencyName}}</span>
+                </div>
+            </div>
+            <div class="row" style="margin:0px">
+                <div class="col col-md-6">
+                    <span>
+                        <b>TELEFONO 1:</b> {{currentPatient.telephone1}}</span>
+                </div>
+                <div class="col col-md-6">
+                    <span>
+                        <b>SERVICIO:</b> {{currentAssignService.serviceName}}</span>
+                </div>
+
+            </div>
+            <div class="row" style="margin:0px">
+                <div class="col col-md-6">
+                    <span>
+                        <b>TELEFONO 2:</b> {{currentPatient.telephone2}}</span>
+                </div>
+                <div class="col col-md-6">
+                    <span>
+                        <b>FRECUENCIA:</b> {{currentAssignService.serviceFrecuencyName}}</span>
+                </div>
+
+            </div>
+            <div class="row" style="margin:0px">
+                <div class="col col-md-6">
+                    <span>
+                        <b>DIRECCIÓN:</b> {{currentPatient.address}}</span>
+                </div>
+                <div class="col col-md-6">
+                    <span>
+                        <b>DES. CIE10:</b> {{currentAssignService.descriptionCie10}}</span>
+                </div>
+            </div>
+
         </div>
     </p-fieldset>
     <br>
@@ -219,11 +259,11 @@
                 <p-column field="quantity" header="Cantidad" [sortable]="true" [style]="{'width': '12%'}"></p-column>
                 <p-column field="billedName" header="Facturado a" [sortable]="true" [style]="{'width': '20%'}"></p-column>
                 <p-column styleClass="col-button" header="Acción" styleClass="text-center" [style]="{'width': '8%'}">
-                    <template let-supply="rowData" pTemplate="body" item-width="5%">
+                    <ng-template let-supply="rowData" pTemplate="body" item-width="5%">
                         <a [class.hidden]="!onCreatePermission" class="blue-text text-lighten-1 left" href="assignservice#!" (click)="deleteSupplyService(supply)">
-                        Borrar
-                    </a>
-                    </template>
+                            Borrar
+                        </a>
+                    </ng-template>
                 </p-column>
             </p-dataTable>
         </div>
@@ -232,7 +272,7 @@
         <alertmessage></alertmessage>
         <div class="row">
             <div class="col s12">
-                <form #assignSupplyForm="ngForm" >
+                <form #assignSupplyForm="ngForm">
                     <div class="row">
                         <div class="input-field col s5">
                             <select name="supplyId" id="supplyId" materialize="material_select" [materializeSelectOptions]="supplies" [(ngModel)]="assignServiceSupplyTemp.supplyId"
@@ -243,7 +283,9 @@
                             <label>Insumo</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                     </div>
                     <div class="row">
@@ -253,7 +295,9 @@
                             <label for="quantityI">Cantidad</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                     </div>
                     <div class="row">
@@ -266,7 +310,9 @@
                             <label>Facturado a</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                     </div>
                     <div class="row">
@@ -294,7 +340,9 @@
                             <label>Tipo de documento</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                         <div class="input-field col s5">
                             <input autofocus placeholder="" type="text" id="document" name="document" (change)="findDocument()" class="validate form-control"
@@ -302,7 +350,9 @@
                             <label for="document" class="active">Documento</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                         <div class="input-field col s5">
                             <input type="text" placeholder="" id="firstName" name="firstName" class="validate" [(ngModel)]="currentPatient.firstName"
@@ -310,7 +360,9 @@
                             <label for="firstName" data-error="Correo inválido.">Primer nombre</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                         <div class="input-field col s6">
                             <input type="text" placeholder="" id="secondName" name="secondName" class="validate" [(ngModel)]="currentPatient.secondName">
@@ -322,7 +374,9 @@
                             <label for="surname">Primer apellido</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                         <div class="input-field col s6">
                             <input type="text" placeholder="" id="secondSurname" name="secondSurname" class="validate" [(ngModel)]="currentPatient.secondSurname"
@@ -339,7 +393,9 @@
                             <label class="active">Género</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                         <div class="input-field col s6">
                             <input type="text" placeholder="" id="occupation" name="occupation" class="validate" [(ngModel)]="currentPatient.occupation"
@@ -355,7 +411,9 @@
                             <label for="age">Edad</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                         <div class="input-field col s2">
                             <select name="patientTypeId" id="unitTimeId" materialize="material_select" [materializeSelectOptions]="unitTime" [(ngModel)]="currentPatient.unitTimeId"
@@ -370,7 +428,9 @@
                             <label for="address">Dirección</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                         <div class="input-field col s6">
                             <input type="text" placeholder="" id="neighborhood" name="neighborhood" class="validate" [(ngModel)]="currentPatient.neighborhood"
@@ -383,7 +443,9 @@
                             <label for="telephone1">Celular principal</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                         <div class="input-field col s6">
                             <input type="number" placeholder="" id="telephone2" name="telephone2" class="validate" [(ngModel)]="currentPatient.telephone2"
@@ -429,7 +491,9 @@
                             <label>Tipo de paciente</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                         <div class="input-field col s6" [class.hidden]="!inEditMode">
                             <input type="text" placeholder="" placeholder="" id="createdOn" name="createdOn" [(ngModel)]="currentPatient.createdOn" readonly/>
@@ -457,7 +521,9 @@
                             <label for="contractNumber">Nro contrato</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                         <div class="input-field col s3">
                             <select name="entityId" id="entityId" materialize="material_select" (ngModelChange)="loadPlans($event)" [materializeSelectOptions]="entities"
@@ -468,7 +534,9 @@
                             <label>Entidad</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                         <div class="input-field col s3">
                             <select name="planEntityId" id="planEntityId" materialize="material_select" (ngModelChange)="loadServices($event)" [materializeSelectOptions]="plansEntity"
@@ -479,7 +547,9 @@
                             <label>Plan</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                     </div>
                     <div class="row">
@@ -489,7 +559,9 @@
                             <label for="cie10">CIE10</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                         <div class="input-field col s9">
                             <input type="text" id="descriptionCie10" placeholder="" name="descriptionCie10" class="validate" [(ngModel)]="currentAssignService.descriptionCie10"
@@ -500,18 +572,22 @@
                     <div class="row">
                         <div class="input-field col s3">
                             <input type="text" id="authorizationNumber" placeholder="" name="authorizationNumber" class="validate" [(ngModel)]="currentAssignService.authorizationNumber"
-                                required minlength="1" maxlength="30">
+                                required minlength="1" maxlength="300">
                             <label for="authorizationNumber">Nro autorización</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                         <div class="input-field col s3">
                             <my-date-picker name="validity" [options]="myDatePickerOptions" (dateChanged)="onValidityDateChanged($event)" required [(ngModel)]="validity"></my-date-picker>
                             <label class="active" for="validity">Fecha de vigencia</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                         <div class="input-field col s3">
                             <input type="text" id="applicantName" name="applicantName" required placeholder="" class="validate" [(ngModel)]="currentAssignService.applicantName"
@@ -519,7 +595,9 @@
                             <label for="applicantName">Nombre del solicitante</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                     </div>
                     <div class="row">
@@ -532,7 +610,9 @@
                             <label>Servicio</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                         <div class="input-field col s2">
                             <input type="number" placeholder="" id="quantity" name="quantity" class="validate" (ngModelChange)="onChangeQuantity($event)"
@@ -540,7 +620,9 @@
                             <label for="quantity">Cantidad</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                         <div class="input-field col s4">
                             <select name="serviceFrecuencyId" id="serviceFrecuencyId" materialize="material_select" (ngModelChange)="onChangeServiceFrecuency($event)"
@@ -552,23 +634,30 @@
                             <label>Frec. servicio</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s3">
-                            <my-date-picker name="initialDate" [options]="myDatePickerOptions" (dateChanged)="onInitialDateChanged($event)" required [(ngModel)]="initialDate"></my-date-picker>
+                            <my-date-picker name="initialDate" [options]="myDatePickerOptions" (dateChanged)="onInitialDateChanged($event)" required
+                                [(ngModel)]="initialDate"></my-date-picker>
                             <label class="active" for="initialDate">F. Inicio</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                         <div class="input-field col s3">
                             <my-date-picker name="finalDate" [options]="myDatePickerOptions" (dateChanged)="onFinalDateChanged($event)" required [(ngModel)]="finalDate"></my-date-picker>
                             <label class="active" for="finalDate">F. Finalización</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                         <div class="input-field col s3">
                             <select name="professionalId" id="professionalId" materialize="material_select" [materializeSelectOptions]="professionals"
@@ -580,7 +669,9 @@
                             <label>Profesional</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                     </div>
                     <div class="row">
@@ -590,7 +681,9 @@
                             <label class="active" for="coPaymentAmount">Valor copago</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                         <div class="input-field col s3">
                             <select name="coPaymentFrecuencyId" id="coPaymentFrecuencyId" materialize="material_select" [materializeSelectOptions]="coPaymentsFrecuency"
@@ -601,7 +694,9 @@
                             <label>Frec. Copago</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                         <div class="input-field col s1">
                             <input type="number" required placeholder="" id="consultation" name="consultation" class="validate" [(ngModel)]="currentAssignService.consultation"
@@ -609,7 +704,9 @@
                             <label for="consultation">Consulta</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                         <div class="input-field col s1">
                             <input type="number" placeholder="" id="external" name="external" class="validate" [(ngModel)]="currentAssignService.external"
@@ -617,11 +714,13 @@
                             <label for="external">Externa</label>
                         </div>
                         <div class="input-field col s1">
-                            <label><font color="red">*</font></label>
+                            <label>
+                                <font color="red">*</font>
+                            </label>
                         </div>
                         <div class="row">
                             <div class="input-field col s12 center">
-                                <button type="button" class="waves-effect waves-light btn blue text-lighten-1" [disabled]="!assignServiceForm.form.valid"
+                                <button name="AssignServiceButton" type="button" class="waves-effect waves-light btn blue text-lighten-1" [disabled]="!assignServiceForm.form.valid || !isAssignButtonEnabled"
                                     (click)="save()">Guardar</button>
                                 <a href="assignservice#!" class="waves-effect waves-light btn grey" (click)="cancel()">Cancelar</a>
                             </div>
@@ -663,7 +762,7 @@
                 </div>
                 <div class="row">
                     <div class="input-field col s12 center">
-                        <button type="button" class="waves-effect waves-light btn blue text-lighten-1" [disabled]="!assignServiceForm.form.valid"
+                        <button type="button" class="waves-effect waves-light btn blue text-lighten-1" [disabled]="!editServiceForm.form.valid"
                             (click)="save()">Guardar</button>
                         <a href="assignservice#!" class="waves-effect waves-light btn grey" (click)="cancelEdit()">Cancelar</a>
                     </div>
@@ -680,11 +779,13 @@
                 <ul *ngFor="let item of qualityQuestions; let i = index" [attr.data-index]="i">
                     <div class="row">
                         <div class="col s6">
-                            <li style="padding-top: 10px;">{{i + 1}}. {{item.questionText.toUpperCase()}} <span style="color:red">*</span></li>
+                            <li style="padding-top: 10px;">{{i + 1}}. {{item.questionText.toUpperCase()}}
+                                <span style="color:red">*</span>
+                            </li>
                         </div>
                         <div class="col s4">
                             <select name="scoreItem" style="display:block" [(ngModel)]="item.answerId">
-                             <option *ngFor="let c of scoreItems" [value]="c.value">{{c.label}} </option>
+                                <option *ngFor="let c of scoreItems" [value]="c.value">{{c.label}} </option>
                             </select>
                         </div>
                     </div>
@@ -694,5 +795,5 @@
                 </div>
             </form>
         </div>
-    </p-dialog>    
+    </p-dialog>
 </div>

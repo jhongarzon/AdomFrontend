@@ -45,12 +45,12 @@
         #dt>
         <p-column field="name" header="Nombre de la frecuencia" [sortable]="true" [style]="{'width': '100%'}"></p-column>
         <p-column styleClass="col-button" header="Acción" styleClass="text-center" [style]="{'width': '10%'}">
-            <template let-CoPaymentFrecuency="rowData" pTemplate="body">
+            <ng-template let-CoPaymentFrecuency="rowData" pTemplate="body">
                 <a [class.hidden]="!onEditPermission" href="copaymentfrecuency#!" (click)="edit(CoPaymentFrecuency)" materialize="tooltip"
                     class="tooltipped" data-tooltip="Editar">
                     <i class="material-icons blue-text text-lighten-1">mode_edit</i>
                 </a>
-            </template>
+            </ng-template>
         </p-column>
     </p-dataTable>
 </div>

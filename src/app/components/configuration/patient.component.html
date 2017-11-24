@@ -185,11 +185,11 @@
         <p-column field="telephone1" header="Teléfono 1" [sortable]="true" [style]="{'width': '20%'}"></p-column>
         <p-column field="patientTypeName" header="Tipo Paciente" [sortable]="true" [style]="{'width': '15%'}"></p-column>
         <p-column styleClass="col-button" header="Acción" styleClass="text-center" [style]="{'width': '10%'}">
-            <template let-Patient="rowData" pTemplate="body">
+            <ng-template let-Patient="rowData" pTemplate="body">
                 <a [class.hidden]="!onEditPermission" href="patient#!" (click)="edit(Patient)" materialize="tooltip" class="tooltipped" data-tooltip="Editar">
                     <i class="material-icons blue-text text-lighten-1">mode_edit</i>
                 </a>
-            </template>
+            </ng-template>
         </p-column>
     </p-dataTable>
 </div>

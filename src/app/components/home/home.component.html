@@ -20,7 +20,7 @@
         </div>
         <div class="col col-md-4">
             <label>PACIENTES SIN PROFESIONAL ASIGNADO</label>
-            <p-dataTable [value]="homeReport.patientsWithoutProfessional"  [scrollable]="true" [scrollHeight]="230" [globalFilter]="gb" #dt>
+            <p-dataTable [value]="homeReport.patientsWithoutProfessional"  scrollable="true" scrollHeight="200px" [globalFilter]="gb" #dt>
                 <p-column field="patientName" header="Paciente" [sortable]="true" [style]="{'width': '50%'}"></p-column>
                 <p-column field="serviceName" header="Servicio" [sortable]="true" [style]="{'width': '50%'}"></p-column>
             </p-dataTable>
@@ -30,14 +30,14 @@
 
         <div class="col col-md-6">
             <label>SERVICIOS IRREGULARES</label>
-            <p-dataTable [value]="homeReport.irreglularServices" [scrollable]="true" [scrollHeight]="230" [globalFilter]="gb" #dt>
+            <p-dataTable [value]="homeReport.irreglularServices" scrollable="true" scrollHeight="200px" [globalFilter]="gb" #dt>
                 <p-column field="patientName" header="Paciente" [sortable]="true" [style]="{'width': '50%'}"></p-column>
                 <p-column field="serviceName" header="Servicio" [sortable]="true" [style]="{'width': '50%'}"></p-column>
             </p-dataTable>
         </div>
         <div class="col col-md-6">
             <label>PROFESIONALES-COPAGOS</label>
-            <p-dataTable [value]="homeReport.professionalCopayments" [scrollable]="true" [scrollHeight]="230" [globalFilter]="gb" #dt>
+            <p-dataTable [value]="homeReport.professionalCopayments" scrollable="true" scrollHeight="200px" [globalFilter]="gb" #dt>
                 <p-column field="professionalName" header="Profesional" [sortable]="true" [style]="{'width': '50%'}"></p-column>
                 <p-column field="copaymentAmount" header="Recaudado" [sortable]="true" [style]="{'width': '50%'}"></p-column>
             </p-dataTable>

@@ -30,5 +30,6 @@ export class ProfessionalService {
     stateName: string;
     observation: string;
     totalRows: number;
+    recordDate: string;
 
 }

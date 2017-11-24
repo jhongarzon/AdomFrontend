@@ -38,7 +38,6 @@ export class PatientComponent implements OnInit {
         private configuration: Config, private parameterService: ParameterService) {
         this.currentPatient = new Patient();
         let currentDate = new Date();
-        this.currentPatient.birthDate = currentDate;
     }
 
     public edit(Patient: Patient): void {

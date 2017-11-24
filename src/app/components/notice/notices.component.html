@@ -41,7 +41,7 @@
                 </div>
 
                 <p-dataList [value]="notices">
-                    <template let-notice pTemplate="item">
+                    <ng-template let-notice pTemplate="item">
                         <div style="position:relative;float:right;cursor:hand;cursor:pointer" [class.hidden]="!deleteNotices">
                             <a href="javascript:void(0)" (click)="delete(notice.noticeId)"><i class="fa fa-times" aria-hidden="true"></i></a>
                         </div>
@@ -54,7 +54,7 @@
                         <br/>
                         <br/>
                         <hr>
-                    </template>
+                    </ng-template>
                 </p-dataList>
             </div>
         </div>

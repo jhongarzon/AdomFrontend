@@ -34,6 +34,7 @@ import { CalendarModule } from 'primeng/primeng';
 import { QualityQuestion } from '../../models/qualityQuestion';
 import { DatePipe } from '@angular/common';
 import { IMyDpOptions, IMyDateModel } from 'mydatepicker';
+import { debug } from 'util';
 
 declare var $: any
 declare var jQuery: any
@@ -99,7 +100,7 @@ export class AssignServiceComponent implements OnInit {
     public scoreItems: SelectItem[] = [];
     public selectedScores: number[] = [];
     private qualityTestAssingDetailServiceId: number;
-
+    private isAssignButtonEnabled: boolean = false;
     private myDatePickerOptions: IMyDpOptions = {
         dateFormat: 'dd/mm/yyyy', editableDateField: false, openSelectorOnInputClick: true
     };
@@ -140,6 +141,7 @@ export class AssignServiceComponent implements OnInit {
         this.inReadMode = false;
         this.inCreateMode = true;
         this.displayNewService = true;
+        this.isAssignButtonEnabled = true;
         this.initializeCalendars();
         this.loadProfessionals();
         this.loadCoPaymentFrecuency();
@@ -223,6 +225,8 @@ export class AssignServiceComponent implements OnInit {
     }
 
     public save(): void {
+        debugger;
+        this.isAssignButtonEnabled = false;
         if (!this.inEditMode) {
             this.saveNewAssignService();
         } else {
@@ -279,6 +283,7 @@ export class AssignServiceComponent implements OnInit {
                     this.loadAssignServicesDetail();
                     this.alertService.clean(null);
                 }
+                this.selectedDetails = [];
                 this.configuration.CloseLoading();
             })
     }
@@ -425,17 +430,19 @@ export class AssignServiceComponent implements OnInit {
     }
 
     private updateDetails(): void {
+        debugger;
         this.configuration.ShowLoading();
         this.currentAssignService.patientId = this.currentPatient.patientId;
-        this.serviceDetail.update(this.currentAssignService.assignServiceId, this.assignServicesDetail)
+        this.serviceDetail.update(this.currentAssignService.assignServiceId, this.selectedDetails)
             .subscribe((res) => {
+                debugger;
                 if (res.success) {
                     this.loadAssignServices(this.currentPatient);
                     this.alertService.clean(null);
                     this.configuration.ShowAlertMessage("Se guardaron los datos correctamente.");
                 }
-                else {
-                    console.error(res.errors);
+                else if (res.errors.length > 0) {
+                    //console.error(res.errors);
                     this.alertService.error(res.errors);
                 }
 
@@ -987,6 +994,6 @@ export class AssignServiceComponent implements OnInit {
     }
     public onDateVisitChanged(event, details: AssignServiceDetail) {
         let d = new Date(Date.parse(event));
-        details.dateVisit = `${("0" + d.getDate()).slice(-2)}-${("0" + (d.getMonth()+1)).slice(-2)}-${d.getFullYear()}`;
+        details.dateVisit = `${("0" + d.getDate()).slice(-2)}-${("0" + (d.getMonth() + 1)).slice(-2)}-${d.getFullYear()}`;
     }
 }

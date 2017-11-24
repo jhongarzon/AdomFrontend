@@ -82,10 +82,10 @@ export class ProfessionalAssignedServicesComponent implements OnInit {
         this.inReadMode = false;
         this.inEditMode = true;
         this.assignServicesDetail = [];
-
-        this.currentAssignService = this.scheduledServices.find(item => item.serviceId == professionalService.serviceId);
+        debugger;
+        this.currentAssignService = this.scheduledServices.find(item => item.assignServiceId == professionalService.assignServiceId);
         if (this.currentAssignService == null) {
-            this.currentAssignService = this.completedServices.find(item => item.serviceId == professionalService.serviceId);
+            this.currentAssignService = this.completedServices.find(item => item.assignServiceId == professionalService.assignServiceId);
         }
         debugger;
         this.patientService.getById(professionalService.patientId)
@@ -139,7 +139,7 @@ export class ProfessionalAssignedServicesComponent implements OnInit {
             this.configuration.ShowAlertMessage("Ingrese un medio de pago");
             return;
         }
-        if (assignServiceDetail.paymentType != 2) {
+        if (assignServiceDetail.paymentType == 1) {
             assignServiceDetail.pin = 0;
             if ((assignServiceDetail.receivedAmount == null || assignServiceDetail.receivedAmount == 0)) {
                 this.configuration.ShowAlertMessage("Ingrese un valor para el valor recibido");
@@ -170,7 +170,7 @@ export class ProfessionalAssignedServicesComponent implements OnInit {
         this.assignServiceDetailService.update(assignServiceDetail.assignServiceId, serviceDetailArray)
             .subscribe((res) => {
                 if (res.success) {
-                    
+
                     this.alertService.clean(null);
                     this.configuration.ShowAlertMessage("Se guardaron los datos correctamente.");
                 }
@@ -201,6 +201,6 @@ export class ProfessionalAssignedServicesComponent implements OnInit {
     public onDateVisitChanged(event, assignServiceDetail: AssignServiceDetail) {
         debugger;
         let d = new Date(Date.parse(event));
-        assignServiceDetail.dateVisit = `${("0" + d.getDate()).slice(-2)}-${("0" + (d.getMonth()+1)).slice(-2)}-${d.getFullYear()}`;
+        assignServiceDetail.dateVisit = `${("0" + d.getDate()).slice(-2)}-${("0" + (d.getMonth() + 1)).slice(-2)}-${d.getFullYear()}`;
     }
 }

@@ -32,4 +32,5 @@
     allowsUpdate: boolean;
     totalRows: number;
     assignedBy: number;
+    recordDate: string;
 }

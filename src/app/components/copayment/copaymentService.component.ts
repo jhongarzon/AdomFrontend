@@ -200,7 +200,7 @@ export class CopaymentServicesComponent implements OnInit {
                 }
 
                 element.grandTotalToPay = (element.valueToPayToProfessional * element.quantityCompleted) -
-                    (element.totalCopaymentReported) + Number(element.totalCopaymentReceived) + Number(element.otherValuesReported) - Number(element.discounts);
+                    (element.totalCopaymentReceived) + Number(element.totalCopaymentReported) - Number(element.otherValuesReported) - Number(element.discounts);
             }
         });
         if (!hasErrors) {

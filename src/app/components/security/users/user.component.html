@@ -25,7 +25,9 @@
                         <label for="firstName">Correo electrónico</label>
                     </div>
                     <div class="input-field col s1">
-                        <label><font color="red">*</font></label>
+                        <label>
+                            <font color="red">*</font>
+                        </label>
                     </div>
                     <div class="input-field col s5">
                         <input type="text" id="firstName" placeholder="" name="firstName" class="validate" [(ngModel)]="currentUser.firstName" required
@@ -33,7 +35,9 @@
                         <label [ngClass]="currentUser.firstName ? 'active' : ''" for="firstName" data-error="Correo inválido.">Primer nombre</label>
                     </div>
                     <div class="input-field col s1">
-                        <label><font color="red">*</font></label>
+                        <label>
+                            <font color="red">*</font>
+                        </label>
                     </div>
                     <div class="input-field col s6">
                         <input type="text" id="secondName" placeholder="" name="secondName" class="validate" [(ngModel)]="currentUser.secondName">
@@ -45,7 +49,9 @@
                         <label [ngClass]="currentUser.surname ? 'active' : ''" for="surname">Primer apellido</label>
                     </div>
                     <div class="input-field col s1">
-                        <label><font color="red">*</font></label>
+                        <label>
+                            <font color="red">*</font>
+                        </label>
                     </div>
                     <div class="input-field col s6">
                         <input type="text" id="secondSurname" placeholder="" name="secondSurname" class="validate" [(ngModel)]="currentUser.secondSurname"
@@ -66,20 +72,20 @@
         </div>
     </div>
     <p-dataTable [class.hidden]="!inReadMode" [value]="users" [rows]="rowsRecords" [paginator]="true" [globalFilter]="gb" #dt>
-        <p-column field="namesComplete"  [sortable]="true" [style]="{'width': '0%', 'visibility': 'hidden'}"></p-column>
-        <p-column field="state" header="Estado"styleClass="text-center" [style]="{'width': '10%'}">
-            <template let-col let-user="rowData" pTemplate="body">
+        <p-column field="namesComplete" [sortable]="true" [style]="{'width': '0%', 'visibility': 'hidden'}"></p-column>
+        <p-column field="state" header="Estado" [style]="{'width': '10%'}">
+            <ng-template let-col let-user="rowData" pTemplate="body">
                 <p-checkbox [(ngModel)]="user.state" binary="true" disabled="disabled"></p-checkbox>
-            </template>
+            </ng-template>
         </p-column>
         <p-column field="firstName" header="Nombres" [sortable]="true" [style]="{'width': '40%'}"></p-column>
         <p-column field="surname" header="Apellidos" [sortable]="true" [style]="{'width': '40%'}"></p-column>
-        <p-column styleClass="col-button" header="Acción" styleClass="text-center" [style]="{'width': '10%'}">
-            <template let-user="rowData" pTemplate="body">
+        <p-column styleClass="col-button" header="Acción" [style]="{'width': '10%'}">
+            <ng-template let-user="rowData" pTemplate="body">
                 <a [class.hidden]="!onEditPermission" href="user#!" (click)="edit(user)" materialize="tooltip" class="tooltipped" data-tooltip="Editar">
                     <i class="material-icons blue-text text-lighten-1">mode_edit</i>
                 </a>
-            </template>
+            </ng-template>
         </p-column>
     </p-dataTable>
 </div>
