@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
 import { HttpModule, BaseRequestOptions } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
@@ -74,6 +74,10 @@ import { HomeService } from './services/homeService.service';
 
 import { Routes, RouterModule } from '@angular/router';
 import { MyDatePickerModule } from 'mydatepicker';
+import { registerLocaleData } from '@angular/common';
+import lcoaleESCO from '@angular/common/locales/es-CO';
+
+registerLocaleData(lcoaleESCO)
 
 
 @NgModule({
@@ -140,7 +144,9 @@ import { MyDatePickerModule } from 'mydatepicker';
     RoleService,
     UserRoleService,
     RoleActionResourceService,
+    { provide: LOCALE_ID, useValue: "es-CO" },
     { provide: APP_INITIALIZER, useFactory: initFactory, deps: [Config], multi: true },
+    
     ProfessionalService,
     CoordinatorService,
     EntityService,

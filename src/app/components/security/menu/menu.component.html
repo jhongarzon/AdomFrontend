@@ -1,11 +1,39 @@
 <nav class="blue text-lighten-1">
+  <div *ngFor="let module of modules;">
+    <ul id="{{module.moduleId}}" class="dropdown-content">
+      <li *ngFor="let resource of module.resources;">
+        <a href="{{resource.routeFrontEnd}}">{{resource.name}}</a>
+      </li>
+    </ul>
+  </div>
+  <ul id="dropdown1" class="dropdown-content">
+    <li>
+      <a href="menu" (click)="logOut()">Cerrar sesión</a>
+    </li>
+  </ul>
+
   <div class="nav-wrapper">
-    <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
-    <ul id="slide-out" class="side-nav fixed" style="margin-top: 64px;">
+    <a href="/home" class="left brand-logo" style="position: relative; padding-top: 10px; padding-left: 20px; padding-right: 20px;">
+      <img src="./assets/images/logo_blue.png" width="50px" height="50px" />
+    </a>
+    <a href="#" data-activates="mobile-demo" class="button-collapse">
+      <i class="material-icons">menu</i>
+    </a>
+    <ul class="left hide-on-med-and-down">
+      <li *ngFor="let module of modules;">
+        <a class="dropdown-button" [attr.data-activates]="module.moduleId">{{module.name}}
+          <i class="material-icons right">arrow_drop_down</i>
+        </a>
+      </li>
+    </ul>
+
+    <ul class="side-nav" id="mobile-demo">
       <li class="no-padding">
         <ul class="collapsible collapsible-accordion">
           <li *ngFor="let module of modules;">
-            <a class="collapsible-header">{{module.name}}<i class="material-icons">arrow_drop_down</i></a>
+            <a class="collapsible-header">{{module.name}}
+              <i class="material-icons">arrow_drop_down</i>
+            </a>
 
 
             <div class="collapsible-body">
@@ -16,17 +44,16 @@
               </ul>
             </div>
           </li>
+          <li><a href="menu" (click)="logOut()">Cerrar sesión</a></li>
         </ul>
       </li>
     </ul>
-    <a href="/home" class="left brand-logo" style="position: relative; padding-top: 10px; padding-left: 20px; padding-right: 20px;">
-      <img src="./assets/images/logo_blue.png" width="50px" height="50px" /></a>
-
     <ul class="right hide-on-med-and-down">
-      <li><a class="dropdown-button" href="#!" data-activates="dropdown1">{{authenticationService.getUserName()}}<i class="material-icons right">arrow_drop_down</i></a></li>
-    </ul>
-    <ul id="dropdown1" class="dropdown-content">
-      <li><a href="menu" (click)="logOut()">Cerrar sesión</a></li>
+      <li>
+        <a class="dropdown-button" data-activates="dropdown1">{{authenticationService.getUserName()}}
+          <i class="material-icons right">arrow_drop_down</i>
+        </a>
+      </li>
     </ul>
   </div>
 </nav>

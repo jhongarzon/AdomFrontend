@@ -9,6 +9,7 @@ import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/catch';
 import "rxjs/add/observable/throw";
 import "rxjs/add/observable/empty";
+import { debug } from 'util';
 
 @Injectable()
 export class AuthenticationService {
@@ -114,7 +115,14 @@ export class AuthenticationService {
     getUserName() {
         if (this.isAuthenticated()) {
             let sessionUser = JSON.parse(JSON.parse(localStorage.getItem('currentUser')));
-            return sessionUser.firstName + " " + sessionUser.secondname;
+            let userName;
+            if (sessionUser.firstName != undefined && sessionUser.firstName != null && sessionUser.firstName != "") {
+                userName = sessionUser.firstName;
+            }
+            if (sessionUser.surname != undefined && sessionUser.surname != null && sessionUser.surname != "") {
+                userName = userName + " " + sessionUser.surname;
+            }
+            return userName;
         } else return "";
     }
 

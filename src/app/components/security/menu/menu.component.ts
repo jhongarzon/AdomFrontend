@@ -23,8 +23,7 @@ export class MenuComponent implements OnInit, AfterViewInit {
         private route: ActivatedRoute,
         private router: Router) {
 
-        this.loadModulesAndResources();
-        this.getModulesMenu();
+        this.loadModulesAndResources();        
         this.inMenuMode = true;
 
     }
@@ -84,13 +83,6 @@ export class MenuComponent implements OnInit, AfterViewInit {
         }
 
         return false;
-    }
-
-    private getModulesMenu() {
-        for (var i = 0; i < this.modules.length; i++) {
-            this.modules[i].nameDataActivates = "data-activates='" + this.modules[i].moduleId + "'";
-            //this.modulesMenu = this.modulesMenu + "<li><a class=\"dropdown-button\" data-activates=\"1\">" + this.modules[i].name  + "<i class=\"material-icons right\">arrow_drop_down</i></a></li>";
-        }
     }
 
     public ngOnInit() {

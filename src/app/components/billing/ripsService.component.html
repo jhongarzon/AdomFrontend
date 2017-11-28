@@ -92,7 +92,7 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <p-dataTable [value]="rips"  [globalFilter]="gb" [rows]="5" [paginator]="true" [(selection)]="selectedRips" dataKey="assignServiceId" [headerCheckboxToggleAllPages]="true">
+            <p-dataTable [value]="rips" scrollable="true" scrollWidth="100%"  [globalFilter]="gb" [rows]="5" [paginator]="true" [(selection)]="selectedRips" dataKey="assignServiceId" [headerCheckboxToggleAllPages]="true">
                 <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
                 <p-column field="assignServiceId" header="" [sortable]="true" [hidden]="true" [style]="{'width': '250px'}"></p-column>
                 <p-column field="patientName" header="Paciente" [sortable]="true" [style]="{'width': '250px'}"></p-column>
