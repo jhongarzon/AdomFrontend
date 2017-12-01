@@ -225,7 +225,7 @@ export class AssignServiceComponent implements OnInit {
     }
 
     public save(): void {
-        debugger;
+        
         this.isAssignButtonEnabled = false;
         if (!this.inEditMode) {
             this.saveNewAssignService();
@@ -430,12 +430,12 @@ export class AssignServiceComponent implements OnInit {
     }
 
     private updateDetails(): void {
-        debugger;
+        
         this.configuration.ShowLoading();
         this.currentAssignService.patientId = this.currentPatient.patientId;
         this.serviceDetail.update(this.currentAssignService.assignServiceId, this.selectedDetails)
             .subscribe((res) => {
-                debugger;
+                
                 if (res.success) {
                     this.loadAssignServices(this.currentPatient);
                     this.alertService.clean(null);

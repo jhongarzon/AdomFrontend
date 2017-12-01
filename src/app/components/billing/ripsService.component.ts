@@ -85,7 +85,7 @@ export class RipsServiceComponent implements OnInit {
         this.ripsFilter.initialDateEndObj = oneMonthBefore;
         this.ripsFilter.finalDateIniObj = today;
         this.ripsFilter.finalDateEndObj = today;
-        debugger;
+        
 
 
     }
@@ -140,7 +140,7 @@ export class RipsServiceComponent implements OnInit {
         this.loadPlansEntity(entityId);
     }
     public loadRips(): void {
-        debugger;
+        
         this.ripsService.getRips(
             
             (this.ripsFilter.entityId == null) ? 0 : this.ripsFilter.entityId,
@@ -190,7 +190,7 @@ export class RipsServiceComponent implements OnInit {
             this.alertService.error("Ingrese un valor para el copago");
             return;
         }
-        if (this.ripsFilter.copayment < 1) {
+        if (this.ripsFilter.copayment < 0) {
             this.alertService.error("Ingrese un valor para el copago");
             return;
         }
@@ -198,7 +198,7 @@ export class RipsServiceComponent implements OnInit {
             this.alertService.error("Ingrese un valor para el valor neto");
             return;
         }
-        if (this.ripsFilter.netValue < 1) {
+        if (this.ripsFilter.netValue < 0) {
             this.alertService.error("Ingrese un valor para el valor neto");
             return;
         }

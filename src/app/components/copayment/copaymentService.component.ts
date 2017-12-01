@@ -71,7 +71,7 @@ export class CopaymentServicesComponent implements OnInit {
 
     private loadCopayments(): void {
         this.copayments = [];
-        debugger;
+        
         if (this.copaymentFilter.professionalId == 0 && this.copaymentFilter.serviceStatusId == 0 && this.copaymentFilter.copaymentStatusId == 3) {
             this.alertService.error("Seleccione al menos un valor en el filtro");
             return;
@@ -80,7 +80,7 @@ export class CopaymentServicesComponent implements OnInit {
         this.copaymentService.getCopayments(this.copaymentFilter.professionalId, this.copaymentFilter.serviceStatusId, this.copaymentFilter.copaymentStatusId)
             .subscribe((res) => {
                 if (res.success) {
-                    debugger;
+                    
                     this.copayments = res.result;
                 } else {
                     console.error(res.errors);
@@ -171,7 +171,7 @@ export class CopaymentServicesComponent implements OnInit {
         let hasErrors = false;
         this.selectedCopayments.forEach(element => {
             if (element != null) {
-                debugger;
+                
                 if (element.valueToPayToProfessional == null || element.valueToPayToProfessional < 1) {
                     this.alertService.error("El valor a pagar al profesional no se encuentra configurado correctamente Aut:" + element.authorizationNumber);
                     hasErrors = true;

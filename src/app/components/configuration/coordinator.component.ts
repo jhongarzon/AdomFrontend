@@ -105,7 +105,7 @@ export class CoordinatorComponent implements OnInit {
         
         this.service.create(this.currentCoordinator)
             .subscribe((res) => {
-                debugger;
+                
                 if (res.success) {
                     this.coordinators.push(res.result);
                     this.currentCoordinator = new Coordinator();

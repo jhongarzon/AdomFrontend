@@ -4,12 +4,14 @@ import { AlertService } from '../../services/alert.service';
 import { AuthenticationService } from '../../services/authentication.service';
 import { Config } from "../../config/config";
 import { ProfessionalService } from '../../models/professionalService';
+import { Professional } from '../../models/professional';
 import { AssignServiceDetailService } from '../../services/assignServiceDetail.service';
 import { AssignServiceDetail } from '../../models/assignServiceDetail';
 import { FieldsetModule } from 'primeng/primeng';
 import { SelectItem } from '../../models/selectItem';
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../models/patient';
+import { debug } from 'util';
 
 
 declare var $: any
@@ -28,10 +30,12 @@ export class ProfessionalAssignedServicesComponent implements OnInit {
     public scheduledServices: ProfessionalService[] = [];
     public completedServices: ProfessionalService[] = [];
     public assignServicesDetail: AssignServiceDetail[] = [];
+    public assignServicesDetailTemp: AssignServiceDetail[] = [];
     public userId: number;
     public currentAssignService: ProfessionalService;
     public paymentTypes: SelectItem[] = [];
     public currentPatient: Patient;
+    public currentProfessional: Professional;
 
     constructor(private authenticationService: AuthenticationService,
         private alertService: AlertService,
@@ -47,13 +51,25 @@ export class ProfessionalAssignedServicesComponent implements OnInit {
         this.userId = this.authenticationService.getUserId();
         this.currentAssignService = new ProfessionalService();
         this.currentPatient = new Patient();
-        this.loadAssignedServices();
-        this.loadCompletedServices();
+        this.loadProfessionalId();
+
+    }
+    private loadProfessionalId() {
+        
+        this.professionalAssinedServicesService.getProfessionalByUserId(this.userId)
+            .subscribe((res) => {
+                if (res.success && res.result != null) {
+                    this.currentProfessional = res.result;
+                    this.loadAssignedServices();
+                    this.loadCompletedServices();
+                }
+            });
+ 
     }
     private loadAssignedServices(): void {
         this.scheduledServices = [];
 
-        this.professionalAssinedServicesService.getScheduledServices(this.userId)
+        this.professionalAssinedServicesService.getScheduledServices(this.currentProfessional.professionalId)
             .subscribe((res) => {
                 if (res.success) {
 
@@ -67,7 +83,7 @@ export class ProfessionalAssignedServicesComponent implements OnInit {
     private loadCompletedServices(): void {
         this.scheduledServices = [];
 
-        this.professionalAssinedServicesService.getCompletedServices(this.userId)
+        this.professionalAssinedServicesService.getCompletedServices(this.currentProfessional.professionalId)
             .subscribe((res) => {
                 if (res.success) {
                     this.completedServices = res.result;
@@ -82,12 +98,12 @@ export class ProfessionalAssignedServicesComponent implements OnInit {
         this.inReadMode = false;
         this.inEditMode = true;
         this.assignServicesDetail = [];
-        debugger;
+        
         this.currentAssignService = this.scheduledServices.find(item => item.assignServiceId == professionalService.assignServiceId);
         if (this.currentAssignService == null) {
             this.currentAssignService = this.completedServices.find(item => item.assignServiceId == professionalService.assignServiceId);
         }
-        debugger;
+        
         this.patientService.getById(professionalService.patientId)
             .subscribe((res) => {
 
@@ -105,8 +121,10 @@ export class ProfessionalAssignedServicesComponent implements OnInit {
         this.assignServiceDetailService.getByAssignServiceId(professionalService.assignServiceId)
             .subscribe((res) => {
                 if (res.success) {
-                    this.assignServicesDetail = res.result;
-
+                    debugger;
+                    this.assignServicesDetailTemp = [];
+                    this.assignServicesDetailTemp = res.result;
+                    this.assignServicesDetail = this.assignServicesDetailTemp.filter(x => x.professionalId == this.currentProfessional.professionalId.toString());
 
                 } else {
                     console.error(res.errors);
@@ -199,7 +217,7 @@ export class ProfessionalAssignedServicesComponent implements OnInit {
         this.loadCompletedServices();
     }
     public onDateVisitChanged(event, assignServiceDetail: AssignServiceDetail) {
-        debugger;
+        
         let d = new Date(Date.parse(event));
         assignServiceDetail.dateVisit = `${("0" + d.getDate()).slice(-2)}-${("0" + (d.getMonth() + 1)).slice(-2)}-${d.getFullYear()}`;
     }

@@ -105,7 +105,7 @@ export class PatientComponent implements OnInit {
     }
 
     public calculateAge(event: IMyDateModel): void {
-        debugger;
+        
         let dateArray = event.formatted.split('/');
         let date = new Date(parseInt(dateArray[2]), parseInt(dateArray[1]) - 1, parseInt(dateArray[0]));
 

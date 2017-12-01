@@ -133,7 +133,7 @@ export class SpecialReportComponent implements OnInit {
             this.alertService.error("Debe completar el rango para la fecha de visita");
             return;
         }
-        debugger;
+        
         this.specialReportService.getSpecialReport(this.specialReportFilter)
             .subscribe((res) => {
                 if (res) {

@@ -15,5 +15,8 @@ export class ProfessionalAssignedServicesService {
     getCompletedServices(id: number) {
         return this.http.get(this.configuration.get("apiUrl") + 'ProfessionalAssignedServices/' + id + '/2', this.authenticationService.jwt()).map((response: Response) => response.json());
     }
+    getProfessionalByUserId(userId: number) {
+        return this.http.get(this.configuration.get("apiUrl") + 'ProfessionalAssignedServices/' + userId, this.authenticationService.jwt()).map((response: Response) => response.json());
+    }
 
 }

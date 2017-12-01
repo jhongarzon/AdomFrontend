@@ -22,6 +22,7 @@ export class ProfessionalService {
     getById(id: number) {
         return this.http.get(this.configuration.get("apiUrl") + 'professional/' + id, this.authenticationService.jwt()).map((response: Response) => response.json());
     }
+   
     getByDocument(documentTypeId: number, document: string) {
         return this.http.get(this.configuration.get("apiUrl") + 'professional/' + documentTypeId + '/' + document, this.authenticationService.jwt()).map((response: Response) => response.json());
     }
