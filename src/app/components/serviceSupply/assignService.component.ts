@@ -415,7 +415,7 @@ export class AssignServiceComponent implements OnInit {
             let dateConcat = year + "-" + month + "-" + day;
             var dateTemp: Date = new Date(dateConcat);
             var datePlusOneMonth: Date = new Date();
-            datePlusOneMonth.setDate(datePlusOneMonth.getDate() - 30);
+            datePlusOneMonth.setDate(datePlusOneMonth.getDate() - 40);
 
             if (dateTemp.getTime() < datePlusOneMonth.getTime()) {
                 //this.alertService.error("La fecha no puede ser superior a un mes..");
