@@ -29,8 +29,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
     }
     ngAfterViewInit() {
         $('.parallax').parallax();
-        $('#outlet-container').css("padding-left","0px");
-        $('#outlet-container').css("height","100%");
     }
     login() {
         this.loading = true;
@@ -44,7 +42,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
                 }
                 else {
                     localStorage.setItem('currentUser', JSON.stringify(this.dataResponse.result));
-                    window.location.href = '/home';
+                    window.location.href = '/notices';
                 }
             },
             error => {

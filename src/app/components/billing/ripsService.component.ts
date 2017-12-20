@@ -85,7 +85,7 @@ export class RipsServiceComponent implements OnInit {
         this.ripsFilter.initialDateEndObj = oneMonthBefore;
         this.ripsFilter.finalDateIniObj = today;
         this.ripsFilter.finalDateEndObj = today;
-        
+
 
 
     }
@@ -140,9 +140,9 @@ export class RipsServiceComponent implements OnInit {
         this.loadPlansEntity(entityId);
     }
     public loadRips(): void {
-        
+
         this.ripsService.getRips(
-            
+
             (this.ripsFilter.entityId == null) ? 0 : this.ripsFilter.entityId,
             (this.ripsFilter.planEntityId == null) ? 0 : this.ripsFilter.planEntityId,
             (this.ripsFilter.serviceTypeId == null) ? 0 : this.ripsFilter.serviceTypeId,
@@ -204,7 +204,7 @@ export class RipsServiceComponent implements OnInit {
         }
         let invoiceError = false;
         this.selectedRips.forEach(element => {
-            if (element.invoiceNumber != null && element.invoiceNumber != "") {
+            if (element.invoiceNumber != null && element.invoiceNumber != "" && element.invoiceNumber != this.ripsFilter.invoiceNumber.toString()) {
                 this.alertService.error("El numero de autorización " + element.authorizationNumber + " tiene asignado el número de factura " + element.invoiceNumber);
                 invoiceError = true;
                 return;

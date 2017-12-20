@@ -15,5 +15,6 @@ export * from './coPaymentFrecuency';
 export * from './serviceFrecuency'; 
 export * from './assignService'; 
 export * from './assignServiceDetail';   
+export * from './assignServiceObservation';   
 export * from './assignServiceSupply';
 export * from './professionalService'; 

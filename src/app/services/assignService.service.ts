@@ -2,6 +2,7 @@
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Config } from "../config/config";
 import { AssignService } from '../models/index';
+import { AssignServiceObservation } from '../models/index';
 import { AuthenticationService } from './authentication.service';
 
 @Injectable()
@@ -30,5 +31,14 @@ export class AssignServiceService {
 
     update(assignService: AssignService) {
         return this.http.put(this.configuration.get("apiUrl") + 'assignService/' + assignService.assignServiceId, JSON.stringify(assignService), this.authenticationService.jwt()).map((response: Response) => response.json());
+    }
+    insertObservation(assignServiceObservation: AssignServiceObservation) {
+        return this.http.post(this.configuration.get("apiUrl") + 'assignService/' + assignServiceObservation.assignServiceId, JSON.stringify(assignServiceObservation), this.authenticationService.jwt()).map((response: Response) => response.json());
+    }
+    getServiceObservations(assignServiceId: number, userId: number) {
+        return this.http.get(this.configuration.get("apiUrl") + 'assignService/' + assignServiceId + '/' + userId, this.authenticationService.jwt()).map((response: Response) => response.json());
+    }
+    deleteObservation(serviceObservationId: number) {
+        return this.http.delete(this.configuration.get("apiUrl") + 'assignService/' + serviceObservationId, this.authenticationService.jwt()).map((response: Response) => response.json());
     }
 }

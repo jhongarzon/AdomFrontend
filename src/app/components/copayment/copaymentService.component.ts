@@ -144,7 +144,7 @@ export class CopaymentServicesComponent implements OnInit {
     private convertProfessionalSelectitem(values: Professional[]): any {
         let select: SelectItem[] = [];
         let item1 = new SelectItem();
-        item1.label = "Por Asignar";
+        item1.label = "POR ASIGNAR";
         item1.value = "-1";
         select[0] = item1;
 

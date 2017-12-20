@@ -33,4 +33,5 @@
     totalRows: number;
     assignedBy: number;
     recordDate: string;
+    hasObservations: boolean;
 }

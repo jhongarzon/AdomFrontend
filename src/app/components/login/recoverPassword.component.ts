@@ -29,8 +29,6 @@ export class RecoverPasswordComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {
         $('.parallax').parallax();
-        $('#outlet-container').css("padding-left", "0px");
-        $('#outlet-container').css("height", "100%");
     }
 
     recover() {

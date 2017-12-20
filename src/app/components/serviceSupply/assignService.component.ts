@@ -4,6 +4,7 @@ import { AssignService } from '../../models/assignService';
 import { ParameterService } from '../../services/parameter.service';
 import { AssignServiceDetailService } from '../../services/assignServiceDetail.service';
 import { AssignServiceDetail } from '../../models/assignServiceDetail';
+import { AssignServiceObservation } from '../../models/assignServiceObservation';
 import { AssignServiceSupplyService } from '../../services/assignServiceSupply.service';
 import { AssignServiceSupply } from '../../models/assignServiceSupply';
 import { PatientService } from '../../services/patient.service';
@@ -31,6 +32,7 @@ import { FieldsetModule } from 'primeng/primeng';
 import { PanelModule } from 'primeng/primeng';
 import { DialogModule } from 'primeng/primeng';
 import { CalendarModule } from 'primeng/primeng';
+import { DataListModule } from 'primeng/primeng';
 import { QualityQuestion } from '../../models/qualityQuestion';
 import { DatePipe } from '@angular/common';
 import { IMyDpOptions, IMyDateModel } from 'mydatepicker';
@@ -49,6 +51,7 @@ export class AssignServiceComponent implements OnInit {
     public assignServices: AssignService[] = [];
     public lastAssignServices: AssignService;
     public assignServicesDetail: AssignServiceDetail[] = [];
+    public serviceObservations: AssignServiceObservation[] = [];
     public assignServicesDetailObservation: AssignServiceDetail[] = [];
     public assignServiceDetailObservation: AssignServiceDetail;
     public assignServicesSupply: AssignServiceSupply[] = [];
@@ -79,10 +82,10 @@ export class AssignServiceComponent implements OnInit {
     public displayNewService: boolean = false;
     public displayEditService: boolean = false;
     public displayEditPatient: boolean = false;
+    public displayServiceObservation: boolean = false;
     public displayNewSupply: boolean = false;
     public displayEditDetailService: boolean = false;
     public inServiceSelectMode: boolean = false;
-    public displayObservationService: boolean = false;
     public currentAssignService: AssignService;
     public rowsRecords: number;
     public quantityTemp: number;
@@ -104,6 +107,7 @@ export class AssignServiceComponent implements OnInit {
     private myDatePickerOptions: IMyDpOptions = {
         dateFormat: 'dd/mm/yyyy', editableDateField: false, openSelectorOnInputClick: true
     };
+    private currentServiceObservation: AssignServiceObservation;
 
     constructor(private service: AssignServiceService, private alertService: AlertService,
         private authenticationService: AuthenticationService,
@@ -118,6 +122,8 @@ export class AssignServiceComponent implements OnInit {
         this.currentPatient = new Patient();
         this.assignServiceSupplyTemp = new AssignServiceSupply();
         this.assignServiceDetailObservation = new AssignServiceDetail();
+        this.currentServiceObservation = new AssignServiceObservation();
+        this.currentServiceObservation.userId = this.authenticationService.getUserId();
         this.quantityTemp = 0;
         this.serviceFrecuencyIdTemp = 0;
 
@@ -225,7 +231,7 @@ export class AssignServiceComponent implements OnInit {
     }
 
     public save(): void {
-        
+
         this.isAssignButtonEnabled = false;
         if (!this.inEditMode) {
             this.saveNewAssignService();
@@ -370,7 +376,61 @@ export class AssignServiceComponent implements OnInit {
         this.loadPatientType();
         this.displayEditPatient = true;
     }
+    public openServiceObservations(assignServiceId: number): void {
 
+        this.currentServiceObservation.assignServiceId = assignServiceId;
+        this.loadServiceObservations(assignServiceId);
+        this.displayServiceObservation = true;
+    }
+    private loadServiceObservations(assignServiceId: number): void {
+        this.currentServiceObservation.description = "";
+        
+        this.service.getServiceObservations(assignServiceId, this.authenticationService.getUserId())
+            .subscribe((res) => {
+                if (res.success) {
+                    
+                    this.serviceObservations = res.result;
+                    $(".ui-datalist-content").css({ "border": "0px" });
+                } else {
+                    this.displayServiceObservation = false;
+                }
+            });
+    }
+    public saveObservation() {
+        let minLenght = 3;
+        if (this.currentServiceObservation != null && this.currentServiceObservation.description != null
+            && this.currentServiceObservation.description.length > minLenght) {
+            this.service.insertObservation(this.currentServiceObservation)
+                .subscribe((res) => {
+                    if (res.success) {
+                        this.loadServiceObservations(this.currentServiceObservation.assignServiceId);
+                        this.alertService.clean(null);
+                    }
+                    else {
+                        console.error(res.errors);
+                        this.alertService.error(res.errors);
+                    }
+                });
+        } else {
+            this.alertService.error("Ingrese un texto con longitud mayor a " + minLenght + " caracteres");
+        }
+    }
+    public onClose(): void {
+        this.loadAssignServices(this.currentPatient); 
+    }
+    public deleteObservation(serviceObservationId: number): void {
+        
+        this.service.deleteObservation(serviceObservationId)
+            .subscribe((res) => {
+                if (res.success) {
+                    this.loadServiceObservations(this.currentServiceObservation.assignServiceId);
+                }
+                else {
+                    console.error(res.errors);
+                    this.alertService.error(res.errors);
+                }
+            });
+    }
     public savePatient(): void {
         this.patientService.update(this.currentPatient)
             .subscribe((res) => {
@@ -430,12 +490,12 @@ export class AssignServiceComponent implements OnInit {
     }
 
     private updateDetails(): void {
-        
+
         this.configuration.ShowLoading();
         this.currentAssignService.patientId = this.currentPatient.patientId;
         this.serviceDetail.update(this.currentAssignService.assignServiceId, this.selectedDetails)
             .subscribe((res) => {
-                
+
                 if (res.success) {
                     this.loadAssignServices(this.currentPatient);
                     this.alertService.clean(null);
@@ -755,7 +815,7 @@ export class AssignServiceComponent implements OnInit {
         var enabledProfessionals = values.filter(x => x.state == true);
         let select: SelectItem[] = [];
         let item1 = new SelectItem();
-        item1.label = "Por Asignar";
+        item1.label = "POR ASIGNAR";
         item1.value = "-1";
         select[0] = item1;
 
