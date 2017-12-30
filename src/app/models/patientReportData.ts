@@ -3,4 +3,7 @@ export class PatientReportData {
     patientName: String;
     serviceId: number;
     serviceName: String;
+    patientId: number;
+    assignServiceId:number;
+    reason: string;
 }

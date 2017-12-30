@@ -10,7 +10,7 @@ export class HomeService {
     }
 
     getReport() {
-        return this.http.get(this.configuration.get("apiUrl") + '/home',
+        return this.http.get(this.configuration.get("apiUrl") + 'Home',
             this.authenticationService.jwt())
             .map((response: Response) => response.json());
     }

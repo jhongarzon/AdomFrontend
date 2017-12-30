@@ -37,6 +37,7 @@ import { QualityQuestion } from '../../models/qualityQuestion';
 import { DatePipe } from '@angular/common';
 import { IMyDpOptions, IMyDateModel } from 'mydatepicker';
 import { debug } from 'util';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 declare var $: any
 declare var jQuery: any
@@ -108,6 +109,7 @@ export class AssignServiceComponent implements OnInit {
         dateFormat: 'dd/mm/yyyy', editableDateField: false, openSelectorOnInputClick: true
     };
     private currentServiceObservation: AssignServiceObservation;
+    private selectedServices: AssignService[] = [];
 
     constructor(private service: AssignServiceService, private alertService: AlertService,
         private authenticationService: AuthenticationService,
@@ -116,7 +118,8 @@ export class AssignServiceComponent implements OnInit {
         private professionalService: ProfessionalService, private coPaymentFrecService: CoPaymentFrecService,
         private supplyService: SupplyService, private serviceFrecuencyService: ServiceFrecuencyService,
         private serviceDetail: AssignServiceDetailService, private serviceSupply: AssignServiceSupplyService,
-        private entityService: EntityService, private planEntityService: PlanEntityService) {
+        private entityService: EntityService, private planEntityService: PlanEntityService,
+        private route: ActivatedRoute, router: Router, ) {
 
         this.currentAssignService = new AssignService();
         this.currentPatient = new Patient();
@@ -126,9 +129,27 @@ export class AssignServiceComponent implements OnInit {
         this.currentServiceObservation.userId = this.authenticationService.getUserId();
         this.quantityTemp = 0;
         this.serviceFrecuencyIdTemp = 0;
-
         this.findPatient = " ";
-        this.loadPatients();
+        debugger;
+        let parameter = this.route.snapshot.queryParams['patientId'];
+        if (parameter != null && parameter != undefined) {
+            let patientId = parseInt(parameter);
+            if (patientId > 0) {
+                this.patientService.getById(patientId)
+                    .subscribe((res) => {
+                        if (res.success) {
+                            this.currentPatient = res.result;
+                            this.loadAssignServices(this.currentPatient);
+                        }
+                    });
+
+            } else {
+                this.loadPatients();
+            }
+
+        } else {
+            this.loadPatients();
+        }
         this.findPatient = "";
         this.loadScores();
         this.initializeCalendars();
@@ -384,11 +405,11 @@ export class AssignServiceComponent implements OnInit {
     }
     private loadServiceObservations(assignServiceId: number): void {
         this.currentServiceObservation.description = "";
-        
+
         this.service.getServiceObservations(assignServiceId, this.authenticationService.getUserId())
             .subscribe((res) => {
                 if (res.success) {
-                    
+
                     this.serviceObservations = res.result;
                     $(".ui-datalist-content").css({ "border": "0px" });
                 } else {
@@ -416,10 +437,10 @@ export class AssignServiceComponent implements OnInit {
         }
     }
     public onClose(): void {
-        this.loadAssignServices(this.currentPatient); 
+        this.loadAssignServices(this.currentPatient);
     }
     public deleteObservation(serviceObservationId: number): void {
-        
+
         this.service.deleteObservation(serviceObservationId)
             .subscribe((res) => {
                 if (res.success) {
@@ -580,7 +601,18 @@ export class AssignServiceComponent implements OnInit {
         this.service.getByPatientId(patient.patientId)
             .subscribe((res) => {
                 if (res.success) {
+                    debugger;
                     this.assignServices = res.result;
+                    let parameter = this.route.snapshot.queryParams['assignServiceId'];
+                    if (parameter != null && parameter != undefined) {
+                        let serviceId = parseInt(parameter);
+                        if (serviceId > 0) {
+                            this.currentAssignService = this.assignServices.find(x => x.assignServiceId == serviceId);
+                            let data = { data: this.currentAssignService };
+                            this.selectedServices = this.assignServices.filter(x=>x.assignServiceId == this.currentAssignService.assignServiceId)
+                            this.onRowSelectAssignService(data);
+                        }
+                    }
                 } else {
                     console.error(res.errors);
                     this.alertService.error(res.errors);
@@ -659,6 +691,7 @@ export class AssignServiceComponent implements OnInit {
 
                 this.configuration.CloseLoading();
             });
+
     }
 
     private loadPatient(): void {
@@ -820,11 +853,10 @@ export class AssignServiceComponent implements OnInit {
         select[0] = item1;
 
         for (var i = 0; i < enabledProfessionals.length; i++) {
-            let j = i + 1;
             let item = new SelectItem();
             item.label = values[i].firstName + (values[i].secondName == null ? " " : " " + values[i].secondName + " ") + values[i].surname + (values[i].secondSurname == null ? "" : " " + values[i].secondSurname);
             item.value = values[i].professionalId.toString();
-            select[j] = item;
+            select[i + 1] = item;
         }
 
         return select;

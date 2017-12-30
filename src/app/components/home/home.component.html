@@ -4,42 +4,63 @@
         Dashboard
     </div>
     <div class="row">
-        <div class="col col-md-4">
+        <div class="col col-md-12">
             <label>ENFERMERÍA (HORAS)</label>
             <div style="display: block">
-                <canvas baseChart [datasets]="barChartNursingData" [labels]="barChartNursingLabels" [options]="barChartOptions" [legend]="barChartLegend"
-                    [chartType]="barChartType"></canvas>
+                <canvas height="50px" baseChart [datasets]="barChartNursingData" [labels]="barChartNursingLabels" [options]="barChartOptions"
+                    [legend]="barChartLegend" [chartType]="barChartType"></canvas>
             </div>
-        </div>
-        <div class="col col-md-4">
-            <label>TERAPIAS (VISITAS)</label>
-            <div style="display: block">
-                <canvas baseChart [datasets]="barChartTherapyData" [labels]="barChartTherapyLabels" [options]="barChartOptions" [legend]="barChartLegend"
-                    [chartType]="barChartType"></canvas>
-            </div>
-        </div>
-        <div class="col col-md-4">
-            <label>PACIENTES SIN PROFESIONAL ASIGNADO</label>
-            <p-dataTable [value]="homeReport.patientsWithoutProfessional"  scrollable="true" scrollHeight="200px" [globalFilter]="gb" #dt>
-                <p-column field="patientName" header="Paciente" [sortable]="true" [style]="{'width': '50%'}"></p-column>
-                <p-column field="serviceName" header="Servicio" [sortable]="true" [style]="{'width': '50%'}"></p-column>
-            </p-dataTable>
         </div>
     </div>
     <div class="row">
+        <div class="col col-md-12">
+            <label>TERAPIAS (VISITAS)</label>
+            <div style="display: block">
+                <canvas height="50px" baseChart [datasets]="barChartTherapyData" [labels]="barChartTherapyLabels" [options]="barChartOptions"
+                    [legend]="barChartLegend" [chartType]="barChartType"></canvas>
+            </div>
+        </div>
+    </div>
 
-        <div class="col col-md-6">
+    <div class="row">
+        <div class="col col-md-12">
             <label>SERVICIOS IRREGULARES</label>
             <p-dataTable [value]="homeReport.irreglularServices" scrollable="true" scrollHeight="200px" [globalFilter]="gb" #dt>
+                <p-column field="patientName" header="Paciente" [sortable]="true" [style]="{'width': '40%'}"></p-column>
+                <p-column field="serviceName" header="Servicio" [sortable]="true" [style]="{'width': '30%'}"></p-column>
+                <p-column field="reason" header="Motivo" [sortable]="true" [style]="{'width': '20%'}"></p-column>
+                <p-column styleClass="col-button" header="Acción" styleClass="text-center" [style]="{'width': '10%'}">
+                    <ng-template let-service="rowData" pTemplate="body">
+                        <a class="blue-text text-lighten-1 center" href="home#!" (click)="gotoService(service)">
+                            Ver
+                        </a>
+                    </ng-template>
+                </p-column>
+            </p-dataTable>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-7">
+            <label>PACIENTES SIN PROFESIONAL ASIGNADO</label>
+            <p-dataTable [value]="homeReport.patientsWithoutProfessional" scrollable="true" scrollHeight="200px" [globalFilter]="gb"
+                #dt>
                 <p-column field="patientName" header="Paciente" [sortable]="true" [style]="{'width': '50%'}"></p-column>
-                <p-column field="serviceName" header="Servicio" [sortable]="true" [style]="{'width': '50%'}"></p-column>
+                <p-column field="serviceName" header="Servicio" [sortable]="true" [style]="{'width': '40%'}"></p-column>
+                <p-column styleClass="col-button" header="Acción" styleClass="text-center" [style]="{'width': '10%'}">
+                    <ng-template let-service="rowData" pTemplate="body">
+                        <a class="blue-text text-lighten-1 center" href="home#!" (click)="gotoService(service)">
+                            Ver
+                        </a>
+                    </ng-template>
+                </p-column>
             </p-dataTable>
         </div>
-        <div class="col col-md-6">
+        <div class="col col-md-5">
             <label>PROFESIONALES-COPAGOS</label>
             <p-dataTable [value]="homeReport.professionalCopayments" scrollable="true" scrollHeight="200px" [globalFilter]="gb" #dt>
-                <p-column field="professionalName" header="Profesional" [sortable]="true" [style]="{'width': '50%'}"></p-column>
-                <p-column field="copaymentAmount" header="Recaudado" [sortable]="true" [style]="{'width': '50%'}"></p-column>
+                <p-column field="professionalName" header="Profesional" [sortable]="true" [style]="{'width': '70%'}"></p-column>
+                <p-column field="receivedAmount" header="Recaudado" [sortable]="true" [style]="{'width': '30%'}"></p-column>
             </p-dataTable>
         </div>
     </div>
