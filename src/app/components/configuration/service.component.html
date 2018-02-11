@@ -5,16 +5,12 @@
         <div class="input-field col s12">
             <a [class.hidden]="!onCreatePermission" href="service#!" class="waves-effect waves-light btn blue text-lighten-1" (click)="create()">Crear</a>
         </div>
-
     </div>
     <div class="row">
         <div class="col s6">
         </div>
-        <div class="input-field col s5" [class.hidden]="!inReadMode" style="padding:4px 10px;border-bottom: 0 none">
+        <div class="input-field col s6" [class.hidden]="!inReadMode" style="padding:4px 10px;border-bottom: 0 none">
             <input #gb type="text"  placeholder="Búsqueda">
-        </div>
-        <div class="col s1" [class.hidden]="!inReadMode">
-            <i class="fa fa-search" style="margin:40px 4px 0 0"></i>
         </div>
     </div>
     <h4 [class.hidden]="!inCreateMode" class="blue-text text-lighten-1">Nuevo Servicio</h4>
@@ -87,13 +83,13 @@
         </div>
     </div>
     <p-dataTable [class.hidden]="!inReadMode" [value]="services" [rows]="10" [paginator]="true" [globalFilter]="gb" #dt>
-        <p-column field="name" header="Nombre del servicio" [sortable]="true" [style]="{'width': '15%'}"></p-column>
-        <p-column field="code" header="Código del servicio" [sortable]="true" [style]="{'width': '15%'}"></p-column>
-        <p-column field="serviceTypeName" header="Tipo de servicio" [sortable]="true" [style]="{'width': '25%'}">
+        <p-column field="name" header="Nombre del servicio" [sortable]="true" [style]="{'width': '25%'}"></p-column>
+        <p-column field="code" header="Código servicio" [sortable]="true" [style]="{'width': '15%'}"></p-column>
+        <p-column field="serviceTypeName" header="Tipo de servicio" [sortable]="true" [style]="{'width': '18%'}">
         </p-column>
-        <p-column field="classificationName" header="Clasificación" [sortable]="true" [style]="{'width': '25%'}">
+        <p-column field="classificationName" header="Clasificación" [sortable]="true" [style]="{'width': '18%'}">
         </p-column>
-        <p-column field="value" header="Valor a pagar" [sortable]="true" [style]="{'width': '10%'}"></p-column>
+        <p-column field="value" header="Valor a pagar" [sortable]="true" [style]="{'width': '14%'}"></p-column>
         <p-column styleClass="col-button" header="Acción" styleClass="text-center" [style]="{'width': '10%'}">
             <ng-template let-Service="rowData" pTemplate="body">
                 <a [class.hidden]="!onEditPermission" href="service#!" (click)="edit(Service)" materialize="tooltip" class="tooltipped" data-tooltip="Editar">

@@ -55,7 +55,7 @@ export class ProfessionalAssignedServicesComponent implements OnInit {
 
     }
     private loadProfessionalId() {
-        
+
         this.professionalAssinedServicesService.getProfessionalByUserId(this.userId)
             .subscribe((res) => {
                 if (res.success && res.result != null) {
@@ -64,7 +64,7 @@ export class ProfessionalAssignedServicesComponent implements OnInit {
                     this.loadCompletedServices();
                 }
             });
- 
+
     }
     private loadAssignedServices(): void {
         this.scheduledServices = [];
@@ -98,12 +98,12 @@ export class ProfessionalAssignedServicesComponent implements OnInit {
         this.inReadMode = false;
         this.inEditMode = true;
         this.assignServicesDetail = [];
-        
+
         this.currentAssignService = this.scheduledServices.find(item => item.assignServiceId == professionalService.assignServiceId);
         if (this.currentAssignService == null) {
             this.currentAssignService = this.completedServices.find(item => item.assignServiceId == professionalService.assignServiceId);
         }
-        
+
         this.patientService.getById(professionalService.patientId)
             .subscribe((res) => {
 
@@ -121,7 +121,7 @@ export class ProfessionalAssignedServicesComponent implements OnInit {
         this.assignServiceDetailService.getByAssignServiceId(professionalService.assignServiceId)
             .subscribe((res) => {
                 if (res.success) {
-                    debugger;
+                    
                     this.assignServicesDetailTemp = [];
                     this.assignServicesDetailTemp = res.result;
                     this.assignServicesDetail = this.assignServicesDetailTemp.filter(x => x.professionalId == this.currentProfessional.professionalId.toString());
@@ -201,11 +201,19 @@ export class ProfessionalAssignedServicesComponent implements OnInit {
             })
     }
     private validateDateVisit(dateValue: string): boolean {
-
-        var dateTemp: Date = new Date(dateValue);
-        var currentDate: Date = new Date();
-
-        if (dateTemp > currentDate) {
+        
+        let dateParts = dateValue.split("-");
+        let day = dateParts[0];
+        let month = dateParts[1];
+        let year = dateParts[2];
+        if (day != null && month != null && year != null) {
+            let dateConcat = year + "-" + month + "-" + day;
+            var dateTemp: Date = new Date(dateConcat);
+            var currentDate: Date = new Date();
+            if (dateTemp > currentDate) {
+                return false;
+            }
+        } else {
             return false;
         }
         return true;
@@ -217,7 +225,7 @@ export class ProfessionalAssignedServicesComponent implements OnInit {
         this.loadCompletedServices();
     }
     public onDateVisitChanged(event, assignServiceDetail: AssignServiceDetail) {
-        
+
         let d = new Date(Date.parse(event));
         assignServiceDetail.dateVisit = `${("0" + d.getDate()).slice(-2)}-${("0" + (d.getMonth() + 1)).slice(-2)}-${d.getFullYear()}`;
     }

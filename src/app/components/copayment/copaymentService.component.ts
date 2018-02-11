@@ -82,6 +82,7 @@ export class CopaymentServicesComponent implements OnInit {
                 if (res.success) {
                     
                     this.copayments = res.result;
+                    debugger;
                 } else {
                     console.error(res.errors);
                     this.alertService.error(res.errors);

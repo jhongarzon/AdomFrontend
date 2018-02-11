@@ -6,11 +6,8 @@
         <div class="input-field col s6">
             <a [class.hidden]="!onCreatePermission" href="coordinator#!" class="waves-effect waves-light btn blue text-lighten-1" (click)="create()">Crear</a>
         </div>
-        <div class="input-field col s5">
+        <div class="input-field col s6">
             <input #gb type="text" placeholder="Búsqueda">
-        </div>
-        <div class="input-field col s1" [class.hidden]="!inReadMode">
-            <i class="fa fa-search" style="margin:40px 0px 0 0"></i>
         </div>
     </div>
     <h4 [class.hidden]="!inCreateMode" class="blue-text text-lighten-1">Nuevo Coordinador</h4>

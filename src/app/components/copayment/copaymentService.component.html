@@ -38,11 +38,12 @@
     <div class="row">
         <div class="col s12">
             <p-dataTable [value]="copayments" [rows]="5" [paginator]="true" [globalFilter]="gb" #dt scrollable="true" scrollWidth="1120px"
-                [(selection)]="selectedCopayments" dataKey="AssignServiceId">
+                [(selection)]="selectedCopayments" dataKey="assignServiceId">
                 <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+                <p-column field="assignServiceId" header="" [sortable]="true" [hidden]="true" [style]="{'width': '250px'}"></p-column>
                 <p-column field="patientDocument" header="Documento" [sortable]="true" [style]="{'width': '200px'}"></p-column>
                 <p-column field="patientName" header="Paciente" [sortable]="true" [style]="{'width': '250px'}"></p-column>
-                <p-column field="serviceName" header="Servicio" [sortable]="true" [style]="{'width': '350px%'}"></p-column>
+                <p-column field="serviceName" header="Servicio" [sortable]="true" [style]="{'width': '350px'}"></p-column>
                 <p-column field="authorizationNumber" header="No. Autorización" [sortable]="true" [style]="{'width': '200px'}"></p-column>
                 <p-column header="Ejecución" styleClass="text-center" [style]="{'width': '120px'}">
                     <ng-template let-copayment="rowData" pTemplate="body">
@@ -54,10 +55,10 @@
                 <p-column field="coPaymentFrecuencyName" header="Frec. copago" [sortable]="true" [style]="{'width': '160px'}"></p-column>
                 <p-column field="coPaymentAmount" header="Valor uni. copago" [sortable]="true" [style]="{'width': '180px'}"></p-column>
                 <p-column field="kitMnb" header="kit MNB" [sortable]="true" [style]="{'width': '150px'}"></p-column>
-                <p-column field="copaymentStatus" header="Estado copagos" [sortable]="true" [style]="{'width': '180px'}"></p-column>
-                <p-column field="totalCopaymentReported" header="Tot. copagos report" [sortable]="true" [style]="{'width': '250px'}"></p-column>
-                <p-column field="otherValuesReported" header="Otros valores reportados" [sortable]="true" [style]="{'width': '300px'}"></p-column>
-                <p-column field="totalCopaymentReceived" header="Copagos Recibidos" [editable]="true" [style]="{'width': '200px'}">
+                <p-column field="copaymentStatus" header="Estado" [sortable]="true" [style]="{'width': '180px'}"></p-column>
+                <p-column field="totalCopaymentReported" header="Tot. copagos report" [sortable]="true" [style]="{'width': '200px'}"></p-column>
+                <p-column field="otherValuesReported" header="Otros reportados" [sortable]="true" [style]="{'width': '200px'}"></p-column>
+                <p-column field="totalCopaymentReceived" header="C. Recibidos" [editable]="true" [style]="{'width': '150px'}">
                     <ng-template let-col let-row="rowData" pTemplate="body">
                         <div *ngIf="row['copaymentStatus']=='SE'">
                             <input type="text" pInputText [(ngModel)]="row[col.field]" style="margin:0px" />
@@ -67,7 +68,7 @@
                         </div>
                     </ng-template>
                 </p-column>
-                <p-column field="otherValuesReceived" header="Otros valores Recibidos" [editable]="true" [style]="{'width': '300px'}">
+                <p-column field="otherValuesReceived" header="Otros Recibidos" [editable]="true" [style]="{'width': '150px'}">
                     <ng-template let-col let-row="rowData" pTemplate="body">
                         <div *ngIf="row['copaymentStatus']=='SE'">
                             <input type="text" pInputText [(ngModel)]="row[col.field]" style="margin:0px" />
@@ -79,7 +80,7 @@
 
                     </ng-template>
                 </p-column>
-                <p-column field="deliveredCopayments" header="Copagos entregados" [editable]="true" [style]="{'width': '200px'}">
+                <p-column field="deliveredCopayments" header="C. entregados" [editable]="true" [style]="{'width': '150px'}">
                     <ng-template let-col let-row="rowData" pTemplate="body">
                         <div *ngIf="row['copaymentStatus']=='SE'">
                             <input type="text" pInputText [(ngModel)]="row[col.field]" style="margin:0px" />
@@ -142,7 +143,7 @@
                             <p-dataTable [value]="selectedCopayments" [globalFilter]="gb" #dt >
                                 <p-column field="patientName" header="Paciente" [sortable]="true" [style]="{'width': '250px'}"></p-column>
                                 <p-column field="entityName" header="Entidad" [sortable]="true" [style]="{'width': '180px'}"></p-column>
-                                <p-column field="serviceName" header="Servicio" [sortable]="true" [style]="{'width': '350px%'}"></p-column>
+                                <p-column field="serviceName" header="Servicio" [sortable]="true" [style]="{'width': '350px'}"></p-column>
                                 <p-column field="valueToPayToProfessional" header="Valor servicio" [sortable]="true" [style]="{'width': '150px'}"></p-column>
                                 <p-column header="Cantidad" styleClass="text-center" [style]="{'width': '100px'}">
                                     <ng-template let-copayment="rowData" pTemplate="body" style="padding:0px">

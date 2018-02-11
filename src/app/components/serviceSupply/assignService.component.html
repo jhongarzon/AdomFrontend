@@ -3,15 +3,9 @@
     <div class="row" [class.hidden]="!inSearchMode">
         <div class="input-field col s6">
             <input autofocus type="text" id="findPatient" name="findPatient" class="validate form-control" [(ngModel)]="findPatient"
-                minlength="4" maxlength="30">
+                minlength="4" maxlength="30" (keyup.enter)="loadPatients()">
             <label for="findPatient">Búsqueda de pacientes</label>
-        </div>
-        <div class="input-field col s2">
-            <a [class.hidden]="!onReadPermission" href="assignservice#!" (click)="loadPatients()" materialize="tooltip" class="tooltipped"
-                data-tooltip="Búsqueda">
-                <i class="material-icons">search</i>
-            </a>
-        </div>
+        </div>       
     </div>
     <div class="row" [class.hidden]="!inSearchMode">
         <p-dataTable [class.hidden]="!inFoundMode" [value]="patientsFound" [rows]="rowsRecords" [paginator]="true" [globalFilter]="gb"

@@ -151,17 +151,20 @@ export class ProfessionalComponent implements OnInit {
     public active(professional: Professional): void {
         this.currentProfessional = professional;
         this.currentProfessional.state = true;
+        this.documentIsValid = true;
         this.updateProfessional();
     }
 
     public inactive(professional: Professional): void {
         this.currentProfessional = professional;
         this.currentProfessional.state = false;
+        this.documentIsValid = true;
         this.updateProfessional();
     }
 
 
     private saveNewProfessional(): void {
+        
         if (!this.documentIsValid) {
             this.alertService.error("El documento ingresado ya existe en el sistema");
             return;
@@ -184,6 +187,7 @@ export class ProfessionalComponent implements OnInit {
     }
 
     private updateProfessional(): void {
+        
         if (this.currentProfessional.document == this.documentToEdit && this.currentProfessional.documentTypeId == this.documentTypeToEdit) {
             this.documentIsValid = true;
         }

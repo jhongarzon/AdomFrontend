@@ -31,8 +31,9 @@ export class HomeComponent implements OnInit {
         let month = date.getMonth() + 1;
         for (var i = 0; i < 6; i++) {
             month = month - 1;
-            this.barChartNursingLabels[i] = this.months[month];
-            this.barChartTherapyLabels[i] = this.months[month];
+            date.setMonth(month);
+            this.barChartNursingLabels[i] = this.months[date.getMonth()];
+            this.barChartTherapyLabels[i] = this.months[date.getMonth()];
         }
     }
     ngOnInit(): void {
@@ -48,7 +49,7 @@ export class HomeComponent implements OnInit {
             });
     }
     gotoService(patientReportData: PatientReportData) {
-        debugger;
+        
         location.href = "/assignservice?patientId=" + patientReportData.patientId + "&assignServiceId=" + patientReportData.assignServiceId;
         //this.router.navigate(['/assignservice', { patientId: patientReportData.patientId, assignServiceId: patientReportData.assignServiceId }]);
     }
