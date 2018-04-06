@@ -53,6 +53,7 @@ export class CopaymentServicesComponent implements OnInit {
         this.copaymentFilter.copaymentStatusId = 3;
         this.copaymentFilter.professionalId = 0;
         this.copaymentFilter.serviceStatusId = 0;
+        this.userId = this.authenticationService.getUserId();
 
     }
     ngOnInit(): void {
@@ -80,7 +81,7 @@ export class CopaymentServicesComponent implements OnInit {
         this.copaymentService.getCopayments(this.copaymentFilter.professionalId, this.copaymentFilter.serviceStatusId, this.copaymentFilter.copaymentStatusId)
             .subscribe((res) => {
                 if (res.success) {
-                    
+                    debugger;
                     this.copayments = res.result;
                     debugger;
                 } else {
@@ -183,25 +184,15 @@ export class CopaymentServicesComponent implements OnInit {
                     hasErrors = true;
                     return;
                 }
-                // if (element.totalCopaymentReported == null || element.totalCopaymentReported < 1) {
-                //     this.alertService.error("Debe diligenciar el total de copagos reportados Aut:" + element.authorizationNumber);
-                //     hasErrors = true;
-                //     return;
-                // }
-                // if (element.totalCopaymentReceived == null || element.totalCopaymentReceived < 0) {
-                //     this.alertService.error("El total recibido es inválido:" + element.authorizationNumber);
-                //     hasErrors = true;
-                //     return;
-                // }
                 if (element.otherValuesReported == null) {
                     element.otherValuesReported = 0;
                 }
                 if (element.discounts == null) {
                     element.discounts = 0;
                 }
-
+                debugger;
                 element.grandTotalToPay = (element.valueToPayToProfessional * element.quantityCompleted) -
-                    (element.totalCopaymentReceived) + Number(element.totalCopaymentReported) - Number(element.otherValuesReported) - Number(element.discounts);
+                    (element.totalCopaymentReceived) + Number(element.totalCopaymentReported) + Number(element.deliveredCopayments) - Number(element.otherValuesReported) - Number(element.discounts);
             }
         });
         if (!hasErrors) {
@@ -215,6 +206,7 @@ export class CopaymentServicesComponent implements OnInit {
     public saveChanges() {
         this.selectedCopayments.forEach(element => {
             let counter = 0;
+            element.receivedBy = this.userId;
             this.copaymentService.markAsDelivered(element)
                 .subscribe((res) => {
                     if (res.success) {

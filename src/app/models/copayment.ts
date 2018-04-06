@@ -25,5 +25,7 @@ export class Copayment {
     totalCopaymentReceived: number;
     discounts: number;
     valueToPayToProfessional: number;
-    grandTotalToPay: number;    
+    deliveredCopayments: number;
+    grandTotalToPay: number;
+    receivedBy: number;    
 }

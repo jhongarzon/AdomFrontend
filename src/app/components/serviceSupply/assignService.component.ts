@@ -733,7 +733,6 @@ export class AssignServiceComponent implements OnInit {
         this.professionalService.getAllWithoutPagination()
             .subscribe((res) => {
                 if (res.success) {
-                    
                     this.professionalsSelect = this.convertProfessionalSelectitem(res.result);
 
                     this.professionals = res.result;
@@ -853,7 +852,7 @@ export class AssignServiceComponent implements OnInit {
         item1.value = "-1";
         select[0] = item1;
 
-        for (var i = 0; i <= enabledProfessionals.length; i++) {
+        for (var i = 0; i <= enabledProfessionals.length + 2; i++) {
             let item = new SelectItem();
             item.label = values[i].firstName + (values[i].secondName == null ? " " : " " + values[i].secondName + " ") + values[i].surname + (values[i].secondSurname == null ? "" : " " + values[i].secondSurname);
             item.value = values[i].professionalId.toString();
